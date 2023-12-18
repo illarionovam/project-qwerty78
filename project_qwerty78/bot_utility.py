@@ -1,3 +1,5 @@
+from difflib import get_close_matches
+from . import constants
 def wrap_exception(func):
     def inner(*args, **kwargs):
         try:
@@ -9,3 +11,25 @@ def wrap_exception(func):
             return e
 
     return inner
+
+COMMAND_TO_COMMAND_FORMAT_MAP = {
+}
+
+
+def process_command(command, args, book):
+    
+    
+    return check_possible_commands(command)
+
+
+def check_possible_commands(command):
+    possible_commands = get_close_matches(command, COMMAND_TO_COMMAND_FORMAT_MAP.keys())
+    for key in COMMAND_TO_COMMAND_FORMAT_MAP.keys():
+        if command in key or key in command:
+            if key not in possible_commands:
+                possible_commands.append(key)
+    
+    if len(possible_commands) == 0:
+        return constants.INVALID_COMMAND
+    
+    return f"{constants.INVALID_COMMAND} Maybe, you wanted to run one of these commands?\n\n" + "\n".join(COMMAND_TO_COMMAND_FORMAT_MAP[x] for x in possible_commands)

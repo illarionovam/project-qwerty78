@@ -9,6 +9,10 @@ class Field:
         return str(self.value)
     
 
+class Title(Field):
+    pass
+    
+
 class Name(Field):
     pass
 

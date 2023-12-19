@@ -10,9 +10,9 @@ def wrap_exception(func):
     return inner
 
 
-class ContactNotFoundException(Exception):
-    def __init__(self, message):
-        self.message = message
+class NoContactException(Exception):
+    def __init__(self, name):
+        self.message = f"Contact {name} not found."
         super().__init__(self.message)
 
 

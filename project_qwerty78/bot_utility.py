@@ -1,25 +1,39 @@
 from difflib import get_close_matches
-
+from . import exceptions
+from .exceptions import wrap_exception
 from . import constants
-from .contact import Contact
 from . import contact
 
 
 def process_command(command, args, book):
     if command == constants.ADD_CONTACT_COMMAND:
+        if len(args) != 0:
+            raise exceptions.IncorrectArgsException(
+                "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_CONTACT_COMMAND])
         return entering_data(book)
     elif command == constants.ADD_PHONE_COMMAND:
-        return Contact.add_phone(args, book)
+        return add_phone(args, book)
     elif command == constants.ADD_BIRTHDAY_COMMAND:
-        return Contact.add_birthday(args, book)
+        return add_birthday(args, book)
     elif command == constants.ADD_EMAIL_COMMAND:
-        return Contact.add_email(args, book)
+        return add_email(args, book)
     elif command == constants.ADD_ADDRESS_COMMAND:
-        return Contact.add_address(args, book)
+        return add_address(args, book)
+    elif command == constants.SHOW_CONTACT_COMMAND:
+        return show_contact(args, book)
     elif command in constants.EXIT_COMMANDS:
         return "Goodbye!"
     else:
         return check_possible_commands(command)
+    
+
+def check_input_for_contact(field, validated_constructor):
+    try:
+        validated_constructor(field)
+        return True
+    except exceptions.IncorrectArgsException as e:
+        print(str(e))
+        return False
 
 
 def entering_data(book):
@@ -31,26 +45,27 @@ def entering_data(book):
             break
     while True:
         phone = input("Enter the contact's phone number (Enter - skip): ")
-        if phone and not contact.Phone.is_valid_phone(phone):
-            print("The number must be 10 characters long. Please try again.")
+        if phone and not check_input_for_contact(phone, lambda field: contact.Phone(field)):
+            continue
         else:
             break
     while True:
         birthday = input("Enter the contact's birthday (Enter - skip): ")
-        if birthday and not contact.Birthday.is_valid_date(birthday):
-            print("The date of birth must be in the format DD.MM.YYYY and not later than today. Please try again.")
+        if birthday and not check_input_for_contact(birthday, lambda field: contact.Birthday(field)):
+            continue
         else:
             break
     while True:
         email = input("Enter the contact's email (Enter - skip): ")
-        if email and not contact.Email.is_valid_email(email):
-            print("The email is not valid. Please try again.")
+        if email and not check_input_for_contact(email, lambda field: contact.Email(field)):
+            continue
         else:
             break
 
     address = input("Enter the contact's address (Enter - skip): ")
 
-    return Contact.add_contact([name, phone, birthday, email, address], book)
+    book.add_record(contact.Contact(name, phone, birthday, email, address))
+    return "Contact added"
 
 
 def check_possible_commands(command):
@@ -64,3 +79,49 @@ def check_possible_commands(command):
             if len(possible_commands) == 0
             else (f"{constants.INVALID_COMMAND}\nMaybe, you wanted to run one of these commands?\n\n"
                   + "\n".join(constants.COMMAND_TO_COMMAND_FORMAT_MAP[x] for x in possible_commands)))
+
+
+@wrap_exception
+def show_contact(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException("Enter name")
+    name = args[0]
+    contact = book.find(name)
+    return contact.printable_view()
+
+
+@wrap_exception
+def add_phone(args, address_book):
+    if len(args) != 2:
+        raise exceptions.IncorrectArgsException("Enter name and phone")
+    name, phone = args
+    contact = address_book.find(name)
+    return contact.add_phone(phone)
+    
+
+@wrap_exception
+def add_address(args, address_book):
+    if len(args) < 2:
+        raise exceptions.IncorrectArgsException("Enter name and address")
+    name, address = args
+    contact = address_book.find(name)
+    return contact.add_address(address)
+
+
+@wrap_exception
+def add_birthday(args, address_book):
+    if len(args) != 2:
+        raise exceptions.IncorrectArgsException("Enter name and birthday date")
+    name, birthday = args
+    contact = address_book.find(name)
+    return contact.add_birthday(birthday)
+
+    
+@wrap_exception
+def add_email(args, address_book):
+    if len(args) != 2:
+        raise exceptions.IncorrectArgsException("Enter name and email")
+    name, email = args
+    contact = address_book.find(name)
+    return contact.add_email(email)
+        

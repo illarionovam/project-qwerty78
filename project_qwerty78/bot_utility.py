@@ -3,6 +3,7 @@ from . import exceptions
 from .exceptions import wrap_exception
 from . import constants
 from . import contact
+from .birthday_utility import get_birthdays_per_days_range
 
 
 def process_command(command, args, book):
@@ -22,6 +23,8 @@ def process_command(command, args, book):
         return remove_contact(args, book)
     elif command == constants.ALL_CONTACTS_COMMAND:
         return all_contacts(args, book)
+    elif command == constants.SHOW_BIRTHDAY_COMMAND:
+        return show_birthday(args, book)
     elif command in constants.EXIT_COMMANDS:
         return "Goodbye!"
     else:
@@ -101,6 +104,20 @@ def show_contact(args, book):
     name = args[0]
     contact_var = book.find_contact(name)
     return contact_var.printable_view(contact.get_contact_table())
+
+
+@wrap_exception
+def show_birthday(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_BIRTHDAY_COMMAND])
+    range = args[0]
+    try:
+        if int(range) < 1 or int(range) > 365:
+            raise ValueError
+    except ValueError:
+        raise exceptions.IncorrectArgsException("\[range] should be from 1 to 365")
+    return get_birthdays_per_days_range(book.contacts, int(range))
 
 
 @wrap_exception

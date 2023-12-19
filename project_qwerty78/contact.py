@@ -4,6 +4,7 @@ from rich.table import Table
 from .exceptions import IncorrectArgsException
 from .field import Field
 
+
 def get_contact_table():
     table = Table(show_lines=True)
 
@@ -28,25 +29,25 @@ class Name(Field):
 
 class Phone(Field):
     def __init__(self, value):
-        if Phone.is_valid_phone(value):
+        if Phone.is_valid(value):
             super().__init__(value)
         else:
             raise IncorrectArgsException("The number must be 10 characters long")
 
     @staticmethod
-    def is_valid_phone(phone):
+    def is_valid(phone):
         return re.fullmatch(r"\d{10}", phone) is not None
 
 
 class Email(Field):
     def __init__(self, email):
-        if Email.is_valid_email(email):
+        if Email.is_valid(email):
             super().__init__(email)
         else:
             raise IncorrectArgsException("The email is not valid")
 
     @staticmethod
-    def is_valid_email(email):
+    def is_valid(email):
         email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         return re.match(email_regex, email) is not None
 
@@ -57,14 +58,13 @@ class Address(Field):
 
 class Birthday(Field):
     def __init__(self, date_string):
-        date_object = Birthday.is_valid_date(date_string)
-        if date_object:
+        if Birthday.is_valid(date_string):
             super().__init__(date_string)
         else:
             raise IncorrectArgsException("The date of birth must be in the format DD.MM.YYYY and not later than today")
 
     @staticmethod
-    def is_valid_date(date_string):
+    def is_valid(date_string):
         try:
             date_object = datetime.strptime(date_string, "%d.%m.%Y")
             return date_object and date_object <= datetime.now()

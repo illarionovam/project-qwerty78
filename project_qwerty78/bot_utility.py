@@ -66,7 +66,7 @@ def entering_data(book):
 
     address = input("Enter the contact's address (Enter - skip): ")
 
-    book.add_record(contact.Contact(name, phone, birthday, email, address))
+    book.add_contact(contact.Contact(name, phone, birthday, email, address))
     return "Contact added"
 
 
@@ -89,7 +89,7 @@ def show_contact(args, book):
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_CONTACT_COMMAND])
     name = args[0]
-    contact_var = book.find(name)
+    contact_var = book.find_contact(name)
     return contact_var.printable_view()
 
 
@@ -108,7 +108,7 @@ def add_phone(args, book):
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_PHONE_COMMAND])
     name, phone = args
-    contact_var = book.find(name)
+    contact_var = book.find_contact(name)
     return contact_var.add_phone(phone)
     
 
@@ -118,7 +118,7 @@ def add_address(args, book):
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_ADDRESS_COMMAND])
     name, address = args
-    contact_var = book.find(name)
+    contact_var = book.find_contact(name)
     return contact_var.add_address(address)
 
 
@@ -128,7 +128,7 @@ def add_birthday(args, book):
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_BIRTHDAY_COMMAND])
     name, birthday = args
-    contact_var = book.find(name)
+    contact_var = book.find_contact(name)
     return contact_var.add_birthday(birthday)
 
     
@@ -138,6 +138,6 @@ def add_email(args, book):
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_EMAIL_COMMAND])
     name, email = args
-    contact_var = book.find(name)
+    contact_var = book.find_contact(name)
     return contact_var.add_email(email)
         

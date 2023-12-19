@@ -1,5 +1,6 @@
 from collections import UserDict
 from . import exceptions
+from .contact import get_contact_table
 
 
 class AddressBook(UserDict):
@@ -20,3 +21,15 @@ class AddressBook(UserDict):
         if name.lower() in self.contacts.keys():
             self.contacts.pop(name.lower())
         return f"You have removed contact {name} from the address book."
+    
+
+    def all_contacts(self):
+        if len(self.contacts) == 0:
+            raise exceptions.EmptyContactsException("There are no contacts in the address book.")
+
+        table = get_contact_table()
+
+        for contact_var in self.contacts.values():
+            table = contact_var.printable_view(table)
+
+        return table

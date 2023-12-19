@@ -21,6 +21,8 @@ def process_command(command, args, book):
         return add_address(args, book)
     elif command == constants.SHOW_CONTACT_COMMAND:
         return show_contact(args, book)
+    elif command == constants.REMOVE_CONTACT_COMMAND:
+        return remove_contact(args, book)
     elif command in constants.EXIT_COMMANDS:
         return "Goodbye!"
     else:
@@ -89,6 +91,15 @@ def show_contact(args, book):
     name = args[0]
     contact_var = book.find(name)
     return contact_var.printable_view()
+
+
+@wrap_exception
+def remove_contact(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_CONTACT_COMMAND])        
+    name = args[0]
+    return book.remove_contact(name)
 
 
 @wrap_exception

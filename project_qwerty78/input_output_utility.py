@@ -37,7 +37,7 @@ def read_contacts_from_file():
                 if row["phones"] != "None":
                     for phone in row["phones"].split(" "):
                         contact_var.add_phone(phone)
-                contacts[row["name"]] = contact_var 
+                contacts[row["name"].lower()] = contact_var 
     finally:         
         return contacts  
 

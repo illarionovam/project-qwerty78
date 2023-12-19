@@ -8,10 +8,15 @@ class AddressBook(UserDict):
         self.notes = []
 
     def add_record(self, contact):
-        self.contacts[contact.name.value] = contact
+        self.contacts[contact.name.value.lower()] = contact
 
     def find(self, name):
         for key in self.contacts.keys():
-            if name.lower() == key.lower():
+            if name.lower() == key:
                 return self.contacts[key]
         raise exceptions.NoContactException(name)
+    
+    def remove_contact(self, name):
+        if name.lower() in self.contacts.keys():
+            self.contacts.pop(name.lower())
+        return f"You have removed contact {name} from the address book."

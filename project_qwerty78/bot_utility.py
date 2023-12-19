@@ -1,24 +1,56 @@
 from difflib import get_close_matches
+
 from . import constants
-
-
-def wrap_exception(func):
-    def inner(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        #TODO: add exceptions processing here
-        except IndexError as e:
-            return "Index out of range."
-        except Exception as e:
-            return e
-
-    return inner
+from .contact import Contact
+from . import contact
 
 
 def process_command(command, args, book):
-    
-    
-    return check_possible_commands(command)
+    if command == constants.ADD_CONTACT_COMMAND:
+        return entering_data(book)
+    elif command == constants.ADD_PHONE_COMMAND:
+        return Contact.add_phone(args, book)
+    elif command == constants.ADD_BIRTHDAY_COMMAND:
+        return Contact.add_birthday(args, book)
+    elif command == constants.ADD_EMAIL_COMMAND:
+        return Contact.add_email(args, book)
+    elif command == constants.ADD_ADDRESS_COMMAND:
+        return Contact.add_address(args, book)
+    elif command in constants.EXIT_COMMANDS:
+        return "Goodbye!"
+    else:
+        return check_possible_commands(command)
+
+
+def entering_data(book):
+    while True:
+        name = input("Enter the contact's name: ")
+        if not name:
+            print("Name cannot be empty. Please try again.")
+        else:
+            break
+    while True:
+        phone = input("Enter the contact's phone number (Enter - skip): ")
+        if phone and not contact.Phone.is_valid_phone(phone):
+            print("The number must be 10 characters long. Please try again.")
+        else:
+            break
+    while True:
+        birthday = input("Enter the contact's birthday (Enter - skip): ")
+        if birthday and not contact.Birthday.is_valid_date(birthday):
+            print("The date of birth must be in the format DD.MM.YYYY and not later than today. Please try again.")
+        else:
+            break
+    while True:
+        email = input("Enter the contact's email (Enter - skip): ")
+        if email and not contact.Email.is_valid_email(email):
+            print("The email is not valid. Please try again.")
+        else:
+            break
+
+    address = input("Enter the contact's address (Enter - skip): ")
+
+    return Contact.add_contact([name, phone, birthday, email, address], book)
 
 
 def check_possible_commands(command):
@@ -27,8 +59,8 @@ def check_possible_commands(command):
         if command in key or key in command:
             if key not in possible_commands:
                 possible_commands.append(key)
-    
-    return (constants.INVALID_COMMAND 
-            if len(possible_commands) == 0 
-            else (f"{constants.INVALID_COMMAND}\nMaybe, you wanted to run one of these commands?\n\n" 
+
+    return (constants.INVALID_COMMAND
+            if len(possible_commands) == 0
+            else (f"{constants.INVALID_COMMAND}\nMaybe, you wanted to run one of these commands?\n\n"
                   + "\n".join(constants.COMMAND_TO_COMMAND_FORMAT_MAP[x] for x in possible_commands)))

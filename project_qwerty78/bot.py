@@ -1,5 +1,6 @@
 from .bot_utility import process_command
 from .constants import INVALID_COMMAND, EXIT_COMMANDS
+from .address_book import AddressBook
 
 
 def parse_input(user_input):
@@ -9,10 +10,8 @@ def parse_input(user_input):
 
 
 def main():
-    #read from file
-
-    address_book = None
-
+    # read from file
+    address_book = AddressBook()
     print("Welcome to the assistant bot!")
     
     while True:
@@ -25,8 +24,8 @@ def main():
                 break
         except:
             print(INVALID_COMMAND)
-    
-    #write to file
+
+    # write to file
 
 
 if __name__ == "__main__":

@@ -83,7 +83,7 @@ class Contact:
             "\n".join(str(phone) for phone in self.phones), 
             str(self.email) if self.email else "", 
             str(self.birthday) if self.birthday else "", 
-            str(self.address) if self.address else "")
+            re.sub("\[", "\\[", str(self.address)) if self.address else "")
         return table
     
     def add_phone(self, phone):

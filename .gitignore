@@ -1,3 +1,5 @@
 dist/*
 project_qwerty78.egg-info/*
 project_qwerty78/__pycache__/*
+contacts_data.csv
+notes_data.csv

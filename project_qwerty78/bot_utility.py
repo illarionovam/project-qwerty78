@@ -84,44 +84,49 @@ def check_possible_commands(command):
 @wrap_exception
 def show_contact(args, book):
     if len(args) != 1:
-        raise exceptions.IncorrectArgsException("Enter name")
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_CONTACT_COMMAND])
     name = args[0]
-    contact = book.find(name)
-    return contact.printable_view()
+    contact_var = book.find(name)
+    return contact_var.printable_view()
 
 
 @wrap_exception
-def add_phone(args, address_book):
+def add_phone(args, book):
     if len(args) != 2:
-        raise exceptions.IncorrectArgsException("Enter name and phone")
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_PHONE_COMMAND])
     name, phone = args
-    contact = address_book.find(name)
-    return contact.add_phone(phone)
+    contact_var = book.find(name)
+    return contact_var.add_phone(phone)
     
 
 @wrap_exception
-def add_address(args, address_book):
+def add_address(args, book):
     if len(args) < 2:
-        raise exceptions.IncorrectArgsException("Enter name and address")
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_ADDRESS_COMMAND])
     name, address = args
-    contact = address_book.find(name)
-    return contact.add_address(address)
+    contact_var = book.find(name)
+    return contact_var.add_address(address)
 
 
 @wrap_exception
-def add_birthday(args, address_book):
+def add_birthday(args, book):
     if len(args) != 2:
-        raise exceptions.IncorrectArgsException("Enter name and birthday date")
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_BIRTHDAY_COMMAND])
     name, birthday = args
-    contact = address_book.find(name)
-    return contact.add_birthday(birthday)
+    contact_var = book.find(name)
+    return contact_var.add_birthday(birthday)
 
     
 @wrap_exception
-def add_email(args, address_book):
+def add_email(args, book):
     if len(args) != 2:
-        raise exceptions.IncorrectArgsException("Enter name and email")
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_EMAIL_COMMAND])
     name, email = args
-    contact = address_book.find(name)
-    return contact.add_email(email)
+    contact_var = book.find(name)
+    return contact_var.add_email(email)
         

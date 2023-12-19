@@ -1,5 +1,7 @@
 from difflib import get_close_matches
 from . import constants
+
+
 def wrap_exception(func):
     def inner(*args, **kwargs):
         try:
@@ -11,6 +13,7 @@ def wrap_exception(func):
             return e
 
     return inner
+
 
 def process_command(command, args, book):
     

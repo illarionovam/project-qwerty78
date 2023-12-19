@@ -14,6 +14,11 @@ def read_from_file():
     return book
 
 
+def write_to_file(book):
+    write_contacts_to_file(book.data)
+    write_notes_to_file(book.notes)
+
+
 def read_contacts_from_file():
     contacts = {}
 
@@ -58,3 +63,33 @@ def read_notes_from_file():
                 """
     finally:            
         return notes  
+    
+
+def write_contacts_to_file(contacts):
+    with open(CONTACTS_FILE_NAME, "w") as f:
+        field_names = ["name", "birthday", "email", "address", "phones"]
+        writer = csv.DictWriter(f, fieldnames=field_names)
+        writer.writeheader()
+        """for contact in contacts.values():
+            writer.writerow({
+                "name": str(contact.name), 
+                "birthday": str(contact.birthday),
+                "email": str(contact.email),
+                "address": str(contact.address),
+                "phones": " ".join(str(phone) for phone in contact.phones) if len(contact.phones) > 0 else "None"
+                })  
+                """
+            
+
+def write_notes_to_file(notes):
+    with open(NOTES_FILE_NAME, "w") as f:
+        field_names = ["title", "tags", "content"]
+        writer = csv.DictWriter(f, fieldnames=field_names)
+        writer.writeheader()
+        """for note in notes:
+            writer.writerow({
+                "title": str(note.title),
+                "tags": " ".join(str(tag) for tag in note.tags) if len(note.tags) > 0 else "None",
+                "content": str(note.content)
+            })
+            """

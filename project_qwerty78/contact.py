@@ -1,19 +1,27 @@
 import re
 from datetime import datetime
 
+from .exceptions import IncorrectArgsException, wrap_exception, ContactNotFoundException
 from .field import Field
 
 
 class Name(Field):
-    pass
+    def __init__(self, name):
+        if not name:
+            raise IncorrectArgsException("Name cannot be empty")
+        super().__init__(name)
 
 
 class Phone(Field):
     def __init__(self, value):
-        if len(value) == 10 and value.isdigit():
+        if self.is_valid_phone(value):
             super().__init__(value)
         else:
-            raise ValueError("The number must be 10 characters long")
+            raise IncorrectArgsException("The number must be 10 characters long")
+
+    @staticmethod
+    def is_valid_phone(phone):
+        return re.fullmatch(r"\d{10}", phone) is not None
 
 
 class Email(Field):
@@ -21,11 +29,17 @@ class Email(Field):
         if self.is_valid_email(email):
             super().__init__(email)
         else:
-            raise ValueError("The email is not valid")
+            raise IncorrectArgsException("The email is not valid")
 
     @staticmethod
     def is_valid_email(email):
-        email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        email_regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[" \
+                      "\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[" \
+                      "\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[" \
+                      "a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][" \
+                      "0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[" \
+                      "\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[" \
+                      "\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\]) "
         return re.match(email_regex, email) is not None
 
 
@@ -36,15 +50,16 @@ class Address(Field):
 class Birthday(Field):
     def __init__(self, date_string):
         date_object = self.is_valid_date(date_string)
-        if date_object and date_object <= datetime.now():
+        if date_object:
             super().__init__(date_string)
         else:
-            raise ValueError("The date of birth must be in the format DD.MM.YYYY and not later than today")
+            raise IncorrectArgsException("The date of birth must be in the format DD.MM.YYYY and not later than today")
 
     @staticmethod
     def is_valid_date(date_string):
         try:
-            return datetime.strptime(date_string, "%d.%m.%Y")
+            date_object = datetime.strptime(date_string, "%d.%m.%Y")
+            return date_object and date_object <= datetime.now()
         except ValueError:
             return False
 
@@ -56,3 +71,63 @@ class Contact:
         self.birthday = Birthday(birthday) if birthday else None
         self.email = Email(email) if email else None
         self.address = Address(address) if address else None
+
+    @wrap_exception
+    def add_contact(self, args, address_book):
+        name = args[0]
+        phone = args[1] if len(args) > 1 and args[1] != '' else None
+        birthday = args[2] if len(args) > 2 and args[2] != '' else None
+        email = args[3] if len(args) > 3 and args[3] != '' else None
+        address = args[4] if len(args) > 4 and args[4] != '' else None
+
+        contact = Contact(name, phone, birthday, email, address)
+        address_book.add_record(contact)
+        return "contact added"
+
+    @wrap_exception
+    def add_phone(self, args, address_book):
+        if len(args) != 2:
+            raise IncorrectArgsException("Enter name and phone")
+        name, phone = args
+        contact = address_book.find(name)
+        if contact:
+            contact.phones.append(phone)
+            return "Phone number added"
+        else:
+            raise ContactNotFoundException("Contact not found")
+
+    @wrap_exception
+    def add_address(self, args, address_book):
+        if len(args) != 2:
+            raise IncorrectArgsException("Enter name and address")
+        name, address = args
+        contact = address_book.find(name)
+        if contact:
+            contact.address(address)
+            return "Address added"
+        else:
+            raise ContactNotFoundException("Contact not found")
+
+    @wrap_exception
+    def add_birthday(self, args, address_book):
+        if len(args) != 2:
+            raise IncorrectArgsException("Enter name and birthday date")
+        name, birthday = args
+        contact = address_book.find(name)
+        if contact:
+            contact.birthday(birthday)
+            return "Birthday date added"
+        else:
+            raise ContactNotFoundException("Contact not found")
+
+    @wrap_exception
+    def add_email(self, args, address_book):
+        if len(args) != 2:
+            raise IncorrectArgsException("Enter name and email")
+        name, email = args
+        contact = address_book.find(name)
+        if contact:
+            contact.email(email)
+            return "Email added"
+        else:
+            raise ContactNotFoundException("Contact not found")

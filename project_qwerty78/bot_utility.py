@@ -1,27 +1,51 @@
 from difflib import get_close_matches
+
 from . import constants
-from .exceptions import wrap_exception
+from . import exceptions
 from .contact import Contact
+from . import contact
+from .exceptions import wrap_exception
 
 
 def process_command(command, args, book):
     if command == constants.ADD_CONTACT_COMMAND:
-        name = input("Enter the contact's name: ")
-        phone = input("Enter the contact's phone number (Enter - skip): ")
-        birthday = input("Enter the contact's birthday (Enter - skip): ")
-        email = input("Enter the contact's email (Enter - skip): ")
-        address = input("Enter the contact's address (Enter - skip): ")
-        print(add_contact([name, phone, birthday, email, address], book))
+        return entering_data(book)
     elif command == constants.ADD_PHONE_COMMAND:
-        print(add_phone(args, book))
+        return Contact.add_phone(args, book)
     elif command == constants.ADD_BIRTHDAY_COMMAND:
-        print(add_birthday(args, book))
+        return Contact.add_birthday(args, book)
     elif command == constants.ADD_EMAIL_COMMAND:
-        print(add_email(args, book))
+        return Contact.add_email(args, book)
     elif command == constants.ADD_ADDRESS_COMMAND:
-        print(add_address(args, book))
+        return Contact.add_address(args, book)
     else:
         return check_possible_commands(command)
+
+
+def entering_data(book):
+    while True:
+        name = input("Enter the contact's name: ")
+        if not name:
+            print("Name cannot be empty. Please try again.")
+            continue
+        phone = input("Enter the contact's phone number (Enter - skip): ")
+        if phone and not contact.Phone.is_valid_phone(phone):
+            print("The number must be 10 characters long. Please try again.")
+            continue
+
+        birthday = input("Enter the contact's birthday (Enter - skip): ")
+        if birthday and not contact.Birthday.is_valid_date(birthday):
+            print("The date of birth must be in the format DD.MM.YYYY and not later than today. Please try again.")
+            continue
+
+        email = input("Enter the contact's email (Enter - skip): ")
+        if email and not contact.Email.is_valid_email(email):
+            print("The email is not valid. Please try again.")
+            continue
+
+        address = input("Enter the contact's address (Enter - skip): ")
+
+        return Contact.add_contact([name, phone, birthday, email, address], book)
 
 
 def check_possible_commands(command):
@@ -30,72 +54,11 @@ def check_possible_commands(command):
         if command in key or key in command:
             if key not in possible_commands:
                 possible_commands.append(key)
-    
-    return (constants.INVALID_COMMAND 
-            if len(possible_commands) == 0 
-            else (f"{constants.INVALID_COMMAND}\nMaybe, you wanted to run one of these commands?\n\n" 
+
+    return (constants.INVALID_COMMAND
+            if len(possible_commands) == 0
+            else (f"{constants.INVALID_COMMAND}\nMaybe, you wanted to run one of these commands?\n\n"
                   + "\n".join(constants.COMMAND_TO_COMMAND_FORMAT_MAP[x] for x in possible_commands)))
 
-@wrap_exception
-def add_contact(args, address_book):
-    name = args[0]
-    phone = args[1] if len(args) > 1 and args[1] != '' else None
-    birthday = args[2] if len(args) > 2 and args[2] != '' else None
-    email = args[3] if len(args) > 3 and args[3] != '' else None
-    address = args[4] if len(args) > 4 and args[4] != '' else None
-
-    contact = Contact(name, phone, birthday, email, address)
-    address_book.add_record(contact)
-    return "Contact added"
 
 
-@wrap_exception
-def add_phone(args, address_book):
-    if len(args) < 2:
-        raise ValueError("Enter name and phone")
-    name, phone = args
-    contact = address_book.find(name)
-    if contact:
-        contact.phones.append(phone)
-        return "Phone number added"
-    else:
-        raise KeyError
-
-
-@wrap_exception
-def add_address(args, address_book):
-    if len(args) < 2:
-        raise ValueError("Enter name and address")
-    name, address = args
-    contact = address_book.find(name)
-    if contact:
-        contact.address(address)
-        return "Address added"
-    else:
-        raise KeyError
-
-
-@wrap_exception
-def add_birthday(args, address_book):
-    if len(args) < 2:
-        raise ValueError("Enter name and birthday date")
-    name, birthday = args
-    contact = address_book.find(name)
-    if contact:
-        contact.birthday(birthday)
-        return "Birthday date added"
-    else:
-        raise KeyError
-
-
-@wrap_exception
-def add_email(args, address_book):
-    if len(args) < 2:
-        raise ValueError("Enter name and email")
-    name, email = args
-    contact = address_book.find(name)
-    if contact:
-        contact.email(email)
-        return "Email added"
-    else:
-        raise KeyError

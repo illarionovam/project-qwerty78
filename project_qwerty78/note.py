@@ -1,17 +1,21 @@
 from .field import Field
 
 
-class Title(Field):
-    pass
+class Title:
+    def __init__(self, title):
+        self.title = title
 
 
-class Content(Field):
-    pass
+class Content:
+    def __init__(self, content):
+        self.content = content
 
 
-class Tag(Field):
-    pass
+class Tag:
+    pass  # No changes required for Tag class
 
 
 class Note:
-    pass
+    def __init__(self, title, content):
+        self.title = Title(title)
+        self.content = Content(content)

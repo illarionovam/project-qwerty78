@@ -1,11 +1,17 @@
 from collections import UserDict
-
-from .constants import CONTACT_NOT_FOUND
+from . import exceptions
 
 
 class AddressBook(UserDict):
+    def __init__(self):
+        self.contacts = {}
+        self.notes = []
+
     def add_record(self, contact):
-        self.data[contact.name.value] = contact
+        self.contacts[contact.name.value] = contact
 
     def find(self, name):
-        return self.data.get(name, CONTACT_NOT_FOUND)
+        for key in self.contacts.keys():
+            if name.lower() == key.lower():
+                return self.contacts[key]
+        raise exceptions.NoContactException(name)

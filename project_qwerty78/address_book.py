@@ -7,10 +7,10 @@ class AddressBook(UserDict):
         self.contacts = {}
         self.notes = []
 
-    def add_record(self, contact):
+    def add_contact(self, contact):
         self.contacts[contact.name.value.lower()] = contact
 
-    def find(self, name):
+    def find_contact(self, name):
         for key in self.contacts.keys():
             if name.lower() == key:
                 return self.contacts[key]

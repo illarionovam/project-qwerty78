@@ -1,8 +1,13 @@
+
 from collections import UserDict
 from . import exceptions
 from .contact import get_contact_table
 from .decorators import confirm_remove
 
+class Note:
+    def __init__(self, title, content):
+        self.title = title
+        self.content = content
 
 class AddressBook(UserDict):
     def __init__(self):
@@ -36,3 +41,12 @@ class AddressBook(UserDict):
             table = contact_var.printable_view(table)
 
         return table
+
+    def add_note(self, title, content):
+        self.notes.append(Note(title, content))
+    def delete_note_by_index(self, index):
+        del self.notes[index]
+    def edit_note_by_index(self, index, title, content):
+        self.notes[index].title = title
+        self.notes[index].content = content
+

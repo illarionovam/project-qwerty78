@@ -20,8 +20,8 @@ def process_command(command, args, book):
         print(add_email(args, book))
     elif command == constants.ADD_ADDRESS_COMMAND:
         print(add_address(args, book))
-    
-    return check_possible_commands(command)
+    else:
+        return check_possible_commands(command)
 
 
 def check_possible_commands(command):

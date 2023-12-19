@@ -1,24 +1,25 @@
 from difflib import get_close_matches
 from . import constants
-from .exceptions import input_error
+from .exceptions import wrap_exception
 from .contact import Contact
 
 
-def wrap_exception(func):
-    def inner(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        #TODO: add exceptions processing here
-        except IndexError as e:
-            return "Index out of range."
-        except Exception as e:
-            return e
-
-    return inner
-
-
 def process_command(command, args, book):
-    
+    if command == constants.ADD_CONTACT_COMMAND:
+        name = input("Enter the contact's name: ")
+        phone = input("Enter the contact's phone number (Enter - skip): ")
+        birthday = input("Enter the contact's birthday (Enter - skip): ")
+        email = input("Enter the contact's email (Enter - skip): ")
+        address = input("Enter the contact's address (Enter - skip): ")
+        print(add_contact([name, phone, birthday, email, address], book))
+    elif command == constants.ADD_PHONE_COMMAND:
+        print(add_phone(args, book))
+    elif command == constants.ADD_BIRTHDAY_COMMAND:
+        print(add_birthday(args, book))
+    elif command == constants.ADD_EMAIL_COMMAND:
+        print(add_email(args, book))
+    elif command == constants.ADD_ADDRESS_COMMAND:
+        print(add_address(args, book))
     
     return check_possible_commands(command)
 
@@ -35,7 +36,7 @@ def check_possible_commands(command):
             else (f"{constants.INVALID_COMMAND}\nMaybe, you wanted to run one of these commands?\n\n" 
                   + "\n".join(constants.COMMAND_TO_COMMAND_FORMAT_MAP[x] for x in possible_commands)))
 
-@input_error
+@wrap_exception
 def add_contact(args, address_book):
     name = args[0]
     phone = args[1] if len(args) > 1 and args[1] != '' else None
@@ -48,7 +49,7 @@ def add_contact(args, address_book):
     return "Contact added"
 
 
-@input_error
+@wrap_exception
 def add_phone(args, address_book):
     if len(args) < 2:
         raise ValueError("Enter name and phone")
@@ -61,7 +62,7 @@ def add_phone(args, address_book):
         raise KeyError
 
 
-@input_error
+@wrap_exception
 def add_address(args, address_book):
     if len(args) < 2:
         raise ValueError("Enter name and address")
@@ -74,7 +75,7 @@ def add_address(args, address_book):
         raise KeyError
 
 
-@input_error
+@wrap_exception
 def add_birthday(args, address_book):
     if len(args) < 2:
         raise ValueError("Enter name and birthday date")
@@ -87,7 +88,7 @@ def add_birthday(args, address_book):
         raise KeyError
 
 
-@input_error
+@wrap_exception
 def add_email(args, address_book):
     if len(args) < 2:
         raise ValueError("Enter name and email")

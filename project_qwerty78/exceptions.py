@@ -1,4 +1,4 @@
-def input_error(func):
+def wrap_exception(func):
     def inner(*args, **kwargs):
         try:
             return func(*args, **kwargs)

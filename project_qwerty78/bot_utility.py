@@ -1,10 +1,8 @@
 from difflib import get_close_matches
 
 from . import constants
-from . import exceptions
 from .contact import Contact
 from . import contact
-from .exceptions import wrap_exception
 
 
 def process_command(command, args, book):
@@ -27,25 +25,30 @@ def entering_data(book):
         name = input("Enter the contact's name: ")
         if not name:
             print("Name cannot be empty. Please try again.")
-            continue
+        else:
+            break
+    while True:
         phone = input("Enter the contact's phone number (Enter - skip): ")
         if phone and not contact.Phone.is_valid_phone(phone):
             print("The number must be 10 characters long. Please try again.")
-            continue
-
+        else:
+            break
+    while True:
         birthday = input("Enter the contact's birthday (Enter - skip): ")
         if birthday and not contact.Birthday.is_valid_date(birthday):
             print("The date of birth must be in the format DD.MM.YYYY and not later than today. Please try again.")
-            continue
-
+        else:
+            break
+    while True:
         email = input("Enter the contact's email (Enter - skip): ")
         if email and not contact.Email.is_valid_email(email):
             print("The email is not valid. Please try again.")
-            continue
+        else:
+            break
 
-        address = input("Enter the contact's address (Enter - skip): ")
+    address = input("Enter the contact's address (Enter - skip): ")
 
-        return Contact.add_contact([name, phone, birthday, email, address], book)
+    return Contact.add_contact([name, phone, birthday, email, address], book)
 
 
 def check_possible_commands(command):
@@ -59,6 +62,3 @@ def check_possible_commands(command):
             if len(possible_commands) == 0
             else (f"{constants.INVALID_COMMAND}\nMaybe, you wanted to run one of these commands?\n\n"
                   + "\n".join(constants.COMMAND_TO_COMMAND_FORMAT_MAP[x] for x in possible_commands)))
-
-
-

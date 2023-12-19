@@ -73,33 +73,42 @@ class Contact:
         self.email = Email(email) if email else None
         self.address = Address(address) if address else None
 
+    @staticmethod
     @wrap_exception
-    def add_contact(self, args, address_book):
+    def add_contact(args, address_book):
         name = args[0]
-        phone = args[1] if len(args) > 1 and args[1] != '' else None
-        birthday = args[2] if len(args) > 2 and args[2] != '' else None
-        email = args[3] if len(args) > 3 and args[3] != '' else None
-        address = args[4] if len(args) > 4 and args[4] != '' else None
+        phone = args[1] if args[1] != '' else None
+        birthday = args[2] if args[2] != '' else None
+        email = args[3] if args[3] != '' else None
+        address = args[4] if args[4] != '' else None
 
         contact = Contact(name, phone, birthday, email, address)
         address_book.add_record(contact)
         return "contact added"
 
+    @staticmethod
     @wrap_exception
-    def add_phone(self, args, address_book):
+    def add_phone(args, address_book):
         if len(args) != 2:
             raise IncorrectArgsException("Enter name and phone")
         name, phone = args
         contact = address_book.find(name)
         if contact:
-            contact.phones.append(phone)
-            return "Phone number added"
+            if Phone.is_valid_phone(phone):
+                if phone not in contact.phones:
+                    contact.phones.append(phone)
+                    return "Phone number added"
+                else:
+                    return "Phone number already exists"
+            else:
+                raise IncorrectArgsException("The number must be 10 characters long")
         else:
             raise ContactNotFoundException(CONTACT_NOT_FOUND)
 
+    @staticmethod
     @wrap_exception
-    def add_address(self, args, address_book):
-        if len(args) != 2:
+    def add_address(args, address_book):
+        if len(args) < 2:
             raise IncorrectArgsException("Enter name and address")
         name, address = args
         contact = address_book.find(name)
@@ -109,8 +118,9 @@ class Contact:
         else:
             raise ContactNotFoundException(CONTACT_NOT_FOUND)
 
+    @staticmethod
     @wrap_exception
-    def add_birthday(self, args, address_book):
+    def add_birthday(args, address_book):
         if len(args) != 2:
             raise IncorrectArgsException("Enter name and birthday date")
         name, birthday = args
@@ -121,8 +131,9 @@ class Contact:
         else:
             raise ContactNotFoundException(CONTACT_NOT_FOUND)
 
+    @staticmethod
     @wrap_exception
-    def add_email(self, args, address_book):
+    def add_email(args, address_book):
         if len(args) != 2:
             raise IncorrectArgsException("Enter name and email")
         name, email = args

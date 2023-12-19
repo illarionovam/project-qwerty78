@@ -6,6 +6,7 @@ ADD_PHONE_COMMAND = "add-phone"
 ADD_BIRTHDAY_COMMAND = "add-birthday"
 ADD_ADDRESS_COMMAND = "add-address"
 ADD_EMAIL_COMMAND = "add-email"
+CONTACT_NOT_FOUND = "Contact not found"
 
 EXIT_COMMANDS = [EXIT_COMMAND, CLOSE_COMMAND]
 

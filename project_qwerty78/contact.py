@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 
+from .constants import CONTACT_NOT_FOUND
 from .exceptions import IncorrectArgsException, wrap_exception, ContactNotFoundException
 from .field import Field
 
@@ -94,7 +95,7 @@ class Contact:
             contact.phones.append(phone)
             return "Phone number added"
         else:
-            raise ContactNotFoundException("Contact not found")
+            raise ContactNotFoundException(CONTACT_NOT_FOUND)
 
     @wrap_exception
     def add_address(self, args, address_book):
@@ -106,7 +107,7 @@ class Contact:
             contact.address(address)
             return "Address added"
         else:
-            raise ContactNotFoundException("Contact not found")
+            raise ContactNotFoundException(CONTACT_NOT_FOUND)
 
     @wrap_exception
     def add_birthday(self, args, address_book):
@@ -118,7 +119,7 @@ class Contact:
             contact.birthday(birthday)
             return "Birthday date added"
         else:
-            raise ContactNotFoundException("Contact not found")
+            raise ContactNotFoundException(CONTACT_NOT_FOUND)
 
     @wrap_exception
     def add_email(self, args, address_book):
@@ -130,4 +131,4 @@ class Contact:
             contact.email(email)
             return "Email added"
         else:
-            raise ContactNotFoundException("Contact not found")
+            raise ContactNotFoundException(CONTACT_NOT_FOUND)

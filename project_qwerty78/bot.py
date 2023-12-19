@@ -2,6 +2,7 @@ from .bot_utility import process_command
 from .constants import INVALID_COMMAND, EXIT_COMMANDS
 from .address_book import AddressBook
 from rich.console import Console
+from .input_output_utility import read_from_file, write_to_file
 
 
 def parse_input(user_input):
@@ -11,8 +12,7 @@ def parse_input(user_input):
 
 
 def main():
-    # read from file
-    address_book = AddressBook()
+    book = read_from_file()
     console = Console()
     print("Welcome to the assistant bot!")
     
@@ -20,7 +20,7 @@ def main():
         user_input = input("Enter a command: ")
         try:
             command, *args = parse_input(user_input)
-            console.print(process_command(command, args, address_book))
+            console.print(process_command(command, args, book))
 
             if command in EXIT_COMMANDS and len(args) == 0:
                 break
@@ -28,7 +28,7 @@ def main():
             print(e)
             print(INVALID_COMMAND)
 
-    # write to file
+    write_to_file(book)
 
 
 if __name__ == "__main__":

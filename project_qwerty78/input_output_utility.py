@@ -1,6 +1,4 @@
 from .address_book import AddressBook
-from . import contact
-from . import note
 import csv
 
 CONTACTS_FILE_NAME = "contacts_data.csv"
@@ -15,7 +13,7 @@ def read_from_file():
 
 
 def write_to_file(book):
-    write_contacts_to_file(book.data)
+    write_contacts_to_file(book.contacts)
     write_notes_to_file(book.notes)
 
 
@@ -26,7 +24,7 @@ def read_contacts_from_file():
         with open(CONTACTS_FILE_NAME, "r") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                """contact = contact.Contact(
+                contact = contact.Contact(
                     contact.Name(row["name"]))
                 
                 if row["birthday"] != "None":
@@ -39,7 +37,6 @@ def read_contacts_from_file():
                     for phone in row["phones"].split(" "):
                         contact.add_phone(phone)
                 contacts[row["name"]] = contact   
-                """
     finally:         
         return contacts  
 
@@ -70,7 +67,7 @@ def write_contacts_to_file(contacts):
         field_names = ["name", "birthday", "email", "address", "phones"]
         writer = csv.DictWriter(f, fieldnames=field_names)
         writer.writeheader()
-        """for contact in contacts.values():
+        for contact in contacts.values():
             writer.writerow({
                 "name": str(contact.name), 
                 "birthday": str(contact.birthday),
@@ -78,7 +75,6 @@ def write_contacts_to_file(contacts):
                 "address": str(contact.address),
                 "phones": " ".join(str(phone) for phone in contact.phones) if len(contact.phones) > 0 else "None"
                 })  
-                """
             
 
 def write_notes_to_file(notes):

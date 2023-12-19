@@ -16,6 +16,8 @@ def process_command(command, args, book):
         return Contact.add_email(args, book)
     elif command == constants.ADD_ADDRESS_COMMAND:
         return Contact.add_address(args, book)
+    elif command in constants.EXIT_COMMANDS:
+        return "Goodbye!"
     else:
         return check_possible_commands(command)
 

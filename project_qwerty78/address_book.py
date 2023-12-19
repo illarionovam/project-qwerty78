@@ -1,6 +1,6 @@
 from collections import UserDict
 
-from project_qwerty78.constants import CONTACT_NOT_FOUND
+from .constants import CONTACT_NOT_FOUND
 
 
 class AddressBook(UserDict):

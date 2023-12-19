@@ -1,3 +1,7 @@
+from .bot_utility import process_command
+from .constants import INVALID_COMMAND, EXIT_COMMANDS
+
+
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
@@ -7,18 +11,20 @@ def parse_input(user_input):
 def main():
     #read from file
 
+    address_book = None
+
     print("Welcome to the assistant bot!")
     
     while True:
         user_input = input("Enter a command: ")
         try:
             command, *args = parse_input(user_input)
-            #process command
+            print(process_command(command, args, address_book))
 
-            if command in ['close', 'exit'] and len(args) == 0:
+            if command in EXIT_COMMANDS and len(args) == 0:
                 break
         except:
-            print("Invalid command.")
+            print(INVALID_COMMAND)
     
     #write to file
 

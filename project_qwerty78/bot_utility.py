@@ -13,11 +13,11 @@ def process_command(command, args, book):
         return entering_data(book)
     elif command == constants.ADD_PHONE_COMMAND:
         return add_phone(args, book)
-    elif command == constants.ADD_BIRTHDAY_COMMAND:
+    elif command == constants.UPDATE_BIRTHDAY_COMMAND:
         return add_birthday(args, book)
-    elif command == constants.ADD_EMAIL_COMMAND:
+    elif command == constants.UPDATE_EMAIL_COMMAND:
         return add_email(args, book)
-    elif command == constants.ADD_ADDRESS_COMMAND:
+    elif command == constants.UPDATE_ADDRESS_COMMAND:
         return add_address(args, book)
     elif command == constants.SHOW_CONTACT_COMMAND:
         return show_contact(args, book)
@@ -45,6 +45,13 @@ def entering_data(book):
             print("Name cannot be empty. Please try again.")
         else:
             break
+
+    try:
+        book.find_contact(name)
+        return f"Contact with {name} already exists. Please, edit existing one."
+    except exceptions.NoContactException:
+        pass
+
     while True:
         phone = input("Enter the contact's phone number (Enter - skip): ")
         if phone and not check_input_for_contact(phone, lambda field: contact.Phone(field)):
@@ -116,7 +123,7 @@ def add_phone(args, book):
 def add_address(args, book):
     if len(args) < 2:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_ADDRESS_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.UPDATE_ADDRESS_COMMAND])
     name, address = args
     contact_var = book.find_contact(name)
     return contact_var.add_address(address)
@@ -126,7 +133,7 @@ def add_address(args, book):
 def add_birthday(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_BIRTHDAY_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.UPDATE_BIRTHDAY_COMMAND])
     name, birthday = args
     contact_var = book.find_contact(name)
     return contact_var.add_birthday(birthday)
@@ -136,7 +143,7 @@ def add_birthday(args, book):
 def add_email(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_EMAIL_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.UPDATE_EMAIL_COMMAND])
     name, email = args
     contact_var = book.find_contact(name)
     return contact_var.add_email(email)

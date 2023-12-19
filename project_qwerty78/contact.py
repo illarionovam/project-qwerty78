@@ -4,6 +4,17 @@ from rich.table import Table
 from .exceptions import IncorrectArgsException
 from .field import Field
 
+def get_contact_table():
+    table = Table(show_lines=True)
+
+    table.add_column("Name", style="black on green")
+    table.add_column("Phones", style="magenta on cyan")
+    table.add_column("Email", style="magenta")
+    table.add_column("Birthday", style="magenta")
+    table.add_column("Address", style="magenta")
+
+    return table
+
 
 class Name(Field):
     def __init__(self, name):
@@ -69,21 +80,14 @@ class Contact:
         self.email = Email(email) if email else None
         self.address = Address(address) if address else None
 
-    def printable_view(self):
-        table = Table()
-
-        table.add_column("Name", style="cyan")
-        table.add_column("Phones", style="magenta")
-        table.add_column("Email", style="magenta")
-        table.add_column("Birthday", style="magenta")
-        table.add_column("Address", style="magenta")
-
+    def printable_view(self, table):
         table.add_row(
             str(self.name), 
             "\n".join(str(phone) for phone in self.phones), 
             str(self.email) if self.email else "", 
             str(self.birthday) if self.birthday else "", 
             re.sub("\[", "\\[", str(self.address)) if self.address else "")
+        
         return table
     
     def add_phone(self, phone):

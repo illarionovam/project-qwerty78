@@ -7,10 +7,7 @@ from . import contact
 
 def process_command(command, args, book):
     if command == constants.ADD_CONTACT_COMMAND:
-        if len(args) != 0:
-            raise exceptions.IncorrectArgsException(
-                "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_CONTACT_COMMAND])
-        return entering_data(book)
+        return entering_data(args, book)
     elif command == constants.ADD_PHONE_COMMAND:
         return add_phone(args, book)
     elif command == constants.UPDATE_BIRTHDAY_COMMAND:
@@ -23,6 +20,8 @@ def process_command(command, args, book):
         return show_contact(args, book)
     elif command == constants.REMOVE_CONTACT_COMMAND:
         return remove_contact(args, book)
+    elif command == constants.ALL_CONTACTS_COMMAND:
+        return all_contacts(args, book)
     elif command in constants.EXIT_COMMANDS:
         return "Goodbye!"
     else:
@@ -38,7 +37,11 @@ def check_input_for_contact(field, validated_constructor):
         return False
 
 
-def entering_data(book):
+def entering_data(args, book):
+    if len(args) != 0:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_CONTACT_COMMAND])
+    
     while True:
         name = input("Enter the contact's name: ")
         if not name:
@@ -97,7 +100,16 @@ def show_contact(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_CONTACT_COMMAND])
     name = args[0]
     contact_var = book.find_contact(name)
-    return contact_var.printable_view()
+    return contact_var.printable_view(contact.get_contact_table())
+
+
+@wrap_exception
+def all_contacts(args, book):
+    if len(args) != 0:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ALL_CONTACTS_COMMAND])
+    
+    return book.all_contacts()
 
 
 @wrap_exception

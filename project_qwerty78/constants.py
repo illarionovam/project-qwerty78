@@ -10,6 +10,7 @@ SHOW_CONTACT_COMMAND = "show-contact"
 REMOVE_CONTACT_COMMAND = "remove-contact"
 ALL_CONTACTS_COMMAND = "all-contacts"
 SHOW_BIRTHDAY_COMMAND = "show-birthdays"
+HELP_COMMAND = "help"
 
 EXIT_COMMANDS = [EXIT_COMMAND, CLOSE_COMMAND]
 
@@ -25,5 +26,21 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
     SHOW_CONTACT_COMMAND: SHOW_CONTACT_COMMAND + " \[name]",
     REMOVE_CONTACT_COMMAND: REMOVE_CONTACT_COMMAND + " \[name]",
     ALL_CONTACTS_COMMAND: ALL_CONTACTS_COMMAND,
-    SHOW_BIRTHDAY_COMMAND: SHOW_BIRTHDAY_COMMAND + " \[range]"
+    SHOW_BIRTHDAY_COMMAND: SHOW_BIRTHDAY_COMMAND + " \[range]",
+    HELP_COMMAND: HELP_COMMAND
+}
+
+COMMAND_TO_HELP_TEXT_MAP = {
+    CLOSE_COMMAND: "Closes the bot.",
+    EXIT_COMMAND: "Closes the bot.",
+    ADD_CONTACT_COMMAND: "Adds contact to the address book.",
+    ADD_PHONE_COMMAND: "Adds phone to the existing contact.",
+    UPDATE_BIRTHDAY_COMMAND: "Updates birthday of the existing contact.",
+    UPDATE_ADDRESS_COMMAND: "Updates address of the existing contact.",
+    UPDATE_EMAIL_COMMAND: "Updates email of the existing contact.",
+    SHOW_CONTACT_COMMAND: "Prints requested contact.",
+    REMOVE_CONTACT_COMMAND: "Removes contact from the address book.",
+    ALL_CONTACTS_COMMAND: "Prints all contacts from the address book.",
+    SHOW_BIRTHDAY_COMMAND: "Shows coming contacts' birthdays in the next N days.",
+    HELP_COMMAND: "Help menu."
 }

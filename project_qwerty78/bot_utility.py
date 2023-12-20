@@ -4,11 +4,12 @@ from .decorators import wrap_exception
 from . import constants
 from . import contact
 from .birthday_utility import get_birthdays_per_days_range
+from rich.table import Table
 
 
 def process_command(command, args, book):
     if command == constants.ADD_CONTACT_COMMAND:
-        return entering_data(args, book)
+        return add_contact(args, book)
     elif command == constants.ADD_PHONE_COMMAND:
         return add_phone(args, book)
     elif command == constants.UPDATE_BIRTHDAY_COMMAND:
@@ -25,10 +26,25 @@ def process_command(command, args, book):
         return all_contacts(args, book)
     elif command == constants.SHOW_BIRTHDAY_COMMAND:
         return show_birthday(args, book)
+    elif command == constants.HELP_COMMAND:
+        return help_menu()
     elif command in constants.EXIT_COMMANDS:
         return "Goodbye!"
     else:
         return check_possible_commands(command)
+    
+
+def help_menu():
+    table = Table(show_lines=True)
+
+    table.add_column("Command", style="black on green")
+    table.add_column("Command Format", style="magenta on cyan")
+    table.add_column("Does", style="magenta")
+
+    for command, help_text in constants.COMMAND_TO_HELP_TEXT_MAP.items():
+        table.add_row(command, constants.COMMAND_TO_COMMAND_FORMAT_MAP[command], help_text)
+        
+    return table
     
 
 def check_input_for_contact(field, validated_constructor):
@@ -40,7 +56,7 @@ def check_input_for_contact(field, validated_constructor):
         return False
 
 
-def entering_data(args, book):
+def add_contact(args, book):
     if len(args) != 0:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_CONTACT_COMMAND])

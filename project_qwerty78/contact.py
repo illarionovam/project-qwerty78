@@ -4,6 +4,7 @@ from rich.table import Table
 from rich.style import Style
 from .exceptions import IncorrectArgsException
 from .field import Field
+from .easter_eggs import EasterEgg
 
 
 def get_contact_table():
@@ -23,9 +24,13 @@ class Name(Field):
         Casts name to .title()
         """
         if Name.is_valid(name):
+            if EasterEgg.ENABLED:
+                EasterEgg.is_interesting_name(name)
             super().__init__(name.title())
         else:
-            raise IncorrectArgsException("Name cannot be empty and should contain only latin letters")
+            if name == "":
+                raise IncorrectArgsException("A girl has no name? No chance!")
+            raise IncorrectArgsException("Your dad must be Elon Musk... Sorry, kid, only latin letters are allowed.")
 
     @staticmethod
     def is_valid(name):
@@ -33,9 +38,11 @@ class Name(Field):
 
 
 class Phone(Field):
-    def __init__(self, value):
-        if Phone.is_valid(value):
-            super().__init__(value)
+    def __init__(self, phone):
+        if Phone.is_valid(phone):
+            if EasterEgg.ENABLED:
+                EasterEgg.is_interesting_phone(phone)
+            super().__init__(phone)
         else:
             raise IncorrectArgsException("The number must be 10 characters long")
 
@@ -63,7 +70,10 @@ class Address(Field):
 class Birthday(Field):
     def __init__(self, date_string):
         if Birthday.is_valid(date_string):
-            super().__init__(Birthday.cast_to_standard_format(date_string))
+            date_string = Birthday.cast_to_standard_format(date_string)
+            if EasterEgg.ENABLED:
+                EasterEgg.is_interesting_birthday(date_string)
+            super().__init__(date_string)
         else:
             raise IncorrectArgsException("The date of birth must be in the format DD.MM.YYYY and not later than today")
         

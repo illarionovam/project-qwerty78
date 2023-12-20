@@ -134,10 +134,14 @@ class Contact:
         self.address = None
         return "Address removed"
     
-    def remove_phone(self):
-        self.phone = None
+    def remove_phones(self):
+        self.phones = []
+        return "All phones removed"
+    
+    def remove_phone(self, phone):
+        self.phones = list(filter(lambda phone_obj: phone_obj.value != phone, self.phones))
         return "Phone removed"
     
     def remove_birthday(self):
-        self.ebirthday = None
+        self.birthday = None
         return "Birthday removed"

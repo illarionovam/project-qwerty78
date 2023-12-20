@@ -2,11 +2,7 @@ from collections import UserDict
 from . import exceptions
 from .contact import get_contact_table
 from .decorators import confirm_remove
-
-class Note:
-    def __init__(self, title, content):
-        self.title = title
-        self.content = content
+from .note import Note
 
 class AddressBook(UserDict):
     def __init__(self):

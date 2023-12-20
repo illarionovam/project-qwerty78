@@ -73,15 +73,15 @@ class AddressBook(UserDict):
         return table
     
 
-    def show_notes(self, indeces, explicit_notes):
+    def show_notes(self, indexes, explicit_notes):
         if len(explicit_notes) == 0:
             raise exceptions.EmptyContainerException("There are no notes in the address book.")
         
         table = get_note_table()
 
-        for i in range(len(indeces)):
+        for i in range(len(indexes)):
             note_var = self.notes[i]
-            table = note_var.printable_view(table, indeces[i])
+            table = note_var.printable_view(table, indexes[i])
 
         return table
 
@@ -93,4 +93,8 @@ class AddressBook(UserDict):
                (search_by == "content" and note.matches_content(query)):
                 matched_notes.append(note)
                 matched_indexes.append(index)
+
+        if len(matched_notes) == 0:
+            raise exceptions.NoRecordException(f"Note with {search_by} {query}")
+
         return matched_notes, matched_indexes

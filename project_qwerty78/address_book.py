@@ -84,7 +84,10 @@ class AddressBook(UserDict):
             table = note_var.printable_view(table, indexes[i])
 
         return table
-
+        
+	def add_note(self, note):
+        self.notes.append(note)
+        
     def find_notes(self, query, search_by="title"):
         matched_notes = []
         matched_indexes = []

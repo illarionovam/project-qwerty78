@@ -232,3 +232,12 @@ def find_notes(args, book):
     search_by, query = args[0], " ".join(args[1:])
     found_notes = book.find_notes(query, search_by)  # Зберігаємо результати пошуку в змінну
     return book.show_notes(range(len(found_notes)), found_notes)  # Використовуємо збережені результати
+
+def find_notes(args, book):
+    if len(args) < 2:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try [command] [title/content] [query]")
+    
+    search_by, query = args[0], " ".join(args[1:])
+    found_notes, indexes = book.find_notes(query, search_by)  # Розпакування результатів
+    return book.show_notes(indexes, found_notes)  # Використання індексів та знайдених нотаток

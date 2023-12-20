@@ -139,7 +139,7 @@ def remove_phone(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_PHONE_COMMAND])
     name = args[0]
     contact_var = book.find_contact(name)
-    return contact_var.remove_email()
+    return contact_var.remove_phone()
 
 @wrap_exception
 def remove_email(args, book):
@@ -157,7 +157,7 @@ def remove_address(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_ADDRESS_COMMAND])
     name = args[0]
     contact_var = book.find_contact(name)
-    return contact_var.remove_email()
+    return contact_var.remove_addres()
 
 @wrap_exception
 def remove_birthday(args, book):
@@ -166,7 +166,7 @@ def remove_birthday(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_BIRTHDAY_COMMAND])
     name = args[0]
     contact_var = book.find_contact(name)
-    return contact_var.remove_email()
+    return contact_var.remove_birthday()
 
 
 @wrap_exception

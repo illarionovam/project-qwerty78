@@ -41,8 +41,8 @@ class AddressBook(UserDict):
 
         return table
 
-    def add_note(self, title, content):
-        self.notes.append(Note(title, content))
+    def add_note(self, content, title):
+        self.notes.append(Note(content, title))
 
     def delete_note_by_index(self, index):
         del self.notes[index]

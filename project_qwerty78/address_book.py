@@ -18,7 +18,7 @@ class AddressBook(UserDict):
 
         if contact.Birthday.is_valid(search_value):   
             for contact_var in self.contacts.values():
-                if contact_var.birthday and contact_var.birthday.value == search_value:
+                if contact_var.birthday and contact_var.birthday.value == contact.Birthday.cast_to_standard_format(search_value):
                     found.append(contact_var)
 
             if len(found) == 0:

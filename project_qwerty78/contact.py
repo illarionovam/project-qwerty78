@@ -63,9 +63,14 @@ class Address(Field):
 class Birthday(Field):
     def __init__(self, date_string):
         if Birthday.is_valid(date_string):
-            super().__init__(date_string)
+            super().__init__(Birthday.cast_to_standard_format(date_string))
         else:
             raise IncorrectArgsException("The date of birth must be in the format DD.MM.YYYY and not later than today")
+        
+    @staticmethod
+    def cast_to_standard_format(date_string):
+        date_object = datetime.strptime(date_string, "%d.%m.%Y")
+        return date_object.strftime("%d.%m.%Y")
 
     @staticmethod
     def is_valid(date_string):

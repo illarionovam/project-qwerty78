@@ -29,11 +29,11 @@ def read_contacts_from_file():
                 contact_var = contact.Contact(row["name"])
                 
                 if row["birthday"] != "None":
-                    contact_var.add_birthday(row["birthday"])
+                    contact_var.set_birthday(row["birthday"])
                 if row["email"] != "None":
-                    contact_var.add_email(row["email"])
+                    contact_var.set_email(row["email"])
                 if row["address"] != "None":
-                    contact_var.add_address(row["address"])
+                    contact_var.set_address(row["address"])
                 if row["phones"] != "None":
                     for phone in row["phones"].split(" "):
                         contact_var.add_phone(phone)

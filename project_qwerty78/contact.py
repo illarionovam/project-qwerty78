@@ -131,13 +131,13 @@ class Contact:
         return "Email removed"
     
     def remove_address(self):
-        self.email = None
+        self.address = None
         return "Address removed"
     
     def remove_phone(self):
-        self.email = None
+        self.phone = None
         return "Phone removed"
     
     def remove_birthday(self):
-        self.email = None
+        self.ebirthday = None
         return "Birthday removed"

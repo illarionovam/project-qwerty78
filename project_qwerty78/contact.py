@@ -126,3 +126,22 @@ class Contact:
         self.email = Email(email)
         return "Email updated" if overriden else "Email added"
         
+    def remove_email(self):
+        self.email = None
+        return "Email removed"
+    
+    def remove_address(self):
+        self.address = None
+        return "Address removed"
+    
+    def remove_phones(self):
+        self.phones = []
+        return "All phones removed"
+    
+    def remove_phone(self, phone):
+        self.phones = list(filter(lambda phone_obj: phone_obj.value != phone, self.phones))
+        return "Phone removed"
+    
+    def remove_birthday(self):
+        self.birthday = None
+        return "Birthday removed"

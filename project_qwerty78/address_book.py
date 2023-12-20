@@ -85,10 +85,12 @@ class AddressBook(UserDict):
 
         return table
 
-    def find_notes(self, query, search_by="title"): # Пошук нотаток за заголовком чи змістом.
+    def find_notes(self, query, search_by="title"):
         matched_notes = []
-        for note in self.notes:
+        matched_indexes = []
+        for index, note in enumerate(self.notes):
             if (search_by == "title" and note.matches_title(query)) or \
                (search_by == "content" and note.matches_content(query)):
                 matched_notes.append(note)
-        return matched_notes
+                matched_indexes.append(index)
+        return matched_notes, matched_indexes

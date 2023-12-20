@@ -285,6 +285,5 @@ def find_notes(args, book):
             "Incorrect command format. Try [command] [title/content] [query]")
     
     search_by, query = args[0], " ".join(args[1:])
-    found_notes, indexes = book.find_notes(query, search_by)  # Розпакування результатів
-    return book.show_notes(indexes, found_notes)  # Використання індексів та знайдених нотаток
-
+    found_notes, found_indexes = book.find_notes(query, search_by)  # Отримання знайдених нотаток та їх індексів
+    return book.show_notes(found_indexes, found_notes)  # Використання індексів та знайдених нотаток

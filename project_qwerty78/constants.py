@@ -19,6 +19,7 @@ ALL_NOTES_COMMAND = "all-notes"
 SHOW_BIRTHDAY_COMMAND = "show-birthdays"
 HELP_COMMAND = "help"
 SHOW_NOTE_COMMAND = "show-note"
+ADD_NOTE_COMMAND = "add-note"
 
 EXIT_COMMANDS = [EXIT_COMMAND, CLOSE_COMMAND]
 
@@ -44,6 +45,7 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
     SHOW_BIRTHDAY_COMMAND: SHOW_BIRTHDAY_COMMAND + " \[range]",
     HELP_COMMAND: HELP_COMMAND,
     SHOW_NOTE_COMMAND: SHOW_NOTE_COMMAND + " \[title/content] \[query]",
+    ADD_NOTE_COMMAND: ADD_NOTE_COMMAND
 }
 
 COMMAND_TO_HELP_TEXT_MAP = {
@@ -65,5 +67,6 @@ COMMAND_TO_HELP_TEXT_MAP = {
     ALL_CONTACTS_COMMAND: "Prints all contacts from the address book.",
     SHOW_BIRTHDAY_COMMAND: "Shows coming contacts' birthdays in the next N days.",
     HELP_COMMAND: "Help menu.",
-    SHOW_NOTE_COMMAND: "Prints requested notes by either title or content."
+    SHOW_NOTE_COMMAND: "Prints requested notes by either title or content.",
+    ADD_NOTE_COMMAND: "Adds note to the address book."
 }

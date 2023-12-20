@@ -28,7 +28,17 @@ class Title(Field):
 
 
 class Content(Field):
-    pass
+    def __init__(self, content):
+        """Checks is the content is not empty. 
+        """
+        if Content.is_valid(content):
+            super().__init__(content)
+        else:
+            raise IncorrectArgsException("Content should not be empty.")
+
+    @staticmethod
+    def is_valid(name):
+        return re.fullmatch(r".+", name) is not None
 
 
 class Tag(Field):
@@ -44,7 +54,7 @@ class Note:
         table.add_row(
             str(index + 1), 
             str(self.title) if self.title else "", 
-            str(self.content))
+            re.sub("\[", "\\[", str(self.content)))
         
         return table
 

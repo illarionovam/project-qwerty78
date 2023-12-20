@@ -18,6 +18,7 @@ class AddressBook(UserDict):
         raise exceptions.NoContactException(name)
     
     def remove_contact(self, name):
+        self.find_contact(name) # raises exception if no contact exists
         if name.lower() in self.contacts.keys():
             self.contacts.pop(name.lower())
         return f"You have removed contact {name} from the address book."

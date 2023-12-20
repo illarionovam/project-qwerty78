@@ -22,9 +22,15 @@ class Name(Field):
         """Checks is the name is not empty. 
         Casts name to .title()
         """
-        if not name:
-            raise IncorrectArgsException("Name cannot be empty")
-        super().__init__(name.title())
+        if Name.is_valid(name):
+            super().__init__(name.title())
+        else:
+            raise IncorrectArgsException("Name cannot be empty and should contain only latin letters")
+        
+
+    @staticmethod
+    def is_valid(name):
+        return re.match(r"[a-zA-Z]+", name) is not None
 
 
 class Phone(Field):

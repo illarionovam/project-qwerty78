@@ -47,8 +47,8 @@ def entering_data(args, book):
     
     while True:
         name = input("Enter the contact's name: ")
-        if not name:
-            print("Name cannot be empty. Please try again.")
+        if not check_input_for_contact(name, lambda field: contact.Name(field)):
+            continue
         else:
             break
 

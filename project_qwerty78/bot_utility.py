@@ -121,9 +121,8 @@ def show_contact(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_CONTACT_COMMAND])
-    name = args[0]
-    contact_var = book.find_contact(name)
-    return contact_var.printable_view(contact.get_contact_table())
+    search_value = args[0]
+    return book.show_contacts(book.find_contact_by_search_value(search_value))
 
 
 @wrap_exception
@@ -145,8 +144,8 @@ def all_contacts(args, book):
     if len(args) != 0:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ALL_CONTACTS_COMMAND])
-    
-    return book.all_contacts()
+
+    return book.show_contacts(book.contacts.values())
 
 
 @wrap_exception
@@ -154,9 +153,8 @@ def all_notes(args, book):
     if len(args) != 0:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ALL_NOTES_COMMAND])
-    
-    return book.all_notes()
 
+    return book.show_notes(range(len(book.notes)), book.notes)
 
 @wrap_exception
 def remove_contact(args, book):

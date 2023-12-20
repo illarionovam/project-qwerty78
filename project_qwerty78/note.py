@@ -2,13 +2,15 @@ from .field import Field
 import re
 from .exceptions import IncorrectArgsException
 from rich.table import Table
+from rich.style import Style
 
 def get_note_table():
     table = Table(show_lines=True)
 
-    table.add_column("Index", style="black on green")
-    table.add_column("Title", style="magenta on cyan")
-    table.add_column("Content", style="magenta")
+    header_style = Style(bgcolor="rgb(201,58,57)")
+    table_style = Style(color="rgb(255,255,255)", bgcolor="rgb(42,42,42)")
+    for column in ["Index", "Title", "Content"]:
+        table.add_column(column, header_style=header_style, style=table_style)
 
     return table
 

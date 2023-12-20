@@ -1,6 +1,7 @@
 from collections import UserDict
 from . import exceptions
 from .contact import get_contact_table
+from .note import get_note_table
 from .decorators import confirm_remove
 
 
@@ -28,11 +29,24 @@ class AddressBook(UserDict):
 
     def all_contacts(self):
         if len(self.contacts) == 0:
-            raise exceptions.EmptyContactsException("There are no contacts in the address book.")
+            raise exceptions.EmptyContainerException("There are no contacts in the address book.")
 
         table = get_contact_table()
 
         for contact_var in self.contacts.values():
             table = contact_var.printable_view(table)
+
+        return table
+    
+
+    def all_notes(self):
+        if len(self.notes) == 0:
+            raise exceptions.EmptyContainerException("There are no notes in the address book.")
+        
+        table = get_note_table()
+
+        for i in range(len(self.notes)):
+            note_var = self.notes[i]
+            table = note_var.printable_view(table, i)
 
         return table

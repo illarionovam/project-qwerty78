@@ -124,6 +124,42 @@ def show_contact(args, book):
     search_value = args[0]
     return book.show_contacts(book.find_contact_by_search_value(search_value))
 
+@wrap_exception
+def remove_phone(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_PHONE_COMMAND])
+    search_value = args[0]
+    name = book.find_contact(search_value)
+    return book.remove_contact(name)
+
+@wrap_exception
+def remove_email(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_EMAIL_COMMAND])
+    search_value = args[0]
+    name = book.find_contact(search_value)
+    return book.remove_contact(name)
+
+@wrap_exception
+def remove_address(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_ADDRESS_COMMAND])
+    search_value = args[0]
+    name = book.find_contact(search_value)
+    return book.remove_contact(name)
+
+@wrap_exception
+def remove_birthday(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_BIRTHDAY_COMMAND])
+    search_value = args[0]
+    name = book.find_contact(search_value)
+    return book.remove_contact(name)
+
 
 @wrap_exception
 def show_birthday(args, book):

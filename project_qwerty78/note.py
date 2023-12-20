@@ -32,7 +32,7 @@ class Content(Field):
         """Checks is the content is not empty. 
         """
         if Content.is_valid(content):
-            super().__init__(content.title())
+            super().__init__(content)
         else:
             raise IncorrectArgsException("Content should not be empty.")
 

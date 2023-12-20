@@ -51,16 +51,15 @@ def read_notes_from_file():
         with open(NOTES_FILE_NAME, "r") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                """note_var = note.Note(
-                    note_var.Content(row["content"]))
-
+                note_var = note.Note(row["content"])
+                """
                 if row["title"] != "None":
                     note_var.add_title(row["title"])
                 if row["tags"] != "None":
                     for tag in row["tags"].split(" "):
                         note_var.add_tag(tag)
+                        """
                 notes.append(note_var)
-                """
     finally:            
         return notes  
     
@@ -85,10 +84,9 @@ def write_notes_to_file(notes):
         field_names = ["title", "tags", "content"]
         writer = csv.DictWriter(f, fieldnames=field_names)
         writer.writeheader()
-        """for note_var in notes:
+        for note_var in notes:
             writer.writerow({
                 "title": str(note_var.title),
-                "tags": " ".join(str(tag) for tag in note_var.tags) if len(note_var.tags) > 0 else "None",
+                #"tags": " ".join(str(tag) for tag in note_var.tags) if len(note_var.tags) > 0 else "None",
                 "content": str(note_var.content)
             })
-            """

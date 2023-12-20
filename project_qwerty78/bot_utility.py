@@ -86,14 +86,14 @@ def add_note(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_NOTE_COMMAND])
     
     while True:
-        title = input("Enter the note's title (Enter - skip): ")
+        title = input("Enter the note's title (Enter - skip): ").strip()
         if title and not check_input_for_record(title, lambda field: note.Title(field)):
             continue
         else:
             break
 
     while True:
-        content = input("Enter the note's content:")
+        content = input("Enter the note's content: ").strip()
         if not check_input_for_record(content, lambda field: note.Content(field)):
             continue
         else:
@@ -110,7 +110,7 @@ def add_contact(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_CONTACT_COMMAND])
     
     while True:
-        name = input("Enter the contact's name: ")
+        name = input("Enter the contact's name: ").strip()
         if not check_input_for_record(name, lambda field: contact.Name(field)):
             continue
         else:
@@ -123,25 +123,25 @@ def add_contact(args, book):
         pass
 
     while True:
-        phone = input("Enter the contact's phone number (Enter - skip): ")
+        phone = input("Enter the contact's phone number (Enter - skip): ").strip()
         if phone and not check_input_for_record(phone, lambda field: contact.Phone(field)):
             continue
         else:
             break
     while True:
-        birthday = input("Enter the contact's birthday (Enter - skip): ")
+        birthday = input("Enter the contact's birthday (Enter - skip): ").strip()
         if birthday and not check_input_for_record(birthday, lambda field: contact.Birthday(field)):
             continue
         else:
             break
     while True:
-        email = input("Enter the contact's email (Enter - skip): ")
+        email = input("Enter the contact's email (Enter - skip): ").strip()
         if email and not check_input_for_record(email, lambda field: contact.Email(field)):
             continue
         else:
             break
 
-    address = input("Enter the contact's address (Enter - skip): ")
+    address = input("Enter the contact's address (Enter - skip): ").strip()
 
     book.add_contact(contact.Contact(name, phone, birthday, email, address))
     return "Contact added"

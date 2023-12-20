@@ -97,11 +97,12 @@ class Contact:
         return table
     
     def add_phone(self, phone):
-        if phone not in self.phones:
-            self.phones.append(Phone(phone))
-            return "Phone number added"
-        else:
+        result = list(filter(lambda phone_obj: phone_obj.value == phone, self.phones))
+        if len(result) > 0:
             return "Phone number already exists"
+        else:
+            self.phones.append(Phone(phone))
+            return "Phone number added"            
         
     def add_address(self, address):
         overriden = (self.address != None)

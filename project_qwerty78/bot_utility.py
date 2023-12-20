@@ -12,12 +12,14 @@ def process_command(command, args, book):
         return add_contact(args, book)
     elif command == constants.ADD_PHONE_COMMAND:
         return add_phone(args, book)
-    elif command == constants.UPDATE_BIRTHDAY_COMMAND:
-        return add_birthday(args, book)
-    elif command == constants.UPDATE_EMAIL_COMMAND:
-        return add_email(args, book)
-    elif command == constants.UPDATE_ADDRESS_COMMAND:
-        return add_address(args, book)
+    elif command == constants.SET_NAME_COMMAND:
+        return set_name(args, book)
+    elif command == constants.SET_BIRTHDAY_COMMAND:
+        return set_birthday(args, book)
+    elif command == constants.SET_EMAIL_COMMAND:
+        return set_email(args, book)
+    elif command == constants.SET_ADDRESS_COMMAND:
+        return set_address(args, book)
     elif command == constants.SHOW_CONTACT_COMMAND:
         return show_contact(args, book)
     elif command == constants.REMOVE_CONTACT_COMMAND:
@@ -71,7 +73,7 @@ def add_contact(args, book):
     try:
         book.find_contact(name)
         return f"Contact with {name} already exists. Please, edit existing one."
-    except exceptions.NoContactException:
+    except exceptions.NoRecordException:
         pass
 
     while True:
@@ -165,31 +167,48 @@ def add_phone(args, book):
     
 
 @wrap_exception
-def add_address(args, book):
+def set_address(args, book):
     if len(args) < 2:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.UPDATE_ADDRESS_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SET_ADDRESS_COMMAND])
     name, address = args
     contact_var = book.find_contact(name)
-    return contact_var.add_address(address)
+    return contact_var.set_address(address)
 
 
 @wrap_exception
-def add_birthday(args, book):
+def set_name(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.UPDATE_BIRTHDAY_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SET_NAME_COMMAND])
+    old_name, new_name = args
+    contact_var = book.find_contact(old_name)
+
+    try:
+        book.find_contact(new_name)
+        return f"Contact with {new_name} already exists. Please, edit existing one."
+    except exceptions.NoRecordException:
+        pass
+
+    return contact_var.set_name(new_name)
+
+
+@wrap_exception
+def set_birthday(args, book):
+    if len(args) != 2:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SET_BIRTHDAY_COMMAND])
     name, birthday = args
     contact_var = book.find_contact(name)
-    return contact_var.add_birthday(birthday)
+    return contact_var.set_birthday(birthday)
 
     
 @wrap_exception
-def add_email(args, book):
+def set_email(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.UPDATE_EMAIL_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SET_EMAIL_COMMAND])
     name, email = args
     contact_var = book.find_contact(name)
-    return contact_var.add_email(email)
+    return contact_var.set_email(email)
         

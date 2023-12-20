@@ -16,7 +16,7 @@ class AddressBook(UserDict):
         for key in self.contacts.keys():
             if name.lower() == key:
                 return self.contacts[key]
-        raise exceptions.NoContactException(name)
+        raise exceptions.NoRecordException(f"Contact {name}")
     
     @confirm_remove
     def remove_contact(self, name):

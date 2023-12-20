@@ -101,19 +101,23 @@ class Contact:
             return "Phone number already exists"
         else:
             self.phones.append(Phone(phone))
-            return "Phone number added"            
+            return "Phone number added"  
+
+    def set_name(self, name):
+        self.name = Name(name)
+        return "Name updated"          
         
-    def add_address(self, address):
+    def set_address(self, address):
         overriden = (self.address != None)
         self.address = Address(address)
         return "Address updated" if overriden else "Address added"
     
-    def add_birthday(self, birthday):
+    def set_birthday(self, birthday):
         overriden = (self.birthday != None)
         self.birthday = Birthday(birthday)
         return "Birthday updated" if overriden else "Birthday added"
         
-    def add_email(self, email):
+    def set_email(self, email):
         overriden = (self.email != None)
         self.email = Email(email)
         return "Email updated" if overriden else "Email added"

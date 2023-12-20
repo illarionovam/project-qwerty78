@@ -1,6 +1,6 @@
-class NoContactException(Exception):
-    def __init__(self, name):
-        self.message = f"Contact {name} not found."
+class NoRecordException(Exception):
+    def __init__(self, record):
+        self.message = f"{record} not found."
         super().__init__(self.message)
 
 

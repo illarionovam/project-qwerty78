@@ -50,6 +50,8 @@ def process_command(command, args, book):
         return show_note(args, book)
     elif command == constants.ADD_NOTE_COMMAND:
         return add_note(args, book)
+    elif command == constants.DELETE_NOTE_BY_INDEX_COMMAND: 
+        return delete_note_by_index(args, book)
     else:
         return check_possible_commands(command)
     
@@ -102,6 +104,15 @@ def add_note(args, book):
     book.add_note(note.Note(content, title))
     return "Note added"
 
+
+@wrap_exception
+def delete_note_by_index(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_BIRTHDAY_COMMAND])
+    
+    index = int(args[0])
+    return book.delete_note_by_index(index)
 
 @wrap_exception
 def add_contact(args, book):

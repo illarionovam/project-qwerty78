@@ -5,6 +5,7 @@ from . import constants
 from . import contact
 from .birthday_utility import get_birthdays_per_days_range
 from rich.table import Table
+from rich.style import Style
 
 
 def process_command(command, args, book):
@@ -53,9 +54,13 @@ def process_command(command, args, book):
 def help_menu():
     table = Table(show_lines=True)
 
-    table.add_column("Command", style="black on green")
-    table.add_column("Command Format", style="magenta on cyan")
-    table.add_column("Does", style="magenta")
+    header_style = Style(bgcolor="rgb(88,205,54)")
+    table_style = Style(bgcolor="rgb(211,211,211)")
+    for column in ["Command", "Command Format", "Does"]:
+        if column == "Command Format":
+            table.add_column(column, header_style=header_style, style=header_style)
+        else:
+            table.add_column(column, header_style=header_style, style=table_style)
 
     for command, help_text in constants.COMMAND_TO_HELP_TEXT_MAP.items():
         table.add_row(command, constants.COMMAND_TO_COMMAND_FORMAT_MAP[command], help_text)

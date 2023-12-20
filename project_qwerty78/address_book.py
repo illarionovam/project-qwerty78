@@ -1,6 +1,7 @@
 from collections import UserDict
 from . import exceptions
 from .contact import get_contact_table
+from .decorators import confirm_remove
 
 
 class AddressBook(UserDict):
@@ -17,6 +18,7 @@ class AddressBook(UserDict):
                 return self.contacts[key]
         raise exceptions.NoContactException(name)
     
+    @confirm_remove
     def remove_contact(self, name):
         self.find_contact(name) # raises exception if no contact exists
         if name.lower() in self.contacts.keys():

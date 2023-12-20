@@ -1,6 +1,6 @@
 from difflib import get_close_matches
 from . import exceptions
-from .exceptions import wrap_exception
+from .decorators import wrap_exception
 from . import constants
 from . import contact
 from .birthday_utility import get_birthdays_per_days_range

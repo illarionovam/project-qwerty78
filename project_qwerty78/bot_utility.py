@@ -24,14 +24,8 @@ def process_command(command, args, book):
         return show_contact(args, book)
     elif command == constants.REMOVE_CONTACT_COMMAND:
         return remove_contact(args, book)
-    elif command == constants.SEARCH_PHONE_COMMAND:
-        return search_phone_contact(args, book)
-    elif command == constants.SEARCH_EMAIL_COMMAND:
-        return search_email_contact(args, book)
-    elif command == constants.SEARCH_ADDRESS_COMMAND:
-        return search_address_contact(args, book)
-    elif command == constants.SEARCH_BIRTHDAY_COMMAND:
-        return search_birthday_contact(args, book)
+
+
     elif command == constants.REMOVE_PHONE_COMMAND:
         return remove_phone_contact(args, book)
     elif command == constants.SEARCH_ADDRESS_COMMAND:
@@ -137,8 +131,8 @@ def show_contact(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_CONTACT_COMMAND])
-    name = args[0]
-    contact_var = book.find_contact(name)
+    search_value = args[0]
+    contact_var = book.find_contact(search_value)
     return contact_var.printable_view(contact.get_contact_table())
 
 @wrap_exception

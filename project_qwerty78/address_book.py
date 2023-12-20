@@ -3,7 +3,7 @@ from . import exceptions
 from .contact import get_contact_table
 from .note import get_note_table
 from .decorators import confirm_remove
-
+from . import contact
 
 class AddressBook(UserDict):
     def __init__(self):
@@ -13,7 +13,33 @@ class AddressBook(UserDict):
     def add_contact(self, contact):
         self.contacts[contact.name.value.lower()] = contact
 
-    def find_contact(self, name):
+    def find_contact(self, search_value):
+        if contact.Birthday.is_valid(search_value):
+            found = []
+            for contact_var in self.contacts.values():
+                if contact_var.birthday.value == search_value:
+                    found.append(contact_var)
+            if len(found) == 0:
+                raise exceptions.NoRecordException(f"Contact {search_value}")
+            return found
+        if contact.Email.is_valid(search_value):
+            found = []
+            for contact_var in self.contacts.values():
+                if contact_var.email.value == search_value:
+                    found.append(contact_var)
+            if len(found) == 0:
+                raise exceptions.NoRecordException(f"Contact {search_value}")
+            return found
+        if contact.Phone.is_valid(search_value):
+            found = []
+            for contact_var in self.contacts.values():
+                for phone in contact_var.phones:
+                    if str(phone) == search_value:
+                        found.append(contact_var)
+                        break
+            if len(found) == 0:
+                raise exceptions.NoRecordException(f"Contact {search_value}")
+            return found
         for key in self.contacts.keys():
             if name.lower() == key:
                 return self.contacts[key]

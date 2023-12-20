@@ -1,13 +1,3 @@
-def wrap_exception(func):
-    def inner(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as e:
-            return str(e)
-
-    return inner
-
-
 class NoContactException(Exception):
     def __init__(self, name):
         self.message = f"Contact {name} not found."

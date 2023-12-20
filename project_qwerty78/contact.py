@@ -22,9 +22,15 @@ class Name(Field):
         """Checks is the name is not empty. 
         Casts name to .title()
         """
-        if not name:
-            raise IncorrectArgsException("Name cannot be empty")
-        super().__init__(name.title())
+        if Name.is_valid(name):
+            super().__init__(name.title())
+        else:
+            raise IncorrectArgsException("Name cannot be empty and should contain only latin letters")
+        
+
+    @staticmethod
+    def is_valid(name):
+        return re.match(r"[a-zA-Z]+", name) is not None
 
 
 class Phone(Field):
@@ -91,11 +97,12 @@ class Contact:
         return table
     
     def add_phone(self, phone):
-        if phone not in self.phones:
-            self.phones.append(Phone(phone))
-            return "Phone number added"
-        else:
+        result = list(filter(lambda phone_obj: phone_obj.value == phone, self.phones))
+        if len(result) > 0:
             return "Phone number already exists"
+        else:
+            self.phones.append(Phone(phone))
+            return "Phone number added"            
         
     def add_address(self, address):
         overriden = (self.address != None)

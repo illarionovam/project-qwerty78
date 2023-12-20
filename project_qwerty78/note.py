@@ -42,13 +42,21 @@ class Content(Field):
 
 
 class Tag(Field):
-    pass
+    def __init__(self, tag):
+        if not self.is_valid(tag):
+            raise ValueError("Invalid tag. Tags must be alphanumeric and up to 10 characters long.")
+        super().__init__(tag.lower())
+
+    @staticmethod
+    def is_valid(tag):
+        return re.fullmatch(r'[A-Za-z0-9]{1,10}', tag) is not None
 
 
 class Note:
     def __init__(self, content, title=None):
         self.content = Content(content)
         self.title = Title(title) if title else None
+        self.tags = set()   # Using a set to store unique tags
 
     def printable_view(self, table, index):
         table.add_row(
@@ -62,6 +70,20 @@ class Note:
         """Returns True, if query is a part of the note's title."""
         return query.lower() in (self.title.value.lower() if self.title else '')
 
+
     def matches_content(self, query):
         """Returns True, if query is a part of the note's content."""
         return query.lower() in self.content.value.lower()
+
+
+    def add_tag(self, tag):
+        new_tag = Tag(tag)                      # Creates a Tag object that performs validation
+        if new_tag.value in self.tags:          # Check if the tag exists
+            raise ValueError(f"Tag '{tag}' already exists in this note.")
+        self.tags.add(new_tag.value)
+
+    def remove_tag(self, tag):
+        normalized_tag = Tag(tag).value         # Tag normalization
+        if normalized_tag not in self.tags:     # Check if the tag exists
+            raise ValueError(f"Tag '{tag}' does not exist in this note.")
+        self.tags.discard(normalized_tag)

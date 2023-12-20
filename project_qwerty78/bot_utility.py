@@ -53,6 +53,14 @@ def process_command(command, args, book):
         return help_menu()
     elif command in constants.EXIT_COMMANDS:
         return "Goodbye!"
+    elif command == constants.SHOW_NOTE_COMMAND:
+        return show_note(args, book)
+    elif command == constants.ADD_NOTE_COMMAND:
+        return add_note(args, book)
+    elif command == constants.ADD_TAG_COMMAND:
+        return add_tag_to_note(args, book)
+    elif command == constants.REMOVE_TAG_COMMAND:
+        return remove_tag_from_note(args, book)
     else:
         return check_possible_commands(command)
     
@@ -338,3 +346,34 @@ def show_note(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
     found_notes, found_indexes = book.find_note_by_search_value(query, search_by)  # initializing found notes and indexes
     return book.show_notes(found_indexes, found_notes)
+
+@wrap_exception
+def add_tag_to_note(args, book):
+    if len(args) != 2:
+        raise exceptions.IncorrectArgsException("Incorrect format. Try [add-tag] [note_title] [tag]")
+    note_title, tag = args
+    matched_notes, _ = book.find_notes(note_title, search_by="title")
+    if matched_notes:
+        try:
+            matched_notes[0].add_tag(tag)
+            return f"Tag '{tag}' added to note titled '{note_title}'."
+        except ValueError as e:
+            return str(e)  # Displaying an error message
+    else:
+        raise exceptions.NoRecordException(f"No note found with title '{note_title}'")
+
+
+@wrap_exception
+def remove_tag_from_note(args, book):
+    if len(args) != 2:
+        raise exceptions.IncorrectArgsException("Incorrect format. Try [remove-tag] [note_title] [tag]")
+    note_title, tag = args
+    matched_notes, _ = book.find_notes(note_title, search_by="title")
+    if matched_notes:
+        try:
+            matched_notes[0].remove_tag(tag)
+            return f"Tag '{tag}' removed from note titled '{note_title}'."
+        except ValueError as e:
+            return str(e)  # Displaying an error message
+    else:
+        raise exceptions.NoRecordException(f"No note found with title '{note_title}'")

@@ -76,7 +76,7 @@ def check_input_for_contact(field, validated_constructor):
         print(str(e))
         return False
 
-
+@wrap_exception
 def add_contact(args, book):
     if len(args) != 0:
         raise exceptions.IncorrectArgsException(

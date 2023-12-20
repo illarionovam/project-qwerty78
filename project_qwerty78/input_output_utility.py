@@ -2,6 +2,7 @@ from .address_book import AddressBook
 from . import contact
 from . import note
 import csv
+from .easter_eggs import EasterEgg
 
 CONTACTS_FILE_NAME = "contacts_data.csv"
 NOTES_FILE_NAME = "notes_data.csv"
@@ -11,6 +12,7 @@ def read_from_file():
     book = AddressBook()
     book.contacts = read_contacts_from_file()
     book.notes = read_notes_from_file()
+    EasterEgg.ENABLED = True
     return book
 
 

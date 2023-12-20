@@ -26,7 +26,6 @@ class Name(Field):
             super().__init__(name.title())
         else:
             raise IncorrectArgsException("Name cannot be empty and should contain only latin letters")
-        
 
     @staticmethod
     def is_valid(name):
@@ -48,7 +47,7 @@ class Phone(Field):
 class Email(Field):
     def __init__(self, email):
         if Email.is_valid(email):
-            super().__init__(email)
+            super().__init__(email.lower())
         else:
             raise IncorrectArgsException("The email is not valid")
 

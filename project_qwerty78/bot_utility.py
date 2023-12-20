@@ -118,12 +118,12 @@ def add_contact(args, book):
 
     try:
         book.find_contact(name)
-        return f"Contact with {name} already exists. Please, edit existing one."
+        return f"Contact with {name} already exists. Please, edit the existing one."
     except exceptions.NoRecordException:
         pass
 
     while True:
-        phone = input("Enter the contact's phone number (Enter - skip): ").strip()
+        phone = input("Enter the contact's phone (Enter - skip): ").strip()
         if phone and not check_input_for_record(phone, lambda field: contact.Phone(field)):
             continue
         else:
@@ -284,7 +284,7 @@ def set_name(args, book):
 
     try:
         book.find_contact(new_name)
-        return f"Contact with {new_name} already exists. Please, edit existing one."
+        return f"Contact with {new_name} already exists. Please, edit the existing one."
     except exceptions.NoRecordException:
         pass
 
@@ -317,5 +317,5 @@ def show_note(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
     
     search_by, query = args[0], " ".join(args[1:])
-    found_notes, found_indexes = book.find_notes(query, search_by)  # Отримання знайдених нотаток та їх індексів
-    return book.show_notes(found_indexes, found_notes)  # Використання індексів та знайдених нотаток
+    found_notes, found_indexes = book.find_notes(query, search_by)  # initializing found notes and indexes
+    return book.show_notes(found_indexes, found_notes)

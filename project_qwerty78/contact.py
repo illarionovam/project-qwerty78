@@ -31,7 +31,7 @@ class Name(Field):
         else:
             if name == "":
                 raise IncorrectArgsException("A girl has no name? No chance!")
-            raise IncorrectArgsException("Your dad must be Elon Musk... Sorry, kid, only latin letters are allowed.")
+            raise IncorrectArgsException("Their dad must be Elon Musk... So sorry, but only latin letters are allowed.")
 
     @staticmethod
     def is_valid(name):
@@ -45,7 +45,7 @@ class Phone(Field):
                 EasterEgg.is_interesting_phone(phone)
             super().__init__(phone)
         else:
-            raise IncorrectArgsException("The number must be 10 characters long")
+            raise IncorrectArgsException("The phone must be 10 characters long.")
 
     @staticmethod
     def is_valid(phone):
@@ -57,7 +57,7 @@ class Email(Field):
         if Email.is_valid(email):
             super().__init__(email.lower())
         else:
-            raise IncorrectArgsException("The email is not valid")
+            raise IncorrectArgsException("The email is not valid.")
 
     @staticmethod
     def is_valid(email):
@@ -76,7 +76,7 @@ class Birthday(Field):
                 EasterEgg.is_interesting_birthday(date_string)
             super().__init__(date_string)
         else:
-            raise IncorrectArgsException("The date of birth must be in the format DD.MM.YYYY and not later than today")
+            raise IncorrectArgsException("The birthday date must be in the format DD.MM.YYYY and not later than today.")
         
     @staticmethod
     def cast_to_standard_format(date_string):
@@ -113,51 +113,51 @@ class Contact:
     def add_phone(self, phone):
         result = list(filter(lambda phone_obj: phone_obj.value == phone, self.phones))
         if len(result) > 0:
-            return "Phone number already exists"
+            return "Phone already exists."
         else:
             self.phones.append(Phone(phone))
-            return "Phone number added"  
+            return "Added phone."  
 
     def set_name(self, name):
         self.name = Name(name)
-        return "Name updated"          
+        return "Updated name."          
         
     def set_address(self, address):
         overriden = (self.address != None)
         self.address = Address(address)
-        return "Address updated" if overriden else "Address added"
+        return "Updated address." if overriden else "Added address."
     
     def set_birthday(self, birthday):
         overriden = (self.birthday != None)
         self.birthday = Birthday(birthday)
-        return "Birthday updated" if overriden else "Birthday added"
+        return "Updated birthday." if overriden else "Added birthday."
         
     def set_email(self, email):
         overriden = (self.email != None)
         self.email = Email(email)
-        return "Email updated" if overriden else "Email added"
+        return "Updated email." if overriden else "Added email."
         
     @confirm_remove
     def remove_email(self):
         self.email = None
-        return "Email removed"
+        return "Removed email."
     
     @confirm_remove
     def remove_address(self):
         self.address = None
-        return "Address removed"
+        return "Removed address."
     
     @confirm_remove
     def remove_phones(self):
         self.phones = []
-        return "All phones removed"
+        return "Removed all phones."
     
     @confirm_remove
     def remove_phone(self, phone):
         self.phones = list(filter(lambda phone_obj: phone_obj.value != phone, self.phones))
-        return "Phone removed"
+        return "Removed phone."
     
     @confirm_remove
     def remove_birthday(self):
         self.birthday = None
-        return "Birthday removed"
+        return "Removed birthday."

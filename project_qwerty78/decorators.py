@@ -6,7 +6,7 @@ def confirm_remove(func):
             if user_input in ["yes", "y"]:
                 return func(*args, **kwargs)
         
-        return "Remove operation cancelled"            
+        return "Remove operation was cancelled."            
     
     return inner
 

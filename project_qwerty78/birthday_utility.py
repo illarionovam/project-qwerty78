@@ -67,6 +67,6 @@ def get_birthdays_per_days_range(users, range):
         i -= 1
 
     if len(final_list) == 0:
-        return f"No birthdays in the next {range} days starting today."
+        return f"THere are no birthdays in the next {range} days starting today."
     
     return '\n'.join(final_list)

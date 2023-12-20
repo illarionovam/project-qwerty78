@@ -101,3 +101,10 @@ class AddressBook(UserDict):
             raise exceptions.NoRecordException(f"Note with the {search_by} {query}")
 
         return matched_notes, matched_indexes
+
+    def delete_note_by_index(self, index):
+        if index < 1 or index > len(self.notes):
+            return "Invalid index. Note not found."
+
+        del self.notes[index - 1]
+        return f"Note at index {index} has been deleted."

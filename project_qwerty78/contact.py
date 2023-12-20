@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 from rich.table import Table
+from rich.style import Style
 from .exceptions import IncorrectArgsException
 from .field import Field
 
@@ -8,11 +9,10 @@ from .field import Field
 def get_contact_table():
     table = Table(show_lines=True)
 
-    table.add_column("Name", style="black on green")
-    table.add_column("Phones", style="magenta on cyan")
-    table.add_column("Email", style="magenta")
-    table.add_column("Birthday", style="magenta")
-    table.add_column("Address", style="magenta")
+    header_style = Style(bgcolor="rgb(0,87,184)")
+    table_style = Style(bgcolor="rgb(255,215,0)")
+    for column in ["Name", "Phones", "Email", "Birthday", "Address"]:
+        table.add_column(column, header_style=header_style, style=table_style)
 
     return table
 

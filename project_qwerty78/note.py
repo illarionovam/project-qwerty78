@@ -45,3 +45,11 @@ class Note:
             str(self.content))
         
         return table
+
+    def matches_title(self, query):
+        """Повертає True, якщо запит знаходиться в заголовку нотатки."""
+        return query.lower() in (self.title.value.lower() if self.title else '')
+
+    def matches_content(self, query):
+        """Повертає True, якщо запит знаходиться в змісті нотатки."""
+        return query.lower() in self.content.value.lower()

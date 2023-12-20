@@ -44,6 +44,8 @@ def process_command(command, args, book):
         return help_menu()
     elif command in constants.EXIT_COMMANDS:
         return "Goodbye!"
+    elif command == constants.FIND_NOTE_COMMAND:
+        return find_notes(args, book)
     else:
         return check_possible_commands(command)
     
@@ -276,3 +278,12 @@ def set_email(args, book):
     contact_var = book.find_contact(name)
     return contact_var.set_email(email)
         
+@wrap_exception
+def find_notes(args, book):
+    if len(args) < 2:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try [command] [title/content] [query]")
+    
+    search_by, query = args[0], " ".join(args[1:])
+    found_notes = book.find_notes(query, search_by)  # Зберігаємо результати пошуку в змінну
+    return book.show_notes(range(len(found_notes)), found_notes)  # Використовуємо збережені результати

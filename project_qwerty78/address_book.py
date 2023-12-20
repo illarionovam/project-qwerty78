@@ -25,7 +25,7 @@ class AddressBook(UserDict):
                     found.append(contact_var)
 
             if len(found) == 0:
-                raise exceptions.NoRecordException(f"Contact with BD {search_value}")
+                raise exceptions.NoRecordException(f"Contact with the birthday {search_value}")
             
             return found
         elif contact.Email.is_valid(search_value):
@@ -34,7 +34,7 @@ class AddressBook(UserDict):
                     found.append(contact_var)
 
             if len(found) == 0:
-                raise exceptions.NoRecordException(f"Contact with email {search_value}")
+                raise exceptions.NoRecordException(f"Contact with the email {search_value}")
             
             return found
         elif contact.Phone.is_valid(search_value):
@@ -44,7 +44,7 @@ class AddressBook(UserDict):
                         found.append(contact_var)
                         break
             if len(found) == 0:
-                raise exceptions.NoRecordException(f"Contact with phone {search_value}")  
+                raise exceptions.NoRecordException(f"Contact with the phone {search_value}")  
 
             return found   
         else:
@@ -61,7 +61,7 @@ class AddressBook(UserDict):
         self.find_contact(name) # raises exception if no contact exists
         if name.lower() in self.contacts.keys():
             self.contacts.pop(name.lower())
-        return f"You have removed contact {name} from the address book."
+        return f"Removed contact {name} from the address book."
     
 
     def show_contacts(self, explicit_contacts):
@@ -98,6 +98,6 @@ class AddressBook(UserDict):
                 matched_indexes.append(index)
 
         if len(matched_notes) == 0:
-            raise exceptions.NoRecordException(f"Note with {search_by} {query}")
+            raise exceptions.NoRecordException(f"Note with the {search_by} {query}")
 
         return matched_notes, matched_indexes

@@ -1,6 +1,6 @@
 class NoRecordException(Exception):
     def __init__(self, record):
-        self.message = f"{record} not found."
+        self.message = f"{record} was not found."
         super().__init__(self.message)
 
 

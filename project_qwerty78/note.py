@@ -20,7 +20,7 @@ class Title(Field):
         if Title.is_valid(title):
             super().__init__(title)
         else:
-            raise IncorrectArgsException("The title is not valid")
+            raise IncorrectArgsException("The title is not valid.")
 
     @staticmethod
     def is_valid(title):
@@ -34,7 +34,7 @@ class Content(Field):
         if Content.is_valid(content):
             super().__init__(content)
         else:
-            raise IncorrectArgsException("Content should not be empty.")
+            raise IncorrectArgsException("The content should not be empty.")
 
     @staticmethod
     def is_valid(name):
@@ -59,9 +59,9 @@ class Note:
         return table
 
     def matches_title(self, query):
-        """Повертає True, якщо запит знаходиться в заголовку нотатки."""
+        """Returns True, if query is a part of the note's title."""
         return query.lower() in (self.title.value.lower() if self.title else '')
 
     def matches_content(self, query):
-        """Повертає True, якщо запит знаходиться в змісті нотатки."""
+        """Returns True, if query is a part of the note's content."""
         return query.lower() in self.content.value.lower()

@@ -8,6 +8,6 @@ setup(name='project_qwerty78',
       author_email='illarionovam@gmail.com',
       license='MIT',
       packages=find_namespace_packages(),
-      install_requires=['collections', 'difflib', 'os', 'datetime'],
+      install_requires=['collections', 'difflib', 'rich', 'datetime'],
       entry_points={'console_scripts': ['run_bot = project_qwerty78.bot:main']}
       )

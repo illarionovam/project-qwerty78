@@ -17,8 +17,8 @@ class EasterEgg:
     def is_interesting_birthday(birthday):
         if birthday.startswith("29.02."):
             print(
-                "Tough luck, kid. " 
+                "Tough luck. " 
                 + "Birthday is only once in 4 years? " 
                 + "No worries, we'll set it on 28.02 in case the year is not leap 😉")
         elif datetime.strptime(birthday, "%d.%m.%Y").date().year < 1900:
-            print("Oh my... Is that dust from you?")
+            print("Oh my... Is that dust falling from them?")

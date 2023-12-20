@@ -24,6 +24,22 @@ def process_command(command, args, book):
         return show_contact(args, book)
     elif command == constants.REMOVE_CONTACT_COMMAND:
         return remove_contact(args, book)
+    elif command == constants.SEARCH_PHONE_COMMAND:
+        return search_phone_contact(args, book)
+    elif command == constants.SEARCH_EMAIL_COMMAND:
+        return search_email_contact(args, book)
+    elif command == constants.SEARCH_ADDRESS_COMMAND:
+        return search_address_contact(args, book)
+    elif command == constants.SEARCH_BIRTHDAY_COMMAND:
+        return search_birthday_contact(args, book)
+    elif command == constants.REMOVE_PHONE_COMMAND:
+        return remove_phone_contact(args, book)
+    elif command == constants.SEARCH_ADDRESS_COMMAND:
+        return remove_email_contact(args, book)
+    elif command == constants.REMOVE_ADDRESS_COMMAND:
+        return remove_address_contact(args, book)
+    elif command == constants.REMOVE_BIRTHDAY_COMMAND:
+        return remove_birthday_contact(args, book)
     elif command == constants.ALL_CONTACTS_COMMAND:
         return all_contacts(args, book)
     elif command == constants.ALL_NOTES_COMMAND:
@@ -125,38 +141,13 @@ def show_contact(args, book):
     contact_var = book.find_contact(name)
     return contact_var.printable_view(contact.get_contact_table())
 
-
 @wrap_exception
-def show_birthday(args, book):
+def search_phone_contact(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_BIRTHDAY_COMMAND])
-    range = args[0]
-    try:
-        if int(range) < 1 or int(range) > 365:
-            raise ValueError
-    except ValueError:
-        raise exceptions.IncorrectArgsException("\[range] should be from 1 to 365")
-    return get_birthdays_per_days_range(book.contacts, int(range))
-
-
-@wrap_exception
-def all_contacts(args, book):
-    if len(args) != 0:
-        raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ALL_CONTACTS_COMMAND])
-    
-    return book.all_contacts()
-
-
-@wrap_exception
-def all_notes(args, book):
-    if len(args) != 0:
-        raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ALL_NOTES_COMMAND])
-    
-    return book.all_notes()
-
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SEARCH_PHONE_COMMAND])        
+    name = args[0]
+    return book.search_contact(name)
 
 @wrap_exception
 def remove_contact(args, book):

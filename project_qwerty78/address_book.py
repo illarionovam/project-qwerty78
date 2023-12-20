@@ -10,6 +10,9 @@ class AddressBook(UserDict):
         self.contacts = {}
         self.notes = []
 
+    def add_note(self, note):
+        self.notes.append(note)
+
     def add_contact(self, contact):
         self.contacts[contact.name.value.lower()] = contact
 

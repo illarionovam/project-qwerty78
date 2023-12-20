@@ -3,6 +3,7 @@ from . import exceptions
 from .decorators import wrap_exception
 from . import constants
 from . import contact
+from . import note
 from .birthday_utility import get_birthdays_per_days_range
 from rich.table import Table
 from rich.style import Style
@@ -47,6 +48,8 @@ def process_command(command, args, book):
         return "Goodbye!"
     elif command == constants.SHOW_NOTE_COMMAND:
         return show_note(args, book)
+    elif command == constants.ADD_NOTE_COMMAND:
+        return add_note(args, book)
     else:
         return check_possible_commands(command)
     
@@ -68,13 +71,37 @@ def help_menu():
     return table
     
 
-def check_input_for_contact(field, validated_constructor):
+def check_input_for_record(field, validated_constructor):
     try:
         validated_constructor(field)
         return True
     except exceptions.IncorrectArgsException as e:
         print(str(e))
         return False
+    
+@wrap_exception
+def add_note(args, book):
+    if len(args) != 0:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_NOTE_COMMAND])
+    
+    while True:
+        title = input("Enter the note's title (Enter - skip): ")
+        if title and not check_input_for_record(title, lambda field: note.Title(field)):
+            continue
+        else:
+            break
+
+    while True:
+        content = input("Enter the note's content:")
+        if not check_input_for_record(content, lambda field: note.Content(field)):
+            continue
+        else:
+            break
+
+    book.add_note(note.Note(content, title))
+    return "Note added"
+
 
 @wrap_exception
 def add_contact(args, book):
@@ -84,7 +111,7 @@ def add_contact(args, book):
     
     while True:
         name = input("Enter the contact's name: ")
-        if not check_input_for_contact(name, lambda field: contact.Name(field)):
+        if not check_input_for_record(name, lambda field: contact.Name(field)):
             continue
         else:
             break
@@ -97,19 +124,19 @@ def add_contact(args, book):
 
     while True:
         phone = input("Enter the contact's phone number (Enter - skip): ")
-        if phone and not check_input_for_contact(phone, lambda field: contact.Phone(field)):
+        if phone and not check_input_for_record(phone, lambda field: contact.Phone(field)):
             continue
         else:
             break
     while True:
         birthday = input("Enter the contact's birthday (Enter - skip): ")
-        if birthday and not check_input_for_contact(birthday, lambda field: contact.Birthday(field)):
+        if birthday and not check_input_for_record(birthday, lambda field: contact.Birthday(field)):
             continue
         else:
             break
     while True:
         email = input("Enter the contact's email (Enter - skip): ")
-        if email and not check_input_for_contact(email, lambda field: contact.Email(field)):
+        if email and not check_input_for_record(email, lambda field: contact.Email(field)):
             continue
         else:
             break

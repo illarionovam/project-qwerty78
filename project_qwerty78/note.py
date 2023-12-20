@@ -1,21 +1,29 @@
 from .field import Field
+import re
+from .exceptions import IncorrectArgsException
 
 
-class Title:
+class Title(Field):
     def __init__(self, title):
-        self.title = title
+        if Title.is_valid(title):
+            super().__init__(title)
+        else:
+            raise IncorrectArgsException("The title is not valid")
+
+    @staticmethod
+    def is_valid(title):
+        return re.fullmatch(r'[A-Za-z0-9 ]{,15}\b', title) is not None
 
 
-class Content:
-    def __init__(self, content):
-        self.content = content
+class Content(Field):
+    pass
 
 
-class Tag:
-    pass  # No changes required for Tag class
+class Tag(Field):
+    pass
 
 
 class Note:
-    def __init__(self, title, content):
-        self.title = Title(title)
+    def __init__(self, content, title=None):
         self.content = Content(content)
+        self.title = Title(title) if title else None

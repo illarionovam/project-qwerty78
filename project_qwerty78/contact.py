@@ -30,7 +30,7 @@ class Name(Field):
 
     @staticmethod
     def is_valid(name):
-        return re.match(r"[a-zA-Z]+", name) is not None
+        return re.fullmatch(r"[a-zA-Z]+", name) is not None
 
 
 class Phone(Field):
@@ -54,8 +54,7 @@ class Email(Field):
 
     @staticmethod
     def is_valid(email):
-        email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-        return re.match(email_regex, email) is not None
+        return re.fullmatch(r'[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}', email) is not None
 
 
 class Address(Field):

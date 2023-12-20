@@ -149,6 +149,38 @@ def search_phone_contact(args, book):
     name = args[0]
     return book.search_contact(name)
 
+
+@wrap_exception
+def show_birthday(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_BIRTHDAY_COMMAND])
+    range = args[0]
+    try:
+        if int(range) < 1 or int(range) > 365:
+            raise ValueError
+    except ValueError:
+        raise exceptions.IncorrectArgsException("\[range] should be from 1 to 365")
+    return get_birthdays_per_days_range(book.contacts, int(range))
+
+
+@wrap_exception
+def all_contacts(args, book):
+    if len(args) != 0:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ALL_CONTACTS_COMMAND])
+
+    return book.all_contacts()
+
+
+@wrap_exception
+def all_notes(args, book):
+    if len(args) != 0:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ALL_NOTES_COMMAND])
+
+    return book.all_notes()
+
 @wrap_exception
 def remove_contact(args, book):
     if len(args) != 1:

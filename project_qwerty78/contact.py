@@ -26,7 +26,6 @@ class Name(Field):
             super().__init__(name.title())
         else:
             raise IncorrectArgsException("Name cannot be empty and should contain only latin letters")
-        
 
     @staticmethod
     def is_valid(name):
@@ -48,7 +47,7 @@ class Phone(Field):
 class Email(Field):
     def __init__(self, email):
         if Email.is_valid(email):
-            super().__init__(email)
+            super().__init__(email.lower())
         else:
             raise IncorrectArgsException("The email is not valid")
 
@@ -64,9 +63,14 @@ class Address(Field):
 class Birthday(Field):
     def __init__(self, date_string):
         if Birthday.is_valid(date_string):
-            super().__init__(date_string)
+            super().__init__(Birthday.cast_to_standard_format(date_string))
         else:
             raise IncorrectArgsException("The date of birth must be in the format DD.MM.YYYY and not later than today")
+        
+    @staticmethod
+    def cast_to_standard_format(date_string):
+        date_object = datetime.strptime(date_string, "%d.%m.%Y")
+        return date_object.strftime("%d.%m.%Y")
 
     @staticmethod
     def is_valid(date_string):
@@ -101,20 +105,43 @@ class Contact:
             return "Phone number already exists"
         else:
             self.phones.append(Phone(phone))
-            return "Phone number added"            
+            return "Phone number added"  
+
+    def set_name(self, name):
+        self.name = Name(name)
+        return "Name updated"          
         
-    def add_address(self, address):
+    def set_address(self, address):
         overriden = (self.address != None)
         self.address = Address(address)
         return "Address updated" if overriden else "Address added"
     
-    def add_birthday(self, birthday):
+    def set_birthday(self, birthday):
         overriden = (self.birthday != None)
         self.birthday = Birthday(birthday)
         return "Birthday updated" if overriden else "Birthday added"
         
-    def add_email(self, email):
+    def set_email(self, email):
         overriden = (self.email != None)
         self.email = Email(email)
         return "Email updated" if overriden else "Email added"
         
+    def remove_email(self):
+        self.email = None
+        return "Email removed"
+    
+    def remove_address(self):
+        self.address = None
+        return "Address removed"
+    
+    def remove_phones(self):
+        self.phones = []
+        return "All phones removed"
+    
+    def remove_phone(self, phone):
+        self.phones = list(filter(lambda phone_obj: phone_obj.value != phone, self.phones))
+        return "Phone removed"
+    
+    def remove_birthday(self):
+        self.birthday = None
+        return "Birthday removed"

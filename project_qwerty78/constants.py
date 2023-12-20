@@ -18,7 +18,7 @@ ALL_CONTACTS_COMMAND = "all-contacts"
 ALL_NOTES_COMMAND = "all-notes"
 SHOW_BIRTHDAY_COMMAND = "show-birthdays"
 HELP_COMMAND = "help"
-FIND_NOTE_COMMAND = "find-note"
+SHOW_NOTE_COMMAND = "show-note"
 
 EXIT_COMMANDS = [EXIT_COMMAND, CLOSE_COMMAND]
 
@@ -43,7 +43,7 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
     ALL_NOTES_COMMAND: ALL_NOTES_COMMAND,
     SHOW_BIRTHDAY_COMMAND: SHOW_BIRTHDAY_COMMAND + " \[range]",
     HELP_COMMAND: HELP_COMMAND,
-    FIND_NOTE_COMMAND: FIND_NOTE_COMMAND + " \[title/content] \[query]",
+    SHOW_NOTE_COMMAND: SHOW_NOTE_COMMAND + " \[title/content] \[query]",
 }
 
 COMMAND_TO_HELP_TEXT_MAP = {
@@ -55,7 +55,7 @@ COMMAND_TO_HELP_TEXT_MAP = {
     SET_BIRTHDAY_COMMAND: "Sets birthday of the existing contact.",
     SET_ADDRESS_COMMAND: "Sets address of the existing contact.",
     SET_EMAIL_COMMAND: "Sets email of the existing contact.",
-    SHOW_CONTACT_COMMAND: "Prints requested contact.",
+    SHOW_CONTACT_COMMAND: "Prints requested contacts.",
     REMOVE_CONTACT_COMMAND: "Removes contact from the address book.",
     REMOVE_EMAIL_COMMAND: "Removes email from the requested contact.",
     REMOVE_ADDRESS_COMMAND: "Removes address from the requested contact.",
@@ -65,5 +65,5 @@ COMMAND_TO_HELP_TEXT_MAP = {
     ALL_CONTACTS_COMMAND: "Prints all contacts from the address book.",
     SHOW_BIRTHDAY_COMMAND: "Shows coming contacts' birthdays in the next N days.",
     HELP_COMMAND: "Help menu.",
-    FIND_NOTE_COMMAND: "Finds a note by title or content."
+    SHOW_NOTE_COMMAND: "Prints requested notes by either title or content."
 }

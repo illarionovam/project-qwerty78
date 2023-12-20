@@ -13,33 +13,41 @@ class AddressBook(UserDict):
     def add_contact(self, contact):
         self.contacts[contact.name.value.lower()] = contact
 
-    def find_contact(self, search_value):
-        if contact.Birthday.is_valid(search_value):
-            found = []
+    def find_contact_by_search_value(self, search_value):
+        found = []
+
+        if contact.Birthday.is_valid(search_value):   
             for contact_var in self.contacts.values():
-                if contact_var.birthday.value == search_value:
+                if contact_var.birthday and contact_var.birthday.value == search_value:
                     found.append(contact_var)
+
             if len(found) == 0:
-                raise exceptions.NoRecordException(f"Contact {search_value}")
+                raise exceptions.NoRecordException(f"Contact with BD {search_value}")
+            
             return found
-        if contact.Email.is_valid(search_value):
-            found = []
+        elif contact.Email.is_valid(search_value):
             for contact_var in self.contacts.values():
-                if contact_var.email.value == search_value:
+                if contact_var.email and contact_var.email.value == search_value:
                     found.append(contact_var)
+
             if len(found) == 0:
-                raise exceptions.NoRecordException(f"Contact {search_value}")
+                raise exceptions.NoRecordException(f"Contact with email {search_value}")
+            
             return found
-        if contact.Phone.is_valid(search_value):
-            found = []
+        elif contact.Phone.is_valid(search_value):
             for contact_var in self.contacts.values():
                 for phone in contact_var.phones:
-                    if str(phone) == search_value:
+                    if phone.value == search_value:
                         found.append(contact_var)
                         break
             if len(found) == 0:
-                raise exceptions.NoRecordException(f"Contact {search_value}")
-            return found
+                raise exceptions.NoRecordException(f"Contact with phone {search_value}")  
+
+            return found   
+        else:
+            return [self.find_contact(search_value)]
+
+    def find_contact(self, name):
         for key in self.contacts.keys():
             if name.lower() == key:
                 return self.contacts[key]
@@ -53,26 +61,26 @@ class AddressBook(UserDict):
         return f"You have removed contact {name} from the address book."
     
 
-    def all_contacts(self):
-        if len(self.contacts) == 0:
+    def show_contacts(self, explicit_contacts):
+        if len(explicit_contacts) == 0:
             raise exceptions.EmptyContainerException("There are no contacts in the address book.")
 
         table = get_contact_table()
 
-        for contact_var in self.contacts.values():
+        for contact_var in explicit_contacts:
             table = contact_var.printable_view(table)
 
         return table
     
 
-    def all_notes(self):
-        if len(self.notes) == 0:
+    def show_notes(self, indeces, explicit_notes):
+        if len(explicit_notes) == 0:
             raise exceptions.EmptyContainerException("There are no notes in the address book.")
         
         table = get_note_table()
 
-        for i in range(len(self.notes)):
+        for i in range(len(indeces)):
             note_var = self.notes[i]
-            table = note_var.printable_view(table, i)
+            table = note_var.printable_view(table, indeces[i])
 
         return table

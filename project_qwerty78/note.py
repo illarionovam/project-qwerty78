@@ -54,7 +54,7 @@ class Note:
         table.add_row(
             str(index + 1), 
             str(self.title) if self.title else "", 
-            str(self.content))
+            re.sub("\[", "\\[", str(self.content)))
         
         return table
 

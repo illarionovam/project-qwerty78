@@ -24,14 +24,6 @@ def process_command(command, args, book):
         return show_contact(args, book)
     elif command == constants.REMOVE_CONTACT_COMMAND:
         return remove_contact(args, book)
-    elif command == constants.REMOVE_PHONE_COMMAND:
-        return remove_phone_contact(args, book)
-    elif command == constants.SEARCH_ADDRESS_COMMAND:
-        return remove_email_contact(args, book)
-    elif command == constants.REMOVE_ADDRESS_COMMAND:
-        return remove_address_contact(args, book)
-    elif command == constants.REMOVE_BIRTHDAY_COMMAND:
-        return remove_birthday_contact(args, book)
     elif command == constants.ALL_CONTACTS_COMMAND:
         return all_contacts(args, book)
     elif command == constants.ALL_NOTES_COMMAND:

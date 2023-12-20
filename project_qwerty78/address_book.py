@@ -27,7 +27,7 @@ class AddressBook(UserDict):
             return found
         elif contact.Email.is_valid(search_value):
             for contact_var in self.contacts.values():
-                if contact_var.email and contact_var.email.value == search_value:
+                if contact_var.email and contact_var.email.value == search_value.lower():
                     found.append(contact_var)
 
             if len(found) == 0:

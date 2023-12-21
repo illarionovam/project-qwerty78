@@ -42,16 +42,16 @@ def process_command(command, args, book):
         return all_notes(args, book)
     elif command == constants.SHOW_BIRTHDAY_COMMAND:
         return show_birthday(args, book)
-    elif command == constants.HELP_COMMAND:
-        return help_menu()
-    elif command in constants.EXIT_COMMANDS:
-        return "Goodbye!"
     elif command == constants.SHOW_NOTE_COMMAND:
         return show_note(args, book)
     elif command == constants.ADD_NOTE_COMMAND:
         return add_note(args, book)
-    elif command == constants.DELETE_NOTE_BY_INDEX_COMMAND: 
-        return delete_note_by_index(args, book)
+    elif command == constants.REMOVE_NOTE_COMMAND: 
+        return remove_note(args, book)
+    elif command == constants.HELP_COMMAND:
+        return help_menu()
+    elif command in constants.EXIT_COMMANDS:
+        return "Goodbye!"
     else:
         return check_possible_commands(command)
     
@@ -104,25 +104,14 @@ def add_note(args, book):
     book.add_note(note.Note(content, title))
     return "Note added"
 
-
-def prepare_index(index, array_len):
-    try:
-        index = int(index)
-        if index < 1 or index > array_len:
-            raise exceptions.IncorrectArgsException("Invalid index")
-        return index - 1
-    except ValueError:
-        raise exceptions.IncorrectArgsException("Invalid index")
-
-
 @wrap_exception
-def delete_note_by_index(args, book):
+def remove_note(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.DELETE_NOTE_BY_INDEX_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_NOTE_COMMAND])
     
-    index = prepare_index(args[0], len(book.notes))
-    return book.delete_note_by_index(index)
+    index = book.prepare_index(args[0])
+    return book.remove_note(index)
 
 
 @wrap_exception
@@ -338,6 +327,9 @@ def show_note(args, book):
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
     
-    search_by, query = args[0], " ".join(args[1:])
-    found_notes, found_indexes = book.find_notes(query, search_by)  # initializing found notes and indexes
+    search_by, query = args[0].lower(), " ".join(args[1:])
+    if not search_by in ["title", "content", "index"]:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
+    found_notes, found_indexes = book.find_note_by_search_value(query, search_by)  # initializing found notes and indexes
     return book.show_notes(found_indexes, found_notes)

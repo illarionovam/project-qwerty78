@@ -49,6 +49,10 @@ def process_command(command, args, book):
         return add_note(args, book)
     elif command == constants.REMOVE_NOTE_COMMAND:
         return remove_note(args, book)
+    elif command == constants.EDIT_NOTE_TITLE_COMMAND:
+        return edit_note_title(args, book)
+    elif command == constants.EDIT_NOTE_CONTENT_COMMAND:
+        return edit_note_content(args, book)
     elif command == constants.ADD_TAG_COMMAND:
         return add_tag_to_note(args, book)
     elif command == constants.REMOVE_TAG_COMMAND:
@@ -113,6 +117,24 @@ def add_note(args, book):
     book.add_note(note.Note(content, title))
     EasterEgg.ENABLED = True
     return "Note added"
+
+@wrap_exception
+def edit_note_title(args, book):
+    if len(args) != 2:
+        raise exceptions.IncorrectArgsException("Correct command format required.")
+    index = book.prepare_index(args[0]) 
+    new_title = args[1]
+    book.notes[index].title = new_title
+    return f"Note at index {index + 1} title updated."  
+
+@wrap_exception
+def edit_note_content(args, book):
+    if len(args) < 2:
+        raise exceptions.IncorrectArgsException("Correct command format required.")
+    index = book.prepare_index(args[0])  
+    new_content = args[1]
+    book.notes[index].content = new_content
+    return f"Note at index {index + 1} content updated." 
 
 
 @wrap_exception

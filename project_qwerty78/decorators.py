@@ -16,6 +16,6 @@ def wrap_exception(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            return str(e)
+            return "[on rgb(221,0,81)]" + str(e)
 
     return inner

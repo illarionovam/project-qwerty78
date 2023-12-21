@@ -7,6 +7,7 @@ from . import note
 from .birthday_utility import get_birthdays_per_days_range
 from rich.table import Table
 from rich.style import Style
+from .easter_eggs import EasterEgg
 
 
 def process_command(command, args, book):
@@ -101,7 +102,9 @@ def add_note(args, book):
         else:
             break
 
+    EasterEgg.ENABLED = False
     book.add_note(note.Note(content, title))
+    EasterEgg.ENABLED = True
     return "Note added"
 
 @wrap_exception
@@ -154,7 +157,9 @@ def add_contact(args, book):
 
     address = input("Enter the contact's address (Enter - skip): ").strip()
 
+    EasterEgg.ENABLED = False    
     book.add_contact(contact.Contact(name, phone, birthday, email, address))
+    EasterEgg.ENABLED = True
     return "Contact added"
 
 

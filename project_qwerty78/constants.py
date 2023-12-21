@@ -22,6 +22,7 @@ SHOW_NOTE_COMMAND = "show-note"
 ADD_NOTE_COMMAND = "add-note"
 ADD_TAG_COMMAND = "add-tag"
 REMOVE_TAG_COMMAND = "remove-tag"
+REMOVE_TAGS_COMMAND = "remove-tags"
 REMOVE_NOTE_COMMAND = "remove-note"
 
 EXIT_COMMANDS = [EXIT_COMMAND, CLOSE_COMMAND]
@@ -49,6 +50,9 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
     HELP_COMMAND: HELP_COMMAND,
     SHOW_NOTE_COMMAND: SHOW_NOTE_COMMAND + " \[title/content] \[query]",
     ADD_NOTE_COMMAND: ADD_NOTE_COMMAND,
+    ADD_TAG_COMMAND: ADD_TAG_COMMAND + " \[index] \[tag]",
+    REMOVE_TAG_COMMAND: REMOVE_TAG_COMMAND + " \[index] \[tag]",
+    REMOVE_TAGS_COMMAND: REMOVE_TAGS_COMMAND + " \[index]"
     ADD_TAG_COMMAND: ADD_TAG_COMMAND + " \[note_title] \[tag]",
     REMOVE_TAG_COMMAND: REMOVE_TAG_COMMAND + " \[note_title] \[tag]",
     SHOW_NOTE_COMMAND: SHOW_NOTE_COMMAND + " \[index/title/content] \[query]",
@@ -77,6 +81,9 @@ COMMAND_TO_HELP_TEXT_MAP = {
     HELP_COMMAND: "Help menu.",
     SHOW_NOTE_COMMAND: "Prints requested notes by either title or content.",
     ADD_NOTE_COMMAND: "Adds note to the address book.",
+    ADD_TAG_COMMAND: "Adds a tag to a note by index. Indexes start at 1 and must be a single word without spaces.",
+    REMOVE_TAG_COMMAND: "Removes a tag from a note by index. Indexes start at 1 and must be a single word without spaces",
+    REMOVE_TAGS_COMMAND: "Removes all tags from the note at the specified index."
     ADD_TAG_COMMAND: "Adds a tag to a note by title.",
     REMOVE_TAG_COMMAND: "Removes a tag from a note by title."
     ADD_NOTE_COMMAND: "Adds note to the address book.",

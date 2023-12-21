@@ -7,6 +7,7 @@ from . import note
 from .birthday_utility import get_birthdays_per_days_range
 from rich.table import Table
 from rich.style import Style
+from .easter_eggs import EasterEgg
 
 
 def process_command(command, args, book):
@@ -42,20 +43,22 @@ def process_command(command, args, book):
         return all_notes(args, book)
     elif command == constants.SHOW_BIRTHDAY_COMMAND:
         return show_birthday(args, book)
-    elif command == constants.HELP_COMMAND:
-        return help_menu()
-    elif command in constants.EXIT_COMMANDS:
-        return "Goodbye!"
     elif command == constants.SHOW_NOTE_COMMAND:
         return show_note(args, book)
     elif command == constants.ADD_NOTE_COMMAND:
         return add_note(args, book)
+    elif command == constants.REMOVE_NOTE_COMMAND: 
+        return remove_note(args, book)
     elif command == constants.ADD_TAG_COMMAND:
         return add_tag_to_note(args, book)
     elif command == constants.REMOVE_TAG_COMMAND:
         return remove_tag_from_note(args, book)
     elif command == constants.REMOVE_TAGS_COMMAND:
         return remove_all_tags_from_note(args, book)
+    elif command == constants.HELP_COMMAND:
+        return help_menu()
+    elif command in constants.EXIT_COMMANDS:
+        return "Goodbye!"
     else:
         return check_possible_commands(command)
     
@@ -105,8 +108,19 @@ def add_note(args, book):
         else:
             break
 
+    EasterEgg.ENABLED = False
     book.add_note(note.Note(content, title))
+    EasterEgg.ENABLED = True
     return "Note added"
+
+@wrap_exception
+def remove_note(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_NOTE_COMMAND])
+    
+    index = book.prepare_index(args[0])
+    return book.remove_note(index)
 
 
 @wrap_exception
@@ -149,7 +163,9 @@ def add_contact(args, book):
 
     address = input("Enter the contact's address (Enter - skip): ").strip()
 
+    EasterEgg.ENABLED = False    
     book.add_contact(contact.Contact(name, phone, birthday, email, address))
+    EasterEgg.ENABLED = True
     return "Contact added"
 
 
@@ -322,8 +338,11 @@ def show_note(args, book):
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
     
-    search_by, query = args[0], " ".join(args[1:])
-    found_notes, found_indexes = book.find_notes(query, search_by)  # initializing found notes and indexes
+    search_by, query = args[0].lower(), " ".join(args[1:])
+    if not search_by in ["title", "content", "index"]:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
+    found_notes, found_indexes = book.find_note_by_search_value(query, search_by)  # initializing found notes and indexes
     return book.show_notes(found_indexes, found_notes)
 
     

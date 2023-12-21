@@ -6,6 +6,8 @@ class NoRecordException(Exception):
 
 class IncorrectArgsException(Exception):
     def __init__(self, message):
+        if not message.endswith("!"):
+            message = message + "."
         self.message = message
         super().__init__(self.message)
 

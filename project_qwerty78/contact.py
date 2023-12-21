@@ -31,7 +31,7 @@ class Name(Field):
         else:
             if name == "":
                 raise IncorrectArgsException("A girl has no name? No chance!")
-            raise IncorrectArgsException("Their dad must be Elon Musk... So sorry, but only latin letters are allowed.")
+            raise IncorrectArgsException("Their dad must be Elon Musk... So sorry, but only latin letters are allowed")
 
     @staticmethod
     def is_valid(name):
@@ -45,7 +45,7 @@ class Phone(Field):
                 EasterEgg.is_interesting_phone(phone)
             super().__init__(phone)
         else:
-            raise IncorrectArgsException("The phone must be 10 characters long.")
+            raise IncorrectArgsException("The phone must be 10 characters long")
 
     @staticmethod
     def is_valid(phone):
@@ -57,7 +57,7 @@ class Email(Field):
         if Email.is_valid(email):
             super().__init__(email.lower())
         else:
-            raise IncorrectArgsException("The email is not valid.")
+            raise IncorrectArgsException("The email is not valid")
 
     @staticmethod
     def is_valid(email):
@@ -76,7 +76,7 @@ class Birthday(Field):
                 EasterEgg.is_interesting_birthday(date_string)
             super().__init__(date_string)
         else:
-            raise IncorrectArgsException("The birthday date must be in the format DD.MM.YYYY and not later than today.")
+            raise IncorrectArgsException("The birthday date must be in the format DD.MM.YYYY and not later than today")
         
     @staticmethod
     def cast_to_standard_format(date_string):

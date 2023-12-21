@@ -76,8 +76,9 @@ class Birthday(Field):
                 EasterEgg.is_interesting_birthday(date_string)
             super().__init__(date_string)
         else:
-            raise IncorrectArgsException("Should be a valid date (that is less or equal to today's date) in format DD.MM.YYYY")
-        
+            raise IncorrectArgsException("Should be a valid date (that is less or equal to today's date) in format "
+                                         "DD.MM.YYYY")
+
     @staticmethod
     def cast_to_standard_format(date_string):
         date_object = datetime.strptime(date_string, "%d.%m.%Y")
@@ -102,61 +103,61 @@ class Contact:
 
     def printable_view(self, table):
         table.add_row(
-            str(self.name), 
-            "\n".join(str(phone) for phone in self.phones), 
-            str(self.email) if self.email else "", 
-            str(self.birthday) if self.birthday else "", 
+            str(self.name),
+            "\n".join(str(phone) for phone in self.phones),
+            str(self.email) if self.email else "",
+            str(self.birthday) if self.birthday else "",
             re.sub("\[", "\\[", str(self.address)) if self.address else "")
-        
+
         return table
-    
+
     def add_phone(self, phone):
         result = list(filter(lambda phone_obj: phone_obj.value == phone, self.phones))
         if len(result) > 0:
             return "Phone already exists."
         else:
             self.phones.append(Phone(phone))
-            return "Added phone."  
+            return "Added phone."
 
     def set_name(self, name):
         self.name = Name(name)
-        return "Updated name."          
-        
+        return "Updated name."
+
     def set_address(self, address):
-        overriden = (self.address != None)
+        overriden = (self.address is not None)
         self.address = Address(address)
         return "Updated address." if overriden else "Added address."
-    
+
     def set_birthday(self, birthday):
-        overriden = (self.birthday != None)
+        overriden = (self.birthday is not None)
         self.birthday = Birthday(birthday)
         return "Updated birthday." if overriden else "Added birthday."
-        
+
     def set_email(self, email):
-        overriden = (self.email != None)
+        overriden = (self.email is not None)
         self.email = Email(email)
         return "Updated email." if overriden else "Added email."
-        
+
     @confirm_remove
     def remove_email(self):
         self.email = None
         return "Removed email."
-    
+
     @confirm_remove
     def remove_address(self):
         self.address = None
         return "Removed address."
-    
+
     @confirm_remove
     def remove_phones(self):
         self.phones = []
         return "Removed all phones."
-    
+
     @confirm_remove
     def remove_phone(self, phone):
         self.phones = list(filter(lambda phone_obj: phone_obj.value != phone, self.phones))
         return "Removed phone."
-    
+
     @confirm_remove
     def remove_birthday(self):
         self.birthday = None

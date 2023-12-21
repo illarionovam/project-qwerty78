@@ -103,8 +103,9 @@ class AddressBook(UserDict):
         return matched_notes, matched_indexes
 
     def delete_note_by_index(self, index):
-        if index < 1 or index > len(self.notes):
+        if index >= len(self.notes):
             return "Invalid index. Note not found."
 
-        del self.notes[index - 1]
-        return f"Note at index {index} has been deleted."
+        del self.notes[index]
+            return f"Note at index {index} has been deleted."
+

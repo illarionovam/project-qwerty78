@@ -63,7 +63,7 @@ class Note:
         table.add_row(
             str(index + 1), 
             str(self.title) if self.title else "",
-            ', '.join(self.tags) if self.tags else "", 
+            '\n'.join(str(tag) for tag in self.tags), 
             re.sub("\[", "\\[", str(self.content)))
         
         return table
@@ -81,10 +81,12 @@ class Note:
     def add_tag(self, tag):
         new_tag = Tag(tag)                      # Creates a Tag object that performs validation
         if new_tag.value in self.tags:          # Check if the tag exists
-            raise ValueError(f"Tag '{tag}' already exists in this note.")
+            raise ValueError(f"Tag {tag} already exists in this note.")
         self.tags.add(new_tag.value)
+        return f"Added tag {tag} to the note."
     
     @confirm_remove
     def remove_tag(self, tag):
         normalized_tag = Tag(tag).value         # Tag normalization
         self.tags.discard(normalized_tag)
+        return f"Removed tag {tag} from the note."

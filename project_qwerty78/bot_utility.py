@@ -353,17 +353,8 @@ def add_tag_to_note(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_TAG_COMMAND])
     
     note_index = book.prepare_index(args[0])
-
-    try:
-        note_var = book.notes[note_index]
-    except IndexError:
-        raise exceptions.NoRecordException(f"No note found with index '{note_index + 1}'. Index is out of range.")
-
-    try:
-        note_var.add_tag(args[1])
-        return f"Tag '{args[1]}' added to note at index {note_index + 1}."
-    except ValueError as e:
-        return str(e)   # Displaying an error message
+    note_var = book.notes[note_index]
+    return note_var.add_tag(args[1])
 
 
 @wrap_exception
@@ -374,8 +365,7 @@ def remove_tag_from_note(args, book):
     
     note_index = book.prepare_index(args[0])
     note_var = book.notes[note_index]
-    note_var.remove_tag(args[1])
-    return f"Tag '{args[1]}' removed from note at index {note_index + 1}."
+    return note_var.remove_tag(args[1])
 
 
 @wrap_exception
@@ -385,12 +375,6 @@ def remove_all_tags_from_note(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TAGS_COMMAND])
     
     note_index = book.prepare_index(args[0]) 
-    try:
-        note_var = book.notes[note_index]
-        if not note_var.tags:
-            return f"No tags to remove from note at index {note_index + 1}."
-
-        note_var.tags.clear()
-        return f"All tags removed from note at index {note_index + 1}."
-    except IndexError:
-        raise exceptions.NoRecordException(f"No note found with index '{note_index + 1}'. Index is out of range.")
+    note_var = book.notes[note_index]
+    note_var.tags.clear()
+    return f"Removed all tags from note at index {note_index + 1}."

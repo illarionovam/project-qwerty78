@@ -24,7 +24,7 @@ def main():
 
                 if command in EXIT_COMMANDS and len(args) == 0:
                     break
-            except Exception as e:
+            except:
                 print(INVALID_COMMAND)
 
     write_to_file(book)

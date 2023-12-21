@@ -87,6 +87,6 @@ def write_notes_to_file(notes):
         for note_var in notes:
             writer.writerow({
                 "title": str(note_var.title),
-                #"tags": " ".join(str(tag) for tag in note_var.tags) if len(note_var.tags) > 0 else "None",
+                "tags": " ".join(str(tag) for tag in note_var.tags) if len(note_var.tags) > 0 else "None",
                 "content": str(note_var.content)
             })

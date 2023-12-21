@@ -25,7 +25,7 @@ class Title(Field):
 
     @staticmethod
     def is_valid(title):
-        return re.fullmatch(r'[A-Za-z0-9 ]{,15}\b', title) is not None
+        return re.fullmatch(r'[A-Za-z0-9 ]{1,15}\b', title) is not None
 
 
 class Content(Field):

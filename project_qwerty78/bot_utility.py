@@ -49,20 +49,16 @@ def process_command(command, args, book):
         return add_note(args, book)
     elif command == constants.REMOVE_NOTE_COMMAND: 
         return remove_note(args, book)
-    elif command == constants.HELP_COMMAND:
-        return help_menu()
-    elif command in constants.EXIT_COMMANDS:
-        return "Goodbye!"
-    elif command == constants.SHOW_NOTE_COMMAND:
-        return show_note(args, book)
-    elif command == constants.ADD_NOTE_COMMAND:
-        return add_note(args, book)
     elif command == constants.ADD_TAG_COMMAND:
         return add_tag_to_note(args, book)
     elif command == constants.REMOVE_TAG_COMMAND:
         return remove_tag_from_note(args, book)
     elif command == constants.REMOVE_TAGS_COMMAND:
         return remove_all_tags_from_note(args, book)
+    elif command == constants.HELP_COMMAND:
+        return help_menu()
+    elif command in constants.EXIT_COMMANDS:
+        return "Goodbye!"
     else:
         return check_possible_commands(command)
     

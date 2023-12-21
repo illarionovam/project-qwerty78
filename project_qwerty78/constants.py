@@ -48,15 +48,11 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
     ALL_NOTES_COMMAND: ALL_NOTES_COMMAND,
     SHOW_BIRTHDAY_COMMAND: SHOW_BIRTHDAY_COMMAND + " \[range]",
     HELP_COMMAND: HELP_COMMAND,
-    SHOW_NOTE_COMMAND: SHOW_NOTE_COMMAND + " \[title/content] \[query]",
     ADD_NOTE_COMMAND: ADD_NOTE_COMMAND,
     ADD_TAG_COMMAND: ADD_TAG_COMMAND + " \[index] \[tag]",
     REMOVE_TAG_COMMAND: REMOVE_TAG_COMMAND + " \[index] \[tag]",
-    REMOVE_TAGS_COMMAND: REMOVE_TAGS_COMMAND + " \[index]"
-    ADD_TAG_COMMAND: ADD_TAG_COMMAND + " \[note_title] \[tag]",
-    REMOVE_TAG_COMMAND: REMOVE_TAG_COMMAND + " \[note_title] \[tag]",
+    REMOVE_TAGS_COMMAND: REMOVE_TAGS_COMMAND + " \[index]",
     SHOW_NOTE_COMMAND: SHOW_NOTE_COMMAND + " \[index/title/content] \[query]",
-    ADD_NOTE_COMMAND: ADD_NOTE_COMMAND,
     REMOVE_NOTE_COMMAND: REMOVE_NOTE_COMMAND + " \[index]"
 }
 
@@ -83,9 +79,6 @@ COMMAND_TO_HELP_TEXT_MAP = {
     ADD_NOTE_COMMAND: "Adds note to the address book.",
     ADD_TAG_COMMAND: "Adds a tag to a note by index. Indexes start at 1 and must be a single word without spaces.",
     REMOVE_TAG_COMMAND: "Removes a tag from a note by index. Indexes start at 1 and must be a single word without spaces",
-    REMOVE_TAGS_COMMAND: "Removes all tags from the note at the specified index."
-    ADD_TAG_COMMAND: "Adds a tag to a note by title.",
-    REMOVE_TAG_COMMAND: "Removes a tag from a note by title."
-    ADD_NOTE_COMMAND: "Adds note to the address book.",
+    REMOVE_TAGS_COMMAND: "Removes all tags from the note at the specified index.",
     REMOVE_NOTE_COMMAND: "Removes note from the address book."
 }

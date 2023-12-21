@@ -177,9 +177,9 @@ def check_possible_commands(command):
     if len(possible_commands) != 0:
         table.add_row("Maybe, you wanted to run one of these commands?\n", style=Style(bgcolor="rgb(255,255,255)"))
         for command in possible_commands:
-            table.add_row(command)
+            table.add_row(constants.COMMAND_TO_COMMAND_FORMAT_MAP[command])
 
-    return (table)
+    return table
 
 
 @wrap_exception

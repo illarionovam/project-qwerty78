@@ -55,10 +55,10 @@ def read_notes_from_file():
                 """
                 if row["title"] != "None":
                     note_var.add_title(row["title"])
+                    """
                 if row["tags"] != "None":
                     for tag in row["tags"].split(" "):
                         note_var.add_tag(tag)
-                        """
                 notes.append(note_var)
     finally:            
         return notes  

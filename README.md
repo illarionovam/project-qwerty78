@@ -29,6 +29,8 @@ The bot will try to guess the command if the user makes a typo.
 
 For the remove commands, the bot will ask you to confirm the command.
 
+On particular input bot can react with hidden easter eggs. Try to find them if you want 😉
+
 ### Utility commands
 
 - `close` or `exit`
@@ -52,7 +54,7 @@ For the remove commands, the bot will ask you to confirm the command.
     - Sets `[new_name]` for the existing contact `[old_name]`.
 
 - `add-phone [name] [phone]`
-    - Adds phone `[phone]` to the existing contact `[name]`.
+    - Adds `[phone]` to the existing contact `[name]`.
 
 - `remove-phone [name] [phone]`
     - Removes `[phone]` from the existing contact `[name]`.
@@ -95,6 +97,18 @@ For the remove commands, the bot will ask you to confirm the command.
 - `remove-note [index]`
     - Removes note `[index]` from the address book.
 
+- `add-tag [index] [tag]`
+    - Adds `[tag]` to the existing note `[index]`.
+
+- `remove-tag [index] [tag]`
+    - Removes `[tag]` from the existing note `[index]`.
+
+- `remove-tags [index]`
+    - Removes all tags from the existing note `[index]`.
+
+- `all-notes`
+    - Prints all notes from the address book.
+
 ## Data validation
 
 - Name
@@ -110,6 +124,8 @@ For the remove commands, the bot will ask you to confirm the command.
     - Should be a valid date (that is less or equal to today's date) in format `DD.MM.YYYY`.
 - Title
     - Should contain only latin letters, digits and spaces, no longer than 15 characters.
+- Tag
+    - Should contain only latin letters and digits, no longer than 10 characters. 
 
 ## Data constancy between bot's executions
 

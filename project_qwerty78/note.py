@@ -21,7 +21,7 @@ class Title(Field):
         if Title.is_valid(title):
             super().__init__(title)
         else:
-            raise IncorrectArgsException("The title is not valid")
+            raise IncorrectArgsException("Should contain only latin letters, digits and spaces, no longer than 15 characters")
 
     @staticmethod
     def is_valid(title):
@@ -35,7 +35,7 @@ class Content(Field):
         if Content.is_valid(content):
             super().__init__(content)
         else:
-            raise IncorrectArgsException("The content should not be empty")
+            raise IncorrectArgsException("Should not be empty")
 
     @staticmethod
     def is_valid(name):

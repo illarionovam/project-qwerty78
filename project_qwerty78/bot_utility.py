@@ -176,10 +176,16 @@ def check_possible_commands(command):
             if key not in possible_commands:
                 possible_commands.append(key)
 
-    return (constants.INVALID_COMMAND
-            if len(possible_commands) == 0
-            else (f"{constants.INVALID_COMMAND}\nMaybe, you wanted to run one of these commands?\n\n"
-                  + "\n".join(constants.COMMAND_TO_COMMAND_FORMAT_MAP[x] for x in possible_commands)))
+    table = Table(box=None, show_header=False)
+    table.add_column(style=Style(bgcolor="rgb(88,205,54)"))
+    table.add_row(constants.INVALID_COMMAND, style=Style(bgcolor=constants.RED_COLOR))
+
+    if len(possible_commands) != 0:
+        table.add_row("Maybe, you wanted to run one of these commands?\n", style=Style(bgcolor="rgb(255,255,255)"))
+        for command in possible_commands:
+            table.add_row(constants.COMMAND_TO_COMMAND_FORMAT_MAP[command])
+
+    return table
 
 
 @wrap_exception

@@ -1,3 +1,6 @@
+RED_COLOR = "rgb(221,0,81)"
+ERROR_STYLE = f"[on {RED_COLOR}]"
+
 INVALID_COMMAND = "Invalid command."
 EXIT_COMMAND = "exit"
 CLOSE_COMMAND = "close"
@@ -37,7 +40,7 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
     SET_BIRTHDAY_COMMAND: SET_BIRTHDAY_COMMAND + " \[name] \[birthday]",
     SET_ADDRESS_COMMAND: SET_ADDRESS_COMMAND + " \[name] \[address]",
     SET_EMAIL_COMMAND: SET_EMAIL_COMMAND + " \[name] \[email]",
-    SHOW_CONTACT_COMMAND: SHOW_CONTACT_COMMAND + " \[name]",
+    SHOW_CONTACT_COMMAND: SHOW_CONTACT_COMMAND + " \[search_value]",
     REMOVE_CONTACT_COMMAND: REMOVE_CONTACT_COMMAND + " \[name]",
     REMOVE_EMAIL_COMMAND: REMOVE_EMAIL_COMMAND + " \[name]",
     REMOVE_ADDRESS_COMMAND: REMOVE_ADDRESS_COMMAND + " \[name]",
@@ -60,26 +63,36 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
 COMMAND_TO_HELP_TEXT_MAP = {
     CLOSE_COMMAND: "Closes the bot.",
     EXIT_COMMAND: "Closes the bot.",
+    HELP_COMMAND: "Shows manual for the bot execution.",
+
     ADD_CONTACT_COMMAND: "Adds contact to the address book.",
-    ADD_PHONE_COMMAND: "Adds phone to the existing contact.",
-    SET_NAME_COMMAND: "Sets new name for the existing contact.",
-    SET_BIRTHDAY_COMMAND: "Sets birthday of the existing contact.",
-    SET_ADDRESS_COMMAND: "Sets address of the existing contact.",
-    SET_EMAIL_COMMAND: "Sets email of the existing contact.",
     SHOW_CONTACT_COMMAND: "Prints requested contacts.",
-    REMOVE_CONTACT_COMMAND: "Removes contact from the address book.",
-    REMOVE_EMAIL_COMMAND: "Removes email from the requested contact.",
-    REMOVE_ADDRESS_COMMAND: "Removes address from the requested contact.",
-    REMOVE_BIRTHDAY_COMMAND: "Removes birthday from the requested contact.",
-    REMOVE_PHONES_COMMAND: "Removes all phones from the requested contact.",
-    REMOVE_PHONE_COMMAND: "Removes requested phone from the requested contact.",
+    REMOVE_CONTACT_COMMAND: "Removes contact \[name] from the address book.",
+
+    SET_NAME_COMMAND: "Sets \[new_name] for the existing contact \[old_name].",
+
+    ADD_PHONE_COMMAND: "Adds phone \[phone] to the existing contact \[name].",
+    REMOVE_PHONE_COMMAND: "Removes \[phone] from the existing contact \[name].",
+    REMOVE_PHONES_COMMAND: "Removes all phones from the existing contact \[name].",
+    
+    SET_BIRTHDAY_COMMAND: "Sets \[birthday] of the existing contact \[name].",
+    REMOVE_BIRTHDAY_COMMAND: "Removes birthday from the existing contact \[name].",
+
+    SET_EMAIL_COMMAND: "Sets \[email] of the existing contact \[name].",
+    REMOVE_EMAIL_COMMAND: "Removes email from the existing contact \[name].",
+
+    SET_ADDRESS_COMMAND: "Sets \[address] of the existing contact \[name].",
+    REMOVE_ADDRESS_COMMAND: "Removes address from the existing contact \[name].",
+
+    SHOW_BIRTHDAY_COMMAND: "Shows coming contacts' birthdays in the next \[range] days.",    
+    
     ALL_CONTACTS_COMMAND: "Prints all contacts from the address book.",
-    SHOW_BIRTHDAY_COMMAND: "Shows coming contacts' birthdays in the next N days.",
-    HELP_COMMAND: "Help menu.",
-    SHOW_NOTE_COMMAND: "Prints requested notes by either title or content.",
+    
     ADD_NOTE_COMMAND: "Adds note to the address book.",
-    REMOVE_NOTE_COMMAND: "Removes note from the address book.",
+    SHOW_NOTE_COMMAND: "Prints requested notes by either index, title or content.",
+    REMOVE_NOTE_COMMAND: "Removes note \[index] from the address book.",
+
     ADD_TAG_COMMAND: "Adds a tag to a note by index. Indexes start at 1 and must be a single word without spaces.",
     REMOVE_TAG_COMMAND: "Removes a tag from a note by index. Indexes start at 1 and must be a single word without spaces",
-    REMOVE_TAGS_COMMAND: "Removes all tags from the note at the specified index.",
+    REMOVE_TAGS_COMMAND: "Removes all tags from the note at the specified index."
 }

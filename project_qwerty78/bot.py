@@ -1,5 +1,5 @@
 from .bot_utility import process_command
-from .constants import INVALID_COMMAND, EXIT_COMMANDS
+from .constants import INVALID_COMMAND, EXIT_COMMANDS, ERROR_STYLE
 from rich.console import Console
 from .input_output_utility import read_from_file, write_to_file
 
@@ -25,7 +25,7 @@ def main():
                 if command in EXIT_COMMANDS and len(args) == 0:
                     break
             except Exception as e:
-                print(INVALID_COMMAND)
+                console.print(print(ERROR_STYLE + INVALID_COMMAND))
 
     write_to_file(book)
 

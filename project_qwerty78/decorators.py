@@ -1,3 +1,5 @@
+from .constants import ERROR_STYLE
+
 def confirm_remove(func):
     def inner(*args, **kwargs):
         user_input = input("Are you sure you want to remove the entry? There is no way back... (yes/no)")
@@ -16,6 +18,6 @@ def wrap_exception(func):
         try:
             return func(*args, **kwargs)
         except Exception as e:
-            return "[on rgb(221,0,81)]" + str(e)
+            return ERROR_STYLE + str(e)
 
     return inner

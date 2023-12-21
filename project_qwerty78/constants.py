@@ -1,3 +1,6 @@
+RED_COLOR = "rgb(221,0,81)"
+ERROR_STYLE = f"[on {RED_COLOR}]"
+
 INVALID_COMMAND = "Invalid command."
 EXIT_COMMAND = "exit"
 CLOSE_COMMAND = "close"

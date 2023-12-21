@@ -4,6 +4,7 @@ from .contact import get_contact_table
 from .note import get_note_table
 from .decorators import confirm_remove
 from . import contact
+from rich.table import Table
 
 
 class AddressBook(UserDict):
@@ -109,7 +110,8 @@ class AddressBook(UserDict):
         matched_indexes = []
         for index, note in enumerate(self.notes):
             if (search_by == "title" and note.matches_title(query)) or \
-                    (search_by == "content" and note.matches_content(query)):
+                    (search_by == "content" and note.matches_content(query)) or \
+                    (search_by == "tag" and note.matches_tag(query)):
                 matched_notes.append(note)
                 matched_indexes.append(index)
 
@@ -125,3 +127,25 @@ class AddressBook(UserDict):
     def remove_note(self, index):
         del self.notes[index]
         return f"Removed the note at index {index + 1}."
+    
+    def sort_notes_by_tag(self, asc=True):
+        all_tags = set()
+        for note_var in self.notes:
+            all_tags |= note_var.tags
+
+        if len(all_tags) == 0:
+            raise exceptions.EmptyContainerException("There are no tags in the notes.")
+
+        table = Table(box=None, show_header=False)
+        table.add_column()
+
+        for tag in sorted(list(all_tags), reverse=(not asc)):
+            found_notes, found_indexes = self.find_note_by_search_value(tag, "tag")
+            table.add_row(tag)
+            table.add_row(self.show_notes(found_indexes, found_notes))
+
+        return table
+    
+    def sort_notes(self, asc=True):
+        self.notes = sorted(self.notes, key=lambda x: x.created_at, reverse=(not asc))
+        return "Finished sorting."

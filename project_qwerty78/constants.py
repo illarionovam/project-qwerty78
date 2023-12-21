@@ -33,6 +33,11 @@ SET_TITLE_COMMAND = "set-title"
 REMOVE_TITLE_COMMAND = "remove-title"
 SET_CONTENT_COMMAND = "set-content"
 ALL_NOTES_COMMAND = "all-notes"
+FIND_NOTES_BY_TAG_COMMAND = "find-notes-by-tag"
+SORT_NOTES_BY_TAG_ASC_COMMAND = "sort-notes-by-tag-asc"
+SORT_NOTES_BY_TAG_DESC_COMMAND = "sort-notes-by-tag-desc"
+SORT_NOTES_DATE_ASC_COMMAND = "sort-notes-date-asc"
+SORT_NOTES_DATE_DESC_COMMAND = "sort-notes-date-desc"
 
 EXIT_COMMANDS = [EXIT_COMMAND, CLOSE_COMMAND]
 
@@ -66,6 +71,11 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
     REMOVE_TITLE_COMMAND: REMOVE_TITLE_COMMAND + " \[index]",
     SET_CONTENT_COMMAND: SET_CONTENT_COMMAND + " \[index] \[content]",
     ALL_NOTES_COMMAND: ALL_NOTES_COMMAND    
+    FIND_NOTES_BY_TAG_COMMAND: FIND_NOTES_BY_TAG_COMMAND + " \[tag]",
+    SORT_NOTES_BY_TAG_ASC_COMMAND: SORT_NOTES_BY_TAG_ASC_COMMAND,
+    SORT_NOTES_BY_TAG_DESC_COMMAND: SORT_NOTES_BY_TAG_DESC_COMMAND,
+    SORT_NOTES_DATE_ASC_COMMAND: SORT_NOTES_DATE_ASC_COMMAND,
+    SORT_NOTES_DATE_DESC_COMMAND: SORT_NOTES_DATE_DESC_COMMAND
 }
 
 COMMAND_TO_HELP_TEXT_MAP = {
@@ -97,4 +107,9 @@ COMMAND_TO_HELP_TEXT_MAP = {
     REMOVE_TITLE_COMMAND: "Removes title from the existing note \[index].",
     SET_CONTENT_COMMAND: "Sets \[content] for the axisting note \[index].",
     ALL_NOTES_COMMAND: "Prints all notes from the address book."
+    SORT_NOTES_BY_TAG_ASC_COMMAND: "Sorts and prints all notes by tags, A-Z.",
+    SORT_NOTES_BY_TAG_DESC_COMMAND: "Sorts and prints all notes by tags, Z-A.",
+    SORT_NOTES_DATE_ASC_COMMAND: "Sorts and prints all notes by creation date, oldest first.",
+    SORT_NOTES_DATE_DESC_COMMAND: "Sorts and prints all notes by creation date, newest first."   
+    FIND_NOTES_BY_TAG_COMMAND: "Finds and prints all notes with a specific tag.",
 }

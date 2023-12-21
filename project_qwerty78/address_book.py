@@ -125,3 +125,70 @@ class AddressBook(UserDict):
     def remove_note(self, index):
         del self.notes[index]
         return f"Removed the note at index {index + 1}."
+    
+    def show_notes_by_tag(self, tag):
+        normalized_tag = tag.lower()
+        found_notes_with_indexes = [(index, note) for index, note in enumerate(self.notes, start=1) 
+        if normalized_tag in (t.lower() for t in note.tags)]
+
+        if not found_notes_with_indexes:
+            raise exceptions.EmptyContainerException(f"No notes with tag '{tag}' found.")
+
+        table = get_note_table()
+
+        for original_index, note in found_notes_with_indexes:
+            tags = ', '.join(sorted(note.tags))
+            table.add_row(str(original_index), note.title.value if note.title else "", tags, note.content.value)
+
+        return table
+
+
+    def sort_notes_asc(self):
+        sorted_notes_with_indexes = sorted(
+            enumerate(self.notes, start=1), 
+            key=lambda x: sorted(x[1].tags) if x[1].tags else []
+        )
+        return self.format_notes_for_display(sorted_notes_with_indexes)
+
+
+    def sort_notes_desc(self):
+        sorted_notes_with_indexes = sorted(
+            enumerate(self.notes, start=1), 
+            key=lambda x: sorted(x[1].tags, reverse=True) if x[1].tags else [],
+            reverse=True
+        )
+        return self.format_notes_for_display(sorted_notes_with_indexes)
+
+   
+    def format_notes_for_display(self, notes_with_indexes):
+        if not notes_with_indexes:
+            raise exceptions.EmptyContainerException("There are no notes in the address book.")
+
+        table = get_note_table()
+        for original_index, note in notes_with_indexes:
+            tags = ', '.join(sorted(note.tags) if note.tags else '')
+            created_at = note.created_at.strftime('%Y-%m-%d %H:%M:%S') 
+            table.add_row(
+                str(original_index), 
+                note.title.value if note.title else "", 
+                tags, 
+                note.content.value,
+                created_at 
+            )
+        return table
+    
+    
+    def sort_notes_by_date_asc(self):
+        sorted_notes_with_indexes = sorted(
+            enumerate(self.notes, start=1), 
+            key=lambda x: x[1].created_at
+        )
+        return self.format_notes_for_display(sorted_notes_with_indexes)
+
+    def sort_notes_by_date_desc(self):
+        sorted_notes_with_indexes = sorted(
+            enumerate(self.notes, start=1), 
+            key=lambda x: x[1].created_at,
+            reverse=True
+        )
+        return self.format_notes_for_display(sorted_notes_with_indexes)

@@ -61,6 +61,16 @@ def process_command(command, args, book):
         return remove_tag_from_note(args, book)
     elif command == constants.REMOVE_TAGS_COMMAND:
         return remove_all_tags_from_note(args, book)
+    elif command == constants.FIND_NOTES_BY_TAG_COMMAND:
+        return find_and_show_notes_by_tag(args, book)
+    elif command == constants.SORT_NOTES_BY_TAG_ASC_COMMAND:
+        return sort_notes_by_tag_asc(args, book)
+    elif command == constants.SORT_NOTES_BY_TAG_DESC_COMMAND:
+        return sort_notes_by_tag_desc(args, book)
+    elif command == constants.SORT_NOTES_DATE_ASC_COMMAND:
+        return sort_notes_by_date_asc_command(args, book)
+    elif command == constants.SORT_NOTES_DATE_DESC_COMMAND:
+        return sort_notes_by_date_desc_command(args, book)
     elif command == constants.HELP_COMMAND:
         return help_menu()
     elif command in constants.EXIT_COMMANDS:
@@ -435,3 +445,37 @@ def remove_all_tags_from_note(args, book):
     note_var = book.notes[note_index]
     note_var.tags.clear()
     return f"Removed all tags from note at index {note_index + 1}."
+
+@wrap_exception
+def find_and_show_notes_by_tag(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.FIND_NOTES_BY_TAG_COMMAND])
+    
+    tag = args[0]
+    return book.show_notes_by_tag(tag)
+
+
+@wrap_exception
+def sort_notes_by_tag_asc(args, book):
+    if args:
+        raise exceptions.IncorrectArgsException("This command does not take any arguments.")
+    return book.sort_notes_asc()
+
+@wrap_exception
+def sort_notes_by_tag_desc(args, book):
+    if args:
+        raise exceptions.IncorrectArgsException("This command does not take any arguments.")
+    return book.sort_notes_desc()
+
+@wrap_exception
+def sort_notes_by_date_asc_command(args, book):
+    if args:
+        raise exceptions.IncorrectArgsException("This command does not take any arguments.")
+    return book.sort_notes_by_date_asc()
+
+@wrap_exception
+def sort_notes_by_date_desc_command(args, book):
+    if args:
+        raise exceptions.IncorrectArgsException("This command does not take any arguments.")
+    return book.sort_notes_by_date_desc()

@@ -4,6 +4,7 @@ from .exceptions import IncorrectArgsException
 from rich.table import Table
 from rich.style import Style
 from .decorators import confirm_remove
+from datetime import datetime
 
 
 def get_note_table():
@@ -11,7 +12,7 @@ def get_note_table():
 
     header_style = Style(bgcolor="rgb(201,58,57)")
     table_style = Style(color="rgb(255,255,255)", bgcolor="rgb(42,42,42)")
-    for column in ["Index", "Title", "Tags", "Content"]:
+    for column in ["Index", "Title", "Tags", "Content", "Created At"]:
         table.add_column(column, header_style=header_style, style=table_style)
 
     return table
@@ -60,15 +61,17 @@ class Note:
     def __init__(self, content, title=None):
         self.content = Content(content)
         self.title = Title(title) if title else None
-        self.tags = set()  # Using a set to store unique tags
+        self.tags = set()   # Using a set to store unique tags
+        self.created_at = datetime.now()
 
     def printable_view(self, table, index):
         table.add_row(
             str(index + 1),
             str(self.title) if self.title else "",
-            '\n'.join(str(tag) for tag in self.tags),
-            re.sub("\[", "\\[", str(self.content)))
-
+            '\n'.join(str(tag) for tag in self.tags), 
+            re.sub("\[", "\\[", str(self.content)),
+            self.created_at.strftime('%Y-%m-%d %H:%M:%S'))
+        
         return table
 
     def matches_title(self, query):

@@ -30,6 +30,8 @@ ADD_TAG_COMMAND = "add-tag"
 REMOVE_TAG_COMMAND = "remove-tag"
 REMOVE_TAGS_COMMAND = "remove-tags"
 ALL_NOTES_COMMAND = "all-notes"
+EDIT_NOTE_TITLE_COMMAND = "edit-note-title"
+EDIT_NOTE_CONTENT_COMMAND = "edit-note-content"
 
 EXIT_COMMANDS = [EXIT_COMMAND, CLOSE_COMMAND]
 
@@ -88,4 +90,6 @@ COMMAND_TO_HELP_TEXT_MAP = {
     REMOVE_TAG_COMMAND: "Removes \[tag] from the existing note \[index].",
     REMOVE_TAGS_COMMAND: "Removes all tags from the existing note \[index].",
     ALL_NOTES_COMMAND: "Prints all notes from the address book."
+    EDIT_NOTE_TITLE_COMMAND: Edit note title command + " \[index] \[new_title]",
+    EDIT_NOTE_CONTENT_COMMAND: Edit note content command + " \[index] \[new_content]",
 }

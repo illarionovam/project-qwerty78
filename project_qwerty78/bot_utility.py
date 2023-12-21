@@ -179,7 +179,7 @@ def check_possible_commands(command):
         for command in possible_commands:
             table.add_row(constants.COMMAND_TO_COMMAND_FORMAT_MAP[command])
 
-    return (table)
+    return table
 
 
 @wrap_exception

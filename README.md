@@ -21,7 +21,6 @@ It saves your data locally on your machine.
 1. Run `python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps project_qwerty78==0.0.0`
 2. Start the bot with `run_bot` in the console.
 
-
 ## Commands
 
 All commands are *case-insensitive*.

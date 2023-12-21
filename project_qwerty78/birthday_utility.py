@@ -1,5 +1,7 @@
 import datetime
 from collections import defaultdict
+from rich.table import Table
+from rich.style import Style
 
 def update_weekday_birthday(dt):
     if dt.weekday() == 5:               # if birthday is on Saturday, set it on Monday
@@ -62,11 +64,21 @@ def get_birthdays_per_days_range(users, range):
     final_list = []
     while i > 0:
         if day in birthdays_per_week_map.keys():
-            final_list.append(days[day] + ': ' + ', '.join(birthdays_per_week_map[day]))
+            final_list.append((days[day], ', '.join(birthdays_per_week_map[day])))
         day = (day + 1) % 7
         i -= 1
 
     if len(final_list) == 0:
         return f"THere are no birthdays in the next {range} days starting today."
     
-    return '\n'.join(final_list)
+    table = Table(show_lines=True)
+
+    header_style = Style(bgcolor="rgb(0,87,184)")
+    table_style = Style(bgcolor="rgb(255,215,0)")
+    for column in ["Day", "Birthdays"]:
+        table.add_column(column, header_style=header_style, style=table_style)
+
+    for entry in final_list:
+        table.add_row(entry[0], entry[1])
+
+    return table

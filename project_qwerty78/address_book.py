@@ -4,6 +4,7 @@ from .contact import get_contact_table
 from .note import get_note_table
 from .decorators import confirm_remove
 from . import contact
+from rich.table import Table
 
 
 class AddressBook(UserDict):
@@ -109,7 +110,8 @@ class AddressBook(UserDict):
         matched_indexes = []
         for index, note in enumerate(self.notes):
             if (search_by == "title" and note.matches_title(query)) or \
-                    (search_by == "content" and note.matches_content(query)):
+                    (search_by == "content" and note.matches_content(query)) or \
+                    (search_by == "tag" and note.matches_tag(query)):
                 matched_notes.append(note)
                 matched_indexes.append(index)
 
@@ -126,69 +128,24 @@ class AddressBook(UserDict):
         del self.notes[index]
         return f"Removed the note at index {index + 1}."
     
-    def show_notes_by_tag(self, tag):
-        normalized_tag = tag.lower()
-        found_notes_with_indexes = [(index, note) for index, note in enumerate(self.notes, start=1) 
-        if normalized_tag in (t.lower() for t in note.tags)]
+    def sort_notes_by_tag(self, asc=True):
+        all_tags = set()
+        for note_var in self.notes:
+            all_tags |= note_var.tags
 
-        if not found_notes_with_indexes:
-            raise exceptions.EmptyContainerException(f"No notes with tag '{tag}' found.")
+        if len(all_tags) == 0:
+            raise exceptions.EmptyContainerException("There are no tags in the notes.")
 
-        table = get_note_table()
+        table = Table(box=None, show_header=False)
+        table.add_column()
 
-        for original_index, note in found_notes_with_indexes:
-            tags = ', '.join(sorted(note.tags))
-            table.add_row(str(original_index), note.title.value if note.title else "", tags, note.content.value)
+        for tag in sorted(list(all_tags), reverse=(not asc)):
+            found_notes, found_indexes = self.find_note_by_search_value(tag, "tag")
+            table.add_row(tag)
+            table.add_row(self.show_notes(found_indexes, found_notes))
 
         return table
-
-
-    def sort_notes_asc(self):
-        sorted_notes_with_indexes = sorted(
-            enumerate(self.notes, start=1), 
-            key=lambda x: sorted(x[1].tags) if x[1].tags else []
-        )
-        return self.format_notes_for_display(sorted_notes_with_indexes)
-
-
-    def sort_notes_desc(self):
-        sorted_notes_with_indexes = sorted(
-            enumerate(self.notes, start=1), 
-            key=lambda x: sorted(x[1].tags, reverse=True) if x[1].tags else [],
-            reverse=True
-        )
-        return self.format_notes_for_display(sorted_notes_with_indexes)
-
-   
-    def format_notes_for_display(self, notes_with_indexes):
-        if not notes_with_indexes:
-            raise exceptions.EmptyContainerException("There are no notes in the address book.")
-
-        table = get_note_table()
-        for original_index, note in notes_with_indexes:
-            tags = ', '.join(sorted(note.tags) if note.tags else '')
-            created_at = note.created_at.strftime('%Y-%m-%d %H:%M:%S') 
-            table.add_row(
-                str(original_index), 
-                note.title.value if note.title else "", 
-                tags, 
-                note.content.value,
-                created_at 
-            )
-        return table
     
-    
-    def sort_notes_by_date_asc(self):
-        sorted_notes_with_indexes = sorted(
-            enumerate(self.notes, start=1), 
-            key=lambda x: x[1].created_at
-        )
-        return self.format_notes_for_display(sorted_notes_with_indexes)
-
-    def sort_notes_by_date_desc(self):
-        sorted_notes_with_indexes = sorted(
-            enumerate(self.notes, start=1), 
-            key=lambda x: x[1].created_at,
-            reverse=True
-        )
-        return self.format_notes_for_display(sorted_notes_with_indexes)
+    def sort_notes(self, asc=True):
+        self.notes = sorted(self.notes, key=lambda x: x.created_at, reverse=(not asc))
+        return "Finished sorting."

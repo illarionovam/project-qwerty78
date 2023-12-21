@@ -52,7 +52,7 @@ On particular input bot can react with hidden easter eggs. Try to find them if y
     - Removes contact `[name]` from the address book.
 
 - `set-name [old_name] [new_name]`
-    - Sets `[new_name]` for the existing contact `[old_name]`.
+    - Sets `[new_name]` for the existing contact `[old_name]`. Names are case-insensitive.
 
 - `add-phone [name] [phone]`
     - Adds `[phone]` to the existing contact `[name]`.
@@ -92,29 +92,35 @@ On particular input bot can react with hidden easter eggs. Try to find them if y
 - `add-note`
     - Adds note to the address book. In the appeared prompt, the user should provide title, content (required).
 
-- `show-note [index/title/content] [query]`
-    - Prints requested notes by either index, title or content.
+- `show-note [index/title/content/tag] [query]`
+    - Prints requested notes by either index, title, content or tag.
 
 - `remove-note [index]`
     - Removes note `[index]` from the address book.
 
 - `add-tag [index] [tag]`
-    - Adds `[tag]` to the existing note `[index]`.
+    - Adds `[tag]` to the existing note `[index]`. Tags are case-insensitive.
 
 - `remove-tag [index] [tag]`
-    - Removes `[tag]` from the existing note `[index]`.
+    - Removes `[tag]` from the existing note `[index]`. Tags are case-insensitive.
 
 - `remove-tags [index]`
     - Removes all tags from the existing note `[index]`.
 
 - `set-title [index] [title]`
-    - Sets `[title]` for the axisting note `[index]`.
+    - Sets `[title]` for the axisting note `[index]`. Titles are case-insensitive.
 
 - `remove-title [index]`
     - Removes title from the existing note `[index]`.
 
 - `set-content [index] [content]`
-    - Sets `[content]` for the axisting note `[index]`.
+    - Sets `[content]` for the axisting note `[index]`. Content is case-insensitive.
+
+- `sort-notes [asc/desc]`
+    - Sorts notes by creation date. ASC - earlist first, DESC - oldest first.
+
+- `sort-notes-by-tag [asc/desc]`
+    - Prints notes related to each existing tag. ASC - A-Z, DESC - Z-A.
 
 - `all-notes`
     - Prints all notes from the address book.

@@ -61,16 +61,10 @@ def process_command(command, args, book):
         return remove_tag_from_note(args, book)
     elif command == constants.REMOVE_TAGS_COMMAND:
         return remove_all_tags_from_note(args, book)
-    elif command == constants.FIND_NOTES_BY_TAG_COMMAND:
-        return find_and_show_notes_by_tag(args, book)
-    elif command == constants.SORT_NOTES_BY_TAG_ASC_COMMAND:
-        return sort_notes_by_tag_asc(args, book)
-    elif command == constants.SORT_NOTES_BY_TAG_DESC_COMMAND:
-        return sort_notes_by_tag_desc(args, book)
-    elif command == constants.SORT_NOTES_DATE_ASC_COMMAND:
-        return sort_notes_by_date_asc_command(args, book)
-    elif command == constants.SORT_NOTES_DATE_DESC_COMMAND:
-        return sort_notes_by_date_desc_command(args, book)
+    elif command == constants.SORT_NOTES_BY_TAG_COMMAND:
+        return sort_notes_by_tag(args, book)
+    elif command == constants.SORT_NOTES_COMMAND:
+        return sort_notes(args, book)
     elif command == constants.HELP_COMMAND:
         return help_menu()
     elif command in constants.EXIT_COMMANDS:
@@ -405,9 +399,15 @@ def show_note(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
 
     search_by, query = args[0].lower(), " ".join(args[1:])
-    if search_by not in ["title", "content", "index"]:
+
+    if search_by not in ["title", "content", "index", "tag"]:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
+    
+    if search_by == "tag" and len(args) != 2:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
+    
     found_notes, found_indexes = book.find_note_by_search_value(query,
                                                                 search_by)  # initializing found notes and indexes
     return book.show_notes(found_indexes, found_notes)
@@ -443,39 +443,30 @@ def remove_all_tags_from_note(args, book):
 
     note_index = book.prepare_index(args[0])
     note_var = book.notes[note_index]
-    note_var.tags.clear()
-    return f"Removed all tags from note at index {note_index + 1}."
+    return note_var.remove_all_tags()
+
 
 @wrap_exception
-def find_and_show_notes_by_tag(args, book):
+def sort_notes_by_tag(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.FIND_NOTES_BY_TAG_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SORT_NOTES_BY_TAG_COMMAND])
     
-    tag = args[0]
-    return book.show_notes_by_tag(tag)
+    if args[0].lower() not in ["asc", "desc"]:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SORT_NOTES_BY_TAG_COMMAND])
+    
+    return book.sort_notes_by_tag(args[0].lower() == "asc")
 
 
 @wrap_exception
-def sort_notes_by_tag_asc(args, book):
-    if args:
-        raise exceptions.IncorrectArgsException("This command does not take any arguments.")
-    return book.sort_notes_asc()
-
-@wrap_exception
-def sort_notes_by_tag_desc(args, book):
-    if args:
-        raise exceptions.IncorrectArgsException("This command does not take any arguments.")
-    return book.sort_notes_desc()
-
-@wrap_exception
-def sort_notes_by_date_asc_command(args, book):
-    if args:
-        raise exceptions.IncorrectArgsException("This command does not take any arguments.")
-    return book.sort_notes_by_date_asc()
-
-@wrap_exception
-def sort_notes_by_date_desc_command(args, book):
-    if args:
-        raise exceptions.IncorrectArgsException("This command does not take any arguments.")
-    return book.sort_notes_by_date_desc()
+def sort_notes(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SORT_NOTES_COMMAND])
+    
+    if args[0].lower() not in ["asc", "desc"]:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SORT_NOTES_COMMAND])
+    
+    return book.sort_notes(args[0].lower() == "asc")

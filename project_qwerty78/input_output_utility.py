@@ -3,6 +3,7 @@ from . import contact
 from . import note
 import csv
 from .easter_eggs import EasterEgg
+from datetime import datetime
 
 CONTACTS_FILE_NAME = "contacts_data.csv"
 NOTES_FILE_NAME = "notes_data.csv"
@@ -52,6 +53,7 @@ def read_notes_from_file():
             reader = csv.DictReader(f)
             for row in reader:
                 note_var = note.Note(row["content"])
+                note_var.created_at = datetime.strptime(row["createdat"], '%Y-%m-%d %H:%M:%S')
                 if row["title"] != "None":
                     note_var.set_title(row["title"])
                 if row["tags"] != "None":
@@ -80,12 +82,13 @@ def write_contacts_to_file(contacts):
 
 def write_notes_to_file(notes):
     with open(NOTES_FILE_NAME, "w") as f:
-        field_names = ["title", "tags", "content"]
+        field_names = ["title", "tags", "content", "createdat"]
         writer = csv.DictWriter(f, fieldnames=field_names)
         writer.writeheader()
         for note_var in notes:
             writer.writerow({
                 "title": str(note_var.title),
                 "tags": " ".join(str(tag) for tag in note_var.tags) if len(note_var.tags) > 0 else "None",
-                "content": str(note_var.content)
+                "content": str(note_var.content),
+                "createdat": note_var.created_at.strftime('%Y-%m-%d %H:%M:%S')
             })

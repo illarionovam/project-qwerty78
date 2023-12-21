@@ -82,6 +82,10 @@ class Note:
         """Returns True, if query is a part of the note's content."""
         return query.lower() in self.content.value.lower()
     
+    def matches_tag(self, query):
+        """Returns True, if query is present in the note's tags."""
+        return query.lower() in self.tags
+    
     def set_title(self, title):
         overriden = (self.title is not None)
         self.title = Title(title)
@@ -97,6 +101,11 @@ class Note:
             raise ValueError(f"Tag {tag} already exists in this note.")
         self.tags.add(new_tag.value)
         return f"Added tag {tag} to the note."
+    
+    @confirm_remove
+    def remove_all_tags(self):
+        self.tags.clear()
+        return f"Removed all tags from the note."
 
     @confirm_remove
     def remove_tag(self, tag):

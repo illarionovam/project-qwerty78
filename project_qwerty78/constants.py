@@ -29,15 +29,12 @@ REMOVE_NOTE_COMMAND = "remove-note"
 ADD_TAG_COMMAND = "add-tag"
 REMOVE_TAG_COMMAND = "remove-tag"
 REMOVE_TAGS_COMMAND = "remove-tags"
+SORT_NOTES_BY_TAG_COMMAND = "sort-notes-by-tag"
 SET_TITLE_COMMAND = "set-title"
 REMOVE_TITLE_COMMAND = "remove-title"
 SET_CONTENT_COMMAND = "set-content"
+SORT_NOTES_COMMAND = "sort-notes"
 ALL_NOTES_COMMAND = "all-notes"
-FIND_NOTES_BY_TAG_COMMAND = "find-notes-by-tag"
-SORT_NOTES_BY_TAG_ASC_COMMAND = "sort-notes-by-tag-asc"
-SORT_NOTES_BY_TAG_DESC_COMMAND = "sort-notes-by-tag-desc"
-SORT_NOTES_DATE_ASC_COMMAND = "sort-notes-date-asc"
-SORT_NOTES_DATE_DESC_COMMAND = "sort-notes-date-desc"
 
 EXIT_COMMANDS = [EXIT_COMMAND, CLOSE_COMMAND]
 
@@ -62,7 +59,7 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
     SHOW_BIRTHDAY_COMMAND: SHOW_BIRTHDAY_COMMAND + " \[range]",  
     ALL_CONTACTS_COMMAND: ALL_CONTACTS_COMMAND,    
     ADD_NOTE_COMMAND: ADD_NOTE_COMMAND,
-    SHOW_NOTE_COMMAND: SHOW_NOTE_COMMAND + " \[index/title/content] \[query]",
+    SHOW_NOTE_COMMAND: SHOW_NOTE_COMMAND + " \[index/title/content/tag] \[query]",
     REMOVE_NOTE_COMMAND: REMOVE_NOTE_COMMAND + " \[index]",
     ADD_TAG_COMMAND: ADD_TAG_COMMAND + " \[index] \[tag]",
     REMOVE_TAG_COMMAND: REMOVE_TAG_COMMAND + " \[index] \[tag]",
@@ -70,12 +67,9 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
     SET_TITLE_COMMAND: SET_TITLE_COMMAND + " \[index] \[title]",
     REMOVE_TITLE_COMMAND: REMOVE_TITLE_COMMAND + " \[index]",
     SET_CONTENT_COMMAND: SET_CONTENT_COMMAND + " \[index] \[content]",
+    SORT_NOTES_COMMAND: SORT_NOTES_COMMAND + " \[asc/desc]",
+    SORT_NOTES_BY_TAG_COMMAND: SORT_NOTES_BY_TAG_COMMAND + " \[asc/desc]",
     ALL_NOTES_COMMAND: ALL_NOTES_COMMAND    
-    FIND_NOTES_BY_TAG_COMMAND: FIND_NOTES_BY_TAG_COMMAND + " \[tag]",
-    SORT_NOTES_BY_TAG_ASC_COMMAND: SORT_NOTES_BY_TAG_ASC_COMMAND,
-    SORT_NOTES_BY_TAG_DESC_COMMAND: SORT_NOTES_BY_TAG_DESC_COMMAND,
-    SORT_NOTES_DATE_ASC_COMMAND: SORT_NOTES_DATE_ASC_COMMAND,
-    SORT_NOTES_DATE_DESC_COMMAND: SORT_NOTES_DATE_DESC_COMMAND
 }
 
 COMMAND_TO_HELP_TEXT_MAP = {
@@ -98,18 +92,14 @@ COMMAND_TO_HELP_TEXT_MAP = {
     SHOW_BIRTHDAY_COMMAND: "Shows coming contacts' birthdays in the next \[range] days.",    
     ALL_CONTACTS_COMMAND: "Prints all contacts from the address book.",
     ADD_NOTE_COMMAND: "Adds note to the address book.",
-    SHOW_NOTE_COMMAND: "Prints requested notes by either index, title or content.",
+    SHOW_NOTE_COMMAND: "Prints requested notes by either index, title, content or tag.",
     REMOVE_NOTE_COMMAND: "Removes note \[index] from the address book.",
     ADD_TAG_COMMAND: "Adds \[tag] to the existing note \[index].",
     REMOVE_TAG_COMMAND: "Removes \[tag] from the existing note \[index].",
     REMOVE_TAGS_COMMAND: "Removes all tags from the existing note \[index].",
-    SET_TITLE_COMMAND: "Sets \[title] for the axisting note \[index].",
     REMOVE_TITLE_COMMAND: "Removes title from the existing note \[index].",
     SET_CONTENT_COMMAND: "Sets \[content] for the axisting note \[index].",
+    SORT_NOTES_COMMAND: "Sorts notes by creation date. ASC - earlist first, DESC - oldest first.",  
+    SORT_NOTES_BY_TAG_COMMAND: "Prints notes related to each existing tag. ASC - A-Z, DESC - Z-A.",
     ALL_NOTES_COMMAND: "Prints all notes from the address book."
-    SORT_NOTES_BY_TAG_ASC_COMMAND: "Sorts and prints all notes by tags, A-Z.",
-    SORT_NOTES_BY_TAG_DESC_COMMAND: "Sorts and prints all notes by tags, Z-A.",
-    SORT_NOTES_DATE_ASC_COMMAND: "Sorts and prints all notes by creation date, oldest first.",
-    SORT_NOTES_DATE_DESC_COMMAND: "Sorts and prints all notes by creation date, newest first."   
-    FIND_NOTES_BY_TAG_COMMAND: "Finds and prints all notes with a specific tag.",
 }

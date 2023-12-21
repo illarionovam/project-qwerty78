@@ -29,6 +29,8 @@ The bot will try to guess the command if the user makes a typo.
 
 For the remove commands, the bot will ask you to confirm the command.
 
+On particular input bot can react with hidden easter eggs. Try to find them if you want 😉
+
 ### Utility commands
 
 - `close` or `exit`

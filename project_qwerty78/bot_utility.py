@@ -54,6 +54,8 @@ def process_command(command, args, book):
         return add_tag_to_note(args, book)
     elif command == constants.REMOVE_TAG_COMMAND:
         return remove_tag_from_note(args, book)
+    elif command == constants.REMOVE_TAGS_COMMAND:
+        return remove_all_tags_from_note(args, book)
     else:
         return check_possible_commands(command)
     
@@ -324,33 +326,78 @@ def show_note(args, book):
     found_notes, found_indexes = book.find_notes(query, search_by)  # initializing found notes and indexes
     return book.show_notes(found_indexes, found_notes)
 
+    
 @wrap_exception
 def add_tag_to_note(args, book):
     if len(args) != 2:
-        raise exceptions.IncorrectArgsException("Incorrect format. Try [add-tag] [note_title] [tag]")
-    note_title, tag = args
-    matched_notes, _ = book.find_notes(note_title, search_by="title")
-    if matched_notes:
-        try:
-            matched_notes[0].add_tag(tag)
-            return f"Tag '{tag}' added to note titled '{note_title}'."
-        except ValueError as e:
-            return str(e)  # Displaying an error message
-    else:
-        raise exceptions.NoRecordException(f"No note found with title '{note_title}'")
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_TAG_COMMAND])
+    
+    try:
+        note_index = int(args[0]) - 1   #Check for valid integer and integer no less 0
+        if note_index < 0:
+            raise ValueError
+    except ValueError:
+        raise exceptions.IncorrectArgsException("The index must be a positive integer starting from 1.")
+
+    try:
+        note_var = book.notes[note_index]
+    except IndexError:
+        raise exceptions.NoRecordException(f"No note found with index '{note_index + 1}'. Index is out of range.")
+
+    try:
+        note_var.add_tag(args[1])
+        return f"Tag '{args[1]}' added to note at index {note_index + 1}."
+    except ValueError as e:
+        return str(e)   # Displaying an error message
+
 
 
 @wrap_exception
 def remove_tag_from_note(args, book):
     if len(args) != 2:
-        raise exceptions.IncorrectArgsException("Incorrect format. Try [remove-tag] [note_title] [tag]")
-    note_title, tag = args
-    matched_notes, _ = book.find_notes(note_title, search_by="title")
-    if matched_notes:
-        try:
-            matched_notes[0].remove_tag(tag)
-            return f"Tag '{tag}' removed from note titled '{note_title}'."
-        except ValueError as e:
-            return str(e)  # Displaying an error message
-    else:
-        raise exceptions.NoRecordException(f"No note found with title '{note_title}'")
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TAG_COMMAND])
+    
+    try:
+        note_index = int(args[0]) - 1    #Check for valid integer and integer no less 0
+        if note_index < 0:
+            raise ValueError
+    except ValueError:
+        raise exceptions.IncorrectArgsException("The index must be a positive integer starting from 1.")
+
+    try:
+        note_var = book.notes[note_index]   #Check for index out of range
+    except IndexError:
+        raise exceptions.NoRecordException(f"No note found with index '{note_index + 1}'. Index is out of range.")
+
+    try:
+        note_var.remove_tag(args[1])
+        return f"Tag '{args[1]}' removed from note at index {note_index + 1}."
+    except ValueError as e:
+        return str(e)   # Displaying an error message
+    
+
+@wrap_exception
+def remove_all_tags_from_note(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TAGS_COMMAND])
+    
+    try:
+        note_index = int(args[0]) - 1
+        if note_index < 0:
+            raise ValueError
+    except ValueError:
+        raise exceptions.IncorrectArgsException("The index must be a positive integer starting from 1.")
+
+    try:
+        note_var = book.notes[note_index]
+    except IndexError:
+        raise exceptions.NoRecordException(f"No note found with index '{note_index + 1}'. Index is out of range.")
+   
+    if not note_var.tags:
+        return f"No tags to remove from note at index {note_index + 1}."
+
+    note_var.tags.clear()  # Clear all tags
+    return f"All tags removed from note at index {note_index + 1}."

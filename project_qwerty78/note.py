@@ -9,7 +9,7 @@ def get_note_table():
 
     header_style = Style(bgcolor="rgb(201,58,57)")
     table_style = Style(color="rgb(255,255,255)", bgcolor="rgb(42,42,42)")
-    for column in ["Index", "Title", "Content"]:
+    for column in ["Index", "Title", "Tags", "Content"]:
         table.add_column(column, header_style=header_style, style=table_style)
 
     return table
@@ -49,7 +49,8 @@ class Tag(Field):
 
     @staticmethod
     def is_valid(tag):
-        return re.fullmatch(r'[A-Za-z0-9]{1,10}', tag) is not None
+        '''Check for alphanumeric characters, length constraint, and no spaces'''
+        return re.fullmatch(r'[A-Za-z0-9]{1,10}', tag) is not None and ' ' not in tag
 
 
 class Note:
@@ -61,7 +62,8 @@ class Note:
     def printable_view(self, table, index):
         table.add_row(
             str(index + 1), 
-            str(self.title) if self.title else "", 
+            str(self.title) if self.title else "",
+            ', '.join(self.tags) if self.tags else "", 
             re.sub("\[", "\\[", str(self.content)))
         
         return table

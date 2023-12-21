@@ -107,6 +107,12 @@ On particular input bot can react with hidden easter eggs. Try to find them if y
 - `remove-tags [index]`
     - Removes all tags from the existing note `[index]`.
 
+- `set-title [index] [title]`
+    - Sets `[title]` for the axisting note `[index]`.
+
+- `set-content [index] [content]`
+    - Sets `[content]` for the axisting note `[index]`.
+
 - `all-notes`
     - Prints all notes from the address book.
 

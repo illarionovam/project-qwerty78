@@ -78,6 +78,15 @@ class Note:
     def matches_content(self, query):
         """Returns True, if query is a part of the note's content."""
         return query.lower() in self.content.value.lower()
+    
+    def set_title(self, title):
+        overriden = (self.title is not None)
+        self.title = Title(title)
+        return "Updated title." if overriden else "Added title."
+    
+    def set_content(self, content):
+        self.content = Content(content)
+        return "Updated content."
 
     def add_tag(self, tag):
         new_tag = Tag(tag)  # Creates a Tag object that performs validation

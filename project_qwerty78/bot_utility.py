@@ -49,10 +49,10 @@ def process_command(command, args, book):
         return add_note(args, book)
     elif command == constants.REMOVE_NOTE_COMMAND:
         return remove_note(args, book)
-    elif command == constants.EDIT_NOTE_TITLE_COMMAND:
-        return edit_note_title(args, book)
-    elif command == constants.EDIT_NOTE_CONTENT_COMMAND:
-        return edit_note_content(args, book)
+    elif command == constants.SET_TITLE_COMMAND:
+        return set_title(args, book)
+    elif command == constants.SET_CONTENT_COMMAND:
+        return set_content(args, book)
     elif command == constants.ADD_TAG_COMMAND:
         return add_tag_to_note(args, book)
     elif command == constants.REMOVE_TAG_COMMAND:
@@ -63,10 +63,6 @@ def process_command(command, args, book):
         return help_menu()
     elif command in constants.EXIT_COMMANDS:
         return "Goodbye!"
-    elif command == constants.UPDATE_NOTE_TITLE_COMMAND:
-        return update_note_title_by_index(args, book)
-    elif command == constants.UPDATE_NOTE_CONTENT_COMMAND:
-        return update_note_content_by_index(args, book)
     else:
         return check_possible_commands(command)
 
@@ -121,38 +117,28 @@ def add_note(args, book):
     book.add_note(note.Note(content, title))
     EasterEgg.ENABLED = True
     return "Note added"
-@wrap_exception
-def update_note_title_by_index(args, book):
-    if len(args) != 2:
-        raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.UPDATE_NOTE_TITLE_COMMAND])
-    
-    try:
-        index = int(args[0]) - 1
-        new_title = args[1]
-        if index < 0 or index >= len(book.notes):
-            raise exceptions.IncorrectArgsException("Invalid index")
-    except ValueError:
-        raise exceptions.IncorrectArgsException("Invalid index")
 
-    return book.update_note_title_by_index(index, new_title)
-@wrap_exception
-def edit_note_title(args, book):
-    if len(args) != 2:
-        raise exceptions.IncorrectArgsException("Correct command format required.")
-    index = book.prepare_index(args[0]) 
-    new_title = args[1]
-    book.notes[index].title = new_title
-    return f"Note at index {index + 1} title updated."  
 
 @wrap_exception
-def edit_note_content(args, book):
+def set_title(args, book):
     if len(args) < 2:
-        raise exceptions.IncorrectArgsException("Correct command format required.")
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SET_TITLE_COMMAND])
+    index = book.prepare_index(args[0]) 
+    new_title = " ".join(args[1:])
+    note_var = book.find_note(index)
+    return note_var.set_title(new_title)
+
+
+@wrap_exception
+def set_content(args, book):
+    if len(args) < 2:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SET_CONTENT_COMMAND])
     index = book.prepare_index(args[0])  
-    new_content = args[1]
-    book.notes[index].content = new_content
-    return f"Note at index {index + 1} content updated." 
+    new_content = " ".join(args[1:])
+    note_var = book.find_note(index)
+    return note_var.set_content(new_content)
 
 
 @wrap_exception
@@ -163,23 +149,6 @@ def remove_note(args, book):
 
     index = book.prepare_index(args[0])
     return book.remove_note(index)
-
-
-@wrap_exception
-def update_note_content_by_index(args, book):
-    if len(args) != 2:
-        raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.UPDATE_NOTE_CONTENT_COMMAND])
-    
-    try:
-        index = int(args[0]) - 1
-        new_content = args[1]
-        if index < 0 or index >= len(book.notes):
-            raise exceptions.IncorrectArgsException("Invalid index")
-    except ValueError:
-        raise exceptions.IncorrectArgsException("Invalid index")
-
-    return book.update_note_content_by_index(index, new_content)
 
 
 @wrap_exception

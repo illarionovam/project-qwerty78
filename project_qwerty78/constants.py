@@ -29,9 +29,9 @@ REMOVE_NOTE_COMMAND = "remove-note"
 ADD_TAG_COMMAND = "add-tag"
 REMOVE_TAG_COMMAND = "remove-tag"
 REMOVE_TAGS_COMMAND = "remove-tags"
+SET_TITLE_COMMAND = "set-title"
+SET_CONTENT_COMMAND = "set-content"
 ALL_NOTES_COMMAND = "all-notes"
-EDIT_NOTE_TITLE_COMMAND = "edit-note-title"
-EDIT_NOTE_CONTENT_COMMAND = "edit-note-content"
 
 EXIT_COMMANDS = [EXIT_COMMAND, CLOSE_COMMAND]
 
@@ -61,7 +61,9 @@ COMMAND_TO_COMMAND_FORMAT_MAP = {
     ADD_TAG_COMMAND: ADD_TAG_COMMAND + " \[index] \[tag]",
     REMOVE_TAG_COMMAND: REMOVE_TAG_COMMAND + " \[index] \[tag]",
     REMOVE_TAGS_COMMAND: REMOVE_TAGS_COMMAND + " \[index]",
-    ALL_NOTES_COMMAND: ALL_NOTES_COMMAND,    
+    SET_TITLE_COMMAND: SET_TITLE_COMMAND + " \[index] \[title]",
+    SET_CONTENT_COMMAND: SET_CONTENT_COMMAND + " \[index] \[content]",
+    ALL_NOTES_COMMAND: ALL_NOTES_COMMAND    
 }
 
 COMMAND_TO_HELP_TEXT_MAP = {
@@ -89,7 +91,7 @@ COMMAND_TO_HELP_TEXT_MAP = {
     ADD_TAG_COMMAND: "Adds \[tag] to the existing note \[index].",
     REMOVE_TAG_COMMAND: "Removes \[tag] from the existing note \[index].",
     REMOVE_TAGS_COMMAND: "Removes all tags from the existing note \[index].",
+    SET_TITLE_COMMAND: "Sets \[title] for the axisting note \[index].",
+    SET_CONTENT_COMMAND: "Sets \[content] for the axisting note \[index].",
     ALL_NOTES_COMMAND: "Prints all notes from the address book."
-    EDIT_NOTE_TITLE_COMMAND: Edit note title command + " \[index] \[new_title]",
-    EDIT_NOTE_CONTENT_COMMAND: Edit note content command + " \[index] \[new_content]",
 }

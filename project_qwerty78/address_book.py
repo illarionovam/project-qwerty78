@@ -10,6 +10,15 @@ class AddressBook(UserDict):
         self.contacts = {}
         self.notes = []
 
+    def prepare_index(self, index):
+        try:
+            index = int(index)
+            if index < 1 or index > len(self.notes):
+                raise exceptions.IncorrectArgsException(f"Invalid index {index}. Should be an integer from 1 to {len(self.notes)}")
+            return index - 1
+        except ValueError:
+            raise exceptions.IncorrectArgsException(f"Invalid index {index}. Should be an integer from 1 to {len(self.notes)}")
+
     def add_note(self, note):
         self.notes.append(note)
 
@@ -83,12 +92,16 @@ class AddressBook(UserDict):
         table = get_note_table()
 
         for i in range(len(indexes)):
-            note_var = self.notes[i]
+            note_var = self.notes[indexes[i]]
             table = note_var.printable_view(table, indexes[i])
 
         return table
 
-    def find_notes(self, query, search_by="title"):
+    def find_note_by_search_value(self, query, search_by):
+        if search_by == "index":
+            index = self.prepare_index(query)
+            return [self.find_note(index)], [index]
+
         matched_notes = []
         matched_indexes = []
         for index, note in enumerate(self.notes):
@@ -101,8 +114,12 @@ class AddressBook(UserDict):
             raise exceptions.NoRecordException(f"Note with the {search_by} {query}")
 
         return matched_notes, matched_indexes
+    
+    def find_note(self, index):
+        return self.notes[index]
 
-    def delete_note_by_index(self, index):
+    @confirm_remove
+    def remove_note(self, index):
         del self.notes[index]
         return f"Removed the note at index {index + 1}."
 

@@ -49,6 +49,12 @@ def process_command(command, args, book):
         return add_note(args, book)
     elif command == constants.REMOVE_NOTE_COMMAND: 
         return remove_note(args, book)
+    elif command == constants.ADD_TAG_COMMAND:
+        return add_tag_to_note(args, book)
+    elif command == constants.REMOVE_TAG_COMMAND:
+        return remove_tag_from_note(args, book)
+    elif command == constants.REMOVE_TAGS_COMMAND:
+        return remove_all_tags_from_note(args, book)
     elif command == constants.HELP_COMMAND:
         return help_menu()
     elif command in constants.EXIT_COMMANDS:
@@ -344,3 +350,37 @@ def show_note(args, book):
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
     found_notes, found_indexes = book.find_note_by_search_value(query, search_by)  # initializing found notes and indexes
     return book.show_notes(found_indexes, found_notes)
+
+    
+@wrap_exception
+def add_tag_to_note(args, book):
+    if len(args) != 2:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_TAG_COMMAND])
+    
+    note_index = book.prepare_index(args[0])
+    note_var = book.notes[note_index]
+    return note_var.add_tag(args[1])
+
+
+@wrap_exception
+def remove_tag_from_note(args, book):
+    if len(args) != 2:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TAG_COMMAND])
+    
+    note_index = book.prepare_index(args[0])
+    note_var = book.notes[note_index]
+    return note_var.remove_tag(args[1])
+
+
+@wrap_exception
+def remove_all_tags_from_note(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TAGS_COMMAND])
+    
+    note_index = book.prepare_index(args[0]) 
+    note_var = book.notes[note_index]
+    note_var.tags.clear()
+    return f"Removed all tags from note at index {note_index + 1}."

@@ -1,8 +1,9 @@
-from .field import Field
 import re
+from .field import Field
 from .exceptions import IncorrectArgsException
 from rich.table import Table
 from rich.style import Style
+from .decorators import confirm_remove
 
 def get_note_table():
     table = Table(show_lines=True)
@@ -49,8 +50,7 @@ class Tag(Field):
 
     @staticmethod
     def is_valid(tag):
-        '''Check for alphanumeric characters, length constraint, and no spaces'''
-        return re.fullmatch(r'[A-Za-z0-9]{1,10}', tag) is not None and ' ' not in tag
+        return re.fullmatch(r'[A-Za-z0-9]{1,10}', tag) is not None      #Check for alphanumeric characters and length constraint
 
 
 class Note:
@@ -83,9 +83,8 @@ class Note:
         if new_tag.value in self.tags:          # Check if the tag exists
             raise ValueError(f"Tag '{tag}' already exists in this note.")
         self.tags.add(new_tag.value)
-
+    
+    @confirm_remove
     def remove_tag(self, tag):
         normalized_tag = Tag(tag).value         # Tag normalization
-        if normalized_tag not in self.tags:     # Check if the tag exists
-            raise ValueError(f"Tag '{tag}' does not exist in this note.")
         self.tags.discard(normalized_tag)

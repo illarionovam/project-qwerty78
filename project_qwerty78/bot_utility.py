@@ -352,12 +352,7 @@ def add_tag_to_note(args, book):
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_TAG_COMMAND])
     
-    try:
-        note_index = int(args[0]) - 1   #Check for valid integer and integer no less 0
-        if note_index < 0:
-            raise ValueError
-    except ValueError:
-        raise exceptions.IncorrectArgsException("The index must be a positive integer starting from 1.")
+    note_index = book.prepare_index(args[0])
 
     try:
         note_var = book.notes[note_index]
@@ -371,31 +366,17 @@ def add_tag_to_note(args, book):
         return str(e)   # Displaying an error message
 
 
-
 @wrap_exception
 def remove_tag_from_note(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TAG_COMMAND])
     
-    try:
-        note_index = int(args[0]) - 1    #Check for valid integer and integer no less 0
-        if note_index < 0:
-            raise ValueError
-    except ValueError:
-        raise exceptions.IncorrectArgsException("The index must be a positive integer starting from 1.")
+    note_index = book.prepare_index(args[0])
+    note_var = book.notes[note_index]
+    note_var.remove_tag(args[1])
+    return f"Tag '{args[1]}' removed from note at index {note_index + 1}."
 
-    try:
-        note_var = book.notes[note_index]   #Check for index out of range
-    except IndexError:
-        raise exceptions.NoRecordException(f"No note found with index '{note_index + 1}'. Index is out of range.")
-
-    try:
-        note_var.remove_tag(args[1])
-        return f"Tag '{args[1]}' removed from note at index {note_index + 1}."
-    except ValueError as e:
-        return str(e)   # Displaying an error message
-    
 
 @wrap_exception
 def remove_all_tags_from_note(args, book):
@@ -403,20 +384,13 @@ def remove_all_tags_from_note(args, book):
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TAGS_COMMAND])
     
-    try:
-        note_index = int(args[0]) - 1
-        if note_index < 0:
-            raise ValueError
-    except ValueError:
-        raise exceptions.IncorrectArgsException("The index must be a positive integer starting from 1.")
-
+    note_index = book.prepare_index(args[0]) 
     try:
         note_var = book.notes[note_index]
+        if not note_var.tags:
+            return f"No tags to remove from note at index {note_index + 1}."
+
+        note_var.tags.clear()
+        return f"All tags removed from note at index {note_index + 1}."
     except IndexError:
         raise exceptions.NoRecordException(f"No note found with index '{note_index + 1}'. Index is out of range.")
-   
-    if not note_var.tags:
-        return f"No tags to remove from note at index {note_index + 1}."
-
-    note_var.tags.clear()  # Clear all tags
-    return f"All tags removed from note at index {note_index + 1}."

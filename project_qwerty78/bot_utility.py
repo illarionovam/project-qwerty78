@@ -49,6 +49,12 @@ def process_command(command, args, book):
         return add_note(args, book)
     elif command == constants.REMOVE_NOTE_COMMAND:
         return remove_note(args, book)
+    elif command == constants.SET_TITLE_COMMAND:
+        return set_title(args, book)
+    elif command == constants.REMOVE_TITLE_COMMAND:
+        return remove_title(args, book)
+    elif command == constants.SET_CONTENT_COMMAND:
+        return set_content(args, book)
     elif command == constants.ADD_TAG_COMMAND:
         return add_tag_to_note(args, book)
     elif command == constants.REMOVE_TAG_COMMAND:
@@ -113,6 +119,28 @@ def add_note(args, book):
     book.add_note(note.Note(content, title))
     EasterEgg.ENABLED = True
     return "Note added"
+
+
+@wrap_exception
+def set_title(args, book):
+    if len(args) < 2:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SET_TITLE_COMMAND])
+    index = book.prepare_index(args[0]) 
+    new_title = " ".join(args[1:])
+    note_var = book.find_note(index)
+    return note_var.set_title(new_title)
+
+
+@wrap_exception
+def set_content(args, book):
+    if len(args) < 2:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SET_CONTENT_COMMAND])
+    index = book.prepare_index(args[0])  
+    new_content = " ".join(args[1:])
+    note_var = book.find_note(index)
+    return note_var.set_content(new_content)
 
 
 @wrap_exception
@@ -227,6 +255,16 @@ def remove_email(args, book):
     name = args[0]
     contact_var = book.find_contact(name)
     return contact_var.remove_email()
+
+
+@wrap_exception
+def remove_title(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TITLE_COMMAND])
+    index = book.prepare_index(args[0])
+    note_var = book.find_note(index)
+    return note_var.remove_title()
 
 
 @wrap_exception

@@ -3,22 +3,24 @@ from collections import defaultdict
 from rich.table import Table
 from rich.style import Style
 
+
 def update_weekday_birthday(dt):
-    if dt.weekday() == 5:               # if birthday is on Saturday, set it on Monday
+    if dt.weekday() == 5:  # if birthday is on Saturday, set it on Monday
         return dt + datetime.timedelta(days=2)
-    elif dt.weekday() == 6:             # if birthday is on Sunday, set it on Monday
+    elif dt.weekday() == 6:  # if birthday is on Sunday, set it on Monday
         return dt + datetime.timedelta(days=1)
     else:
         return dt
 
-def get_users_next_birthdays(users, range):
+
+def get_users_next_birthdays(users, days):
     """Returns users' next birthdays. Range: [today; today + range)."""
     today = datetime.date.today()
     users_next_birthdays = []
 
     for name in users.keys():
         user = users[name]
-        if user.birthday == None:
+        if user.birthday is None:
             continue
 
         initial_birthday = datetime.datetime.strptime(user.birthday.value, "%d.%m.%Y").date()
@@ -32,16 +34,16 @@ def get_users_next_birthdays(users, range):
         if next_birthday < today:
             try:
                 next_birthday = update_weekday_birthday(initial_birthday.replace(year=today.year + 1))
-            except ValueError: 
+            except ValueError:
                 """Happens for 29.02 birthdays when next year is not a leap year.
                 Moving to 28.02 in this case."""
                 next_birthday = update_weekday_birthday(initial_birthday.replace(day=28, year=today.year + 1))
 
-
-        if (next_birthday - today).days < range:
+        if (next_birthday - today).days < days:
             users_next_birthdays.append({"name": user.name.value, "birthday": next_birthday})
 
     return users_next_birthdays
+
 
 def get_birthdays_per_days_range_map(users):
     birthdays_per_week_map = defaultdict(list)
@@ -50,13 +52,14 @@ def get_birthdays_per_days_range_map(users):
         birthdays_per_week_map[user["birthday"].weekday()].append(
             "{user_name} ({user_birthday})".format(
                 user_name=user["name"], user_birthday=user["birthday"].strftime("%d.%m.%Y")
-                )
             )
-            
+        )
+
     return birthdays_per_week_map
 
-def get_birthdays_per_days_range(users, range):
-    birthdays_per_week_map = get_birthdays_per_days_range_map(get_users_next_birthdays(users, range))
+
+def get_birthdays_per_days_range(users, days):
+    birthdays_per_week_map = get_birthdays_per_days_range_map(get_users_next_birthdays(users, days))
 
     i = 7
     day = datetime.date.today().weekday()
@@ -69,8 +72,8 @@ def get_birthdays_per_days_range(users, range):
         i -= 1
 
     if len(final_list) == 0:
-        return f"THere are no birthdays in the next {range} days starting today."
-    
+        return f"THere are no birthdays in the next {days} days starting today."
+
     table = Table(show_lines=True)
 
     header_style = Style(bgcolor="rgb(0,87,184)")

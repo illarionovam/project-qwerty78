@@ -1,5 +1,6 @@
 from .constants import ERROR_STYLE
 
+
 def confirm_remove(func):
     def inner(*args, **kwargs):
         user_input = input("Are you sure you want to remove the entry? There is no way back... (yes/no)")
@@ -7,9 +8,9 @@ def confirm_remove(func):
             user_input = user_input.strip().lower()
             if user_input in ["yes", "y"]:
                 return func(*args, **kwargs)
-        
-        return "Remove operation was cancelled."            
-    
+
+        return "Remove operation was cancelled."
+
     return inner
 
 

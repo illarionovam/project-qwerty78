@@ -14,7 +14,7 @@ def main():
     book = read_from_file()
     console = Console()
     print("Welcome to the assistant bot!")
-    
+
     while True:
         user_input = input("Enter a command: ")
         if user_input:

@@ -47,7 +47,7 @@ def process_command(command, args, book):
         return show_note(args, book)
     elif command == constants.ADD_NOTE_COMMAND:
         return add_note(args, book)
-    elif command == constants.REMOVE_NOTE_COMMAND: 
+    elif command == constants.REMOVE_NOTE_COMMAND:
         return remove_note(args, book)
     elif command == constants.ADD_TAG_COMMAND:
         return add_tag_to_note(args, book)
@@ -61,7 +61,7 @@ def process_command(command, args, book):
         return "Goodbye!"
     else:
         return check_possible_commands(command)
-    
+
 
 def help_menu():
     table = Table(show_lines=True)
@@ -76,9 +76,9 @@ def help_menu():
 
     for command, help_text in constants.COMMAND_TO_HELP_TEXT_MAP.items():
         table.add_row(command, constants.COMMAND_TO_COMMAND_FORMAT_MAP[command], help_text)
-        
+
     return table
-    
+
 
 def check_input_for_record(field, validated_constructor):
     try:
@@ -87,13 +87,14 @@ def check_input_for_record(field, validated_constructor):
     except exceptions.IncorrectArgsException as e:
         print(str(e))
         return False
-    
+
+
 @wrap_exception
 def add_note(args, book):
     if len(args) != 0:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_NOTE_COMMAND])
-    
+
     while True:
         title = input("Enter the note's title (Enter - skip): ").strip()
         if title and not check_input_for_record(title, lambda field: note.Title(field)):
@@ -113,12 +114,13 @@ def add_note(args, book):
     EasterEgg.ENABLED = True
     return "Note added"
 
+
 @wrap_exception
 def remove_note(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_NOTE_COMMAND])
-    
+
     index = book.prepare_index(args[0])
     return book.remove_note(index)
 
@@ -128,7 +130,7 @@ def add_contact(args, book):
     if len(args) != 0:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_CONTACT_COMMAND])
-    
+
     while True:
         name = input("Enter the contact's name: ").strip()
         if not check_input_for_record(name, lambda field: contact.Name(field)):
@@ -163,7 +165,7 @@ def add_contact(args, book):
 
     address = input("Enter the contact's address (Enter - skip): ").strip()
 
-    EasterEgg.ENABLED = False    
+    EasterEgg.ENABLED = False
     book.add_contact(contact.Contact(name, phone, birthday, email, address))
     EasterEgg.ENABLED = True
     return "Contact added"
@@ -196,6 +198,7 @@ def show_contact(args, book):
     search_value = args[0]
     return book.show_contacts(book.find_contact_by_search_value(search_value))
 
+
 @wrap_exception
 def remove_phones(args, book):
     if len(args) != 1:
@@ -204,6 +207,7 @@ def remove_phones(args, book):
     name = args[0]
     contact_var = book.find_contact(name)
     return contact_var.remove_phones()
+
 
 @wrap_exception
 def remove_phone(args, book):
@@ -214,6 +218,7 @@ def remove_phone(args, book):
     contact_var = book.find_contact(name)
     return contact_var.remove_phone(phone)
 
+
 @wrap_exception
 def remove_email(args, book):
     if len(args) != 1:
@@ -223,20 +228,24 @@ def remove_email(args, book):
     contact_var = book.find_contact(name)
     return contact_var.remove_email()
 
+
 @wrap_exception
 def remove_address(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_ADDRESS_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[
+                constants.REMOVE_ADDRESS_COMMAND])
     name = args[0]
     contact_var = book.find_contact(name)
     return contact_var.remove_address()
+
 
 @wrap_exception
 def remove_birthday(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_BIRTHDAY_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[
+                constants.REMOVE_BIRTHDAY_COMMAND])
     name = args[0]
     contact_var = book.find_contact(name)
     return contact_var.remove_birthday()
@@ -247,13 +256,13 @@ def show_birthday(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_BIRTHDAY_COMMAND])
-    range = args[0]
+    days = args[0]
     try:
-        if int(range) < 1 or int(range) > 365:
+        if int(days) < 1 or int(days) > 365:
             raise ValueError
     except ValueError:
         raise exceptions.IncorrectArgsException("\[range] should be from 1 to 365")
-    return get_birthdays_per_days_range(book.contacts, int(range))
+    return get_birthdays_per_days_range(book.contacts, int(days))
 
 
 @wrap_exception
@@ -273,11 +282,13 @@ def all_notes(args, book):
 
     return book.show_notes(range(len(book.notes)), book.notes)
 
+
 @wrap_exception
 def remove_contact(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_CONTACT_COMMAND])        
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[
+                constants.REMOVE_CONTACT_COMMAND])
     name = args[0]
     return book.remove_contact(name)
 
@@ -290,7 +301,7 @@ def add_phone(args, book):
     name, phone = args
     contact_var = book.find_contact(name)
     return contact_var.add_phone(phone)
-    
+
 
 @wrap_exception
 def set_address(args, book):
@@ -328,7 +339,7 @@ def set_birthday(args, book):
     contact_var = book.find_contact(name)
     return contact_var.set_birthday(birthday)
 
-    
+
 @wrap_exception
 def set_email(args, book):
     if len(args) != 2:
@@ -337,27 +348,29 @@ def set_email(args, book):
     name, email = args
     contact_var = book.find_contact(name)
     return contact_var.set_email(email)
-        
+
+
 @wrap_exception
 def show_note(args, book):
     if len(args) < 2:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
-    
+
     search_by, query = args[0].lower(), " ".join(args[1:])
-    if not search_by in ["title", "content", "index"]:
+    if search_by not in ["title", "content", "index"]:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SHOW_NOTE_COMMAND])
-    found_notes, found_indexes = book.find_note_by_search_value(query, search_by)  # initializing found notes and indexes
+    found_notes, found_indexes = book.find_note_by_search_value(query,
+                                                                search_by)  # initializing found notes and indexes
     return book.show_notes(found_indexes, found_notes)
 
-    
+
 @wrap_exception
 def add_tag_to_note(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.ADD_TAG_COMMAND])
-    
+
     note_index = book.prepare_index(args[0])
     note_var = book.notes[note_index]
     return note_var.add_tag(args[1])
@@ -368,7 +381,7 @@ def remove_tag_from_note(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TAG_COMMAND])
-    
+
     note_index = book.prepare_index(args[0])
     note_var = book.notes[note_index]
     return note_var.remove_tag(args[1])
@@ -379,8 +392,8 @@ def remove_all_tags_from_note(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TAGS_COMMAND])
-    
-    note_index = book.prepare_index(args[0]) 
+
+    note_index = book.prepare_index(args[0])
     note_var = book.notes[note_index]
     note_var.tags.clear()
     return f"Removed all tags from note at index {note_index + 1}."

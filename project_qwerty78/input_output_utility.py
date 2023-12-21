@@ -29,7 +29,7 @@ def read_contacts_from_file():
             reader = csv.DictReader(f)
             for row in reader:
                 contact_var = contact.Contact(row["name"])
-                
+
                 if row["birthday"] != "None":
                     contact_var.set_birthday(row["birthday"])
                 if row["email"] != "None":
@@ -39,9 +39,9 @@ def read_contacts_from_file():
                 if row["phones"] != "None":
                     for phone in row["phones"].split(" "):
                         contact_var.add_phone(phone)
-                contacts[row["name"].lower()] = contact_var 
-    finally:         
-        return contacts  
+                contacts[row["name"].lower()] = contact_var
+    finally:
+        return contacts
 
 
 def read_notes_from_file():
@@ -60,9 +60,9 @@ def read_notes_from_file():
                     for tag in row["tags"].split(" "):
                         note_var.add_tag(tag)
                 notes.append(note_var)
-    finally:            
-        return notes  
-    
+    finally:
+        return notes
+
 
 def write_contacts_to_file(contacts):
     with open(CONTACTS_FILE_NAME, "w") as f:
@@ -71,13 +71,14 @@ def write_contacts_to_file(contacts):
         writer.writeheader()
         for contact_var in contacts.values():
             writer.writerow({
-                "name": str(contact_var.name), 
+                "name": str(contact_var.name),
                 "birthday": str(contact_var.birthday),
                 "email": str(contact_var.email),
                 "address": str(contact_var.address),
-                "phones": " ".join(str(phone) for phone in contact_var.phones) if len(contact_var.phones) > 0 else "None"
-                })  
-            
+                "phones": " ".join(str(phone) for phone in contact_var.phones) if len(
+                    contact_var.phones) > 0 else "None"
+            })
+
 
 def write_notes_to_file(notes):
     with open(NOTES_FILE_NAME, "w") as f:

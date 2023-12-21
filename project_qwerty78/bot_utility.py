@@ -109,10 +109,18 @@ def add_note(args, book):
 def delete_note_by_index(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
-            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_BIRTHDAY_COMMAND])
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.DELETE_NOTE_BY_INDEX_COMMAND])
     
-    index = int(args[0])
-    return book.delete_note_by_index(index)
+    try:
+        index = int(args[0])
+        if index < 1 or index > len(book.notes):
+            raise exceptions.IncorrectArgsException("Invalid index")
+    except ValueError:
+        raise exceptions.IncorrectArgsException("Invalid index")
+
+    return book.delete_note_by_index(index - 1)
+
+
 
 @wrap_exception
 def add_contact(args, book):

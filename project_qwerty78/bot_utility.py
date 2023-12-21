@@ -51,6 +51,8 @@ def process_command(command, args, book):
         return remove_note(args, book)
     elif command == constants.SET_TITLE_COMMAND:
         return set_title(args, book)
+    elif command == constants.REMOVE_TITLE_COMMAND:
+        return remove_title(args, book)
     elif command == constants.SET_CONTENT_COMMAND:
         return set_content(args, book)
     elif command == constants.ADD_TAG_COMMAND:
@@ -253,6 +255,16 @@ def remove_email(args, book):
     name = args[0]
     contact_var = book.find_contact(name)
     return contact_var.remove_email()
+
+
+@wrap_exception
+def remove_title(args, book):
+    if len(args) != 1:
+        raise exceptions.IncorrectArgsException(
+            "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.REMOVE_TITLE_COMMAND])
+    index = book.prepare_index(args[0])
+    note_var = book.find_note(index)
+    return note_var.remove_title()
 
 
 @wrap_exception

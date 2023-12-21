@@ -110,6 +110,9 @@ On particular input bot can react with hidden easter eggs. Try to find them if y
 - `set-title [index] [title]`
     - Sets `[title]` for the axisting note `[index]`.
 
+- `remove-title [index]`
+    - Removes title from the existing note `[index]`.
+
 - `set-content [index] [content]`
     - Sets `[content]` for the axisting note `[index]`.
 

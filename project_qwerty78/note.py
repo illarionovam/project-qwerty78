@@ -100,3 +100,8 @@ class Note:
         normalized_tag = Tag(tag).value  # Tag normalization
         self.tags.discard(normalized_tag)
         return f"Removed tag {tag} from the note."
+    
+    @confirm_remove
+    def remove_title(self):
+        self.title = None
+        return "Removed title."

@@ -105,21 +105,24 @@ def add_note(args, book):
     return "Note added"
 
 
+def prepare_index(index, array_len):
+    try:
+        index = int(index)
+        if index < 1 or index > array_len:
+            raise exceptions.IncorrectArgsException("Invalid index")
+        return index - 1
+    except ValueError:
+        raise exceptions.IncorrectArgsException("Invalid index")
+
+
 @wrap_exception
 def delete_note_by_index(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.DELETE_NOTE_BY_INDEX_COMMAND])
     
-    try:
-        index = int(args[0])
-        if index < 1 or index > len(book.notes):
-            raise exceptions.IncorrectArgsException("Invalid index")
-    except ValueError:
-        raise exceptions.IncorrectArgsException("Invalid index")
-
-    return book.delete_note_by_index(index - 1)
-
+    index = prepare_index(args[0], len(book.notes))
+    return book.delete_note_by_index(index)
 
 
 @wrap_exception

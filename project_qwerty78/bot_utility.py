@@ -333,7 +333,7 @@ def set_address(args, book):
     if len(args) < 2:
         raise exceptions.IncorrectArgsException(
             "Incorrect command format. Try " + constants.COMMAND_TO_COMMAND_FORMAT_MAP[constants.SET_ADDRESS_COMMAND])
-    name, address = args
+    name, address = args[0], " ".join(args[1:])
     contact_var = book.find_contact(name)
     return contact_var.set_address(address)
 

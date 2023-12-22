@@ -18,8 +18,8 @@ It saves your data locally on your machine.
 
 ### Via pip
 
-1. Run `python -m pip install rich` (in test.pypi with --no-deps the module isn't added).
-2. Run `python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps project_qwerty78==0.1.2`.
+1. Run `python3 -m pip install --index-url https://test.pypi.org/simple/ project_qwerty78==1.0.1`.
+2. Run `pip install rich --upgrade`.
 3. Start the bot with `run_bot` in the console.
 
 ## Commands

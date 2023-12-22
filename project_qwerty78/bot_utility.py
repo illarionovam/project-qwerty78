@@ -10,6 +10,7 @@ from rich.style import Style
 from .easter_eggs import EasterEgg
 
 
+@wrap_exception
 def process_command(command, args, book):
     if command == constants.ADD_CONTACT_COMMAND:
         return add_contact(args, book)
@@ -99,7 +100,6 @@ def check_input_for_record(field, validated_constructor):
         return False
 
 
-@wrap_exception
 def add_note(args, book):
     if len(args) != 0:
         raise exceptions.IncorrectArgsException(
@@ -125,7 +125,6 @@ def add_note(args, book):
     return "Note added"
 
 
-@wrap_exception
 def set_title(args, book):
     if len(args) < 2:
         raise exceptions.IncorrectArgsException(
@@ -136,7 +135,6 @@ def set_title(args, book):
     return note_var.set_title(new_title)
 
 
-@wrap_exception
 def set_content(args, book):
     if len(args) < 2:
         raise exceptions.IncorrectArgsException(
@@ -147,7 +145,6 @@ def set_content(args, book):
     return note_var.set_content(new_content)
 
 
-@wrap_exception
 def remove_note(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -157,7 +154,6 @@ def remove_note(args, book):
     return book.remove_note(index)
 
 
-@wrap_exception
 def add_contact(args, book):
     if len(args) != 0:
         raise exceptions.IncorrectArgsException(
@@ -222,7 +218,6 @@ def check_possible_commands(command):
     return table
 
 
-@wrap_exception
 def show_contact(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -231,7 +226,6 @@ def show_contact(args, book):
     return book.show_contacts(book.find_contact_by_search_value(search_value))
 
 
-@wrap_exception
 def remove_phones(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -241,7 +235,6 @@ def remove_phones(args, book):
     return contact_var.remove_phones()
 
 
-@wrap_exception
 def remove_phone(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
@@ -251,7 +244,6 @@ def remove_phone(args, book):
     return contact_var.remove_phone(phone)
 
 
-@wrap_exception
 def remove_email(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -261,7 +253,6 @@ def remove_email(args, book):
     return contact_var.remove_email()
 
 
-@wrap_exception
 def remove_title(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -271,7 +262,6 @@ def remove_title(args, book):
     return note_var.remove_title()
 
 
-@wrap_exception
 def remove_address(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -282,7 +272,6 @@ def remove_address(args, book):
     return contact_var.remove_address()
 
 
-@wrap_exception
 def remove_birthday(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -293,7 +282,6 @@ def remove_birthday(args, book):
     return contact_var.remove_birthday()
 
 
-@wrap_exception
 def show_birthday(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -307,7 +295,6 @@ def show_birthday(args, book):
     return get_birthdays_per_days_range(book.contacts, int(days))
 
 
-@wrap_exception
 def all_contacts(args, book):
     if len(args) != 0:
         raise exceptions.IncorrectArgsException(
@@ -316,7 +303,6 @@ def all_contacts(args, book):
     return book.show_contacts(book.contacts.values())
 
 
-@wrap_exception
 def all_notes(args, book):
     if len(args) != 0:
         raise exceptions.IncorrectArgsException(
@@ -325,7 +311,6 @@ def all_notes(args, book):
     return book.show_notes(range(len(book.notes)), book.notes)
 
 
-@wrap_exception
 def remove_contact(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -335,7 +320,6 @@ def remove_contact(args, book):
     return book.remove_contact(name)
 
 
-@wrap_exception
 def add_phone(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
@@ -345,7 +329,6 @@ def add_phone(args, book):
     return contact_var.add_phone(phone)
 
 
-@wrap_exception
 def set_address(args, book):
     if len(args) < 2:
         raise exceptions.IncorrectArgsException(
@@ -355,7 +338,6 @@ def set_address(args, book):
     return contact_var.set_address(address)
 
 
-@wrap_exception
 def set_name(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
@@ -372,7 +354,6 @@ def set_name(args, book):
     return contact_var.set_name(new_name)
 
 
-@wrap_exception
 def set_birthday(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
@@ -382,7 +363,6 @@ def set_birthday(args, book):
     return contact_var.set_birthday(birthday)
 
 
-@wrap_exception
 def set_email(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
@@ -392,7 +372,6 @@ def set_email(args, book):
     return contact_var.set_email(email)
 
 
-@wrap_exception
 def show_note(args, book):
     if len(args) < 2:
         raise exceptions.IncorrectArgsException(
@@ -413,7 +392,6 @@ def show_note(args, book):
     return book.show_notes(found_indexes, found_notes)
 
 
-@wrap_exception
 def add_tag_to_note(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
@@ -424,7 +402,6 @@ def add_tag_to_note(args, book):
     return note_var.add_tag(args[1])
 
 
-@wrap_exception
 def remove_tag_from_note(args, book):
     if len(args) != 2:
         raise exceptions.IncorrectArgsException(
@@ -435,7 +412,6 @@ def remove_tag_from_note(args, book):
     return note_var.remove_tag(args[1])
 
 
-@wrap_exception
 def remove_all_tags_from_note(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -446,7 +422,6 @@ def remove_all_tags_from_note(args, book):
     return note_var.remove_all_tags()
 
 
-@wrap_exception
 def sort_notes_by_tag(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(
@@ -459,7 +434,6 @@ def sort_notes_by_tag(args, book):
     return book.sort_notes_by_tag(args[0].lower() == "asc")
 
 
-@wrap_exception
 def sort_notes(args, book):
     if len(args) != 1:
         raise exceptions.IncorrectArgsException(

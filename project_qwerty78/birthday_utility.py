@@ -58,8 +58,8 @@ def get_birthdays_per_days_range_map(users):
     return birthdays_per_week_map
 
 
-def get_birthdays_per_days_range(users, days):
-    birthdays_per_week_map = get_birthdays_per_days_range_map(get_users_next_birthdays(users, days))
+def get_birthdays_per_days_range(users, days_range):
+    birthdays_per_week_map = get_birthdays_per_days_range_map(get_users_next_birthdays(users, days_range))
 
     i = 7
     day = datetime.date.today().weekday()
@@ -72,7 +72,7 @@ def get_birthdays_per_days_range(users, days):
         i -= 1
 
     if len(final_list) == 0:
-        return f"THere are no birthdays in the next {days} days starting today."
+        return f"THere are no birthdays in the next {days_range} days starting today."
 
     table = Table(show_lines=True)
 

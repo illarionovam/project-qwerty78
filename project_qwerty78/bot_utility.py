@@ -351,7 +351,11 @@ def set_name(args, book):
     except exceptions.NoRecordException:
         pass
 
-    return contact_var.set_name(new_name)
+    result_text = contact_var.set_name(new_name)
+    book.contacts[new_name.lower()] = contact_var
+    book.contacts.pop(old_name.lower())
+
+    return result_text
 
 
 def set_birthday(args, book):
